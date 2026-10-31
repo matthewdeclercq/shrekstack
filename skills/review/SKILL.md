@@ -37,7 +37,7 @@ Find what the change could break outside the diff. A list of callers is not the 
    4. Ran the real code.
    5. Reproduced it in the running app.
 
-If the repo has `.cursor/skills/verify-*/SKILL.md`, run it for the affected features as part of proving the change is safe.
+If the repo has `.agents/skills/verify-*/SKILL.md`, run it for the affected features as part of proving the change is safe.
 
 ## Adversarial pass
 

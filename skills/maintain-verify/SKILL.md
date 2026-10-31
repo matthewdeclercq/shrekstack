@@ -15,7 +15,7 @@ Outcomes: `clean`, `changed`, `blocked`.
 
 ## Locate
 
-Look for `.cursor/skills/verify-*/SKILL.md`. None found: stop and point at [setup-verify](../setup-verify/SKILL.md). More than one: run the pass below for each whose named paths overlap the diff. No overlap among them: `clean`, and stop.
+Look for `.agents/skills/verify-*/SKILL.md`. None found: stop and point at [setup-verify](../setup-verify/SKILL.md). More than one: run the pass below for each whose named paths overlap the diff. No overlap among them: `clean`, and stop.
 
 ## Since last update
 

@@ -24,7 +24,7 @@ Copy is the default. Copy each `skills/<name>/` directory into the tool's skills
 
 **Cursor.** Copy into `.cursor/skills/<name>/` in the adopting repo. A Cloud Agent loads project skills from that repo. This repo also ships `.cursor-plugin/marketplace.json` and `.cursor-plugin/plugin.json` for import from GitHub.
 
-Bump `version` in `.cursor-plugin/plugin.json` whenever skills change, because Cursor and Claude Code cache by version to detect updates.
+Bump `version` in both `.cursor-plugin/plugin.json` and `.claude-plugin/plugin.json` whenever skills change, to the same number. Claude Code reads `.claude-plugin/plugin.json`, or the commit SHA when no version is set.
 
 **Claude Code.** Copy into `.claude/skills/<name>/`.
 
