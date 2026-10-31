@@ -73,7 +73,7 @@ The script reads the `Code roots` heading in that repo's `AGENTS.md` when `--cod
 
 **3 — Consistency.** One correct version of each fact across the files `Doc folders` names. The map names the owner: it keeps the fact, the others point. If the map is missing, say to run doc-steward setup first. If it names no owner for that fact, ask. Do not guess an owner.
 
-**4 — Skills (when due).** In every skill, only fix dead paths and references to deleted docs — never rewrite a procedure.
+**4 — Skills (when due).** In every skill, fix only dead paths and references to deleted docs — never rewrite a procedure. Also, from the repo's UI conventions skill (not the setup skill that writes it), delete screen inventories (button copy, field lists, icons, defaults), not its reference-screen or casing tables.
 
 **5 — Architecture (when due).** Factual claims only, in the doc named under `Architecture doc`: module layout, named types and services, pipeline steps, storage paths, commands, test targets, and every mermaid node and edge, against the code and the section's prose. Fix the fact in place. Report a missing module only when it changes how the parts connect; never a type's internals. Never touch design intent or rationale. If the map says how a diagram may change, follow it. Otherwise fix the false node or edge in place and do not redraw the diagram.
 
