@@ -64,6 +64,6 @@ Did this work change a skill that came from shrekstack in a way that would help 
 
 Sort the PR low-risk or needs-owner from the repo's own merge rule, or from `rules/merge.md` if it has none.
 
-Low-risk, the repo has required checks, and they are green: merge.
+Low-risk, and the checks are green: merge.
 
 Otherwise leave it open and put the reason in the PR body.
