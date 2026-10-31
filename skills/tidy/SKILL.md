@@ -1,0 +1,22 @@
+---
+name: tidy
+description: After a task is done, check the work just finished for anything to clean up or simplify. Use when the user asks "anything to clean up?", "can we simplify this?", or types /tidy.
+---
+
+# Tidy
+
+Look only at what this task changed, not the whole codebase.
+
+1. Find the change: uncommitted edits and new files. If the work is already committed, use the commits since this branch split from main.
+2. Look for:
+   - Dead code: unused functions, parameters, imports, or leftovers from earlier tries.
+   - Debris: debug prints, temp files, scratch scripts, TODOs added this session.
+   - Comments that repeat the code or describe the change.
+   - Repeats: new code that copies a helper that already exists.
+   - Over-building: options, layers, or settings that nothing uses yet.
+   - Docs or comments the change made untrue.
+   - Tests that overlap or check nothing real.
+3. The project's own rules (CLAUDE.md, its cleanup skills) win over this list.
+4. Fix everything you find without asking first. Never invent findings.
+5. Run the project's build, tests and lint.
+6. Report what you fixed as a short list, most important first: one line each with the file, the line and the change. If nothing was worth changing, say so.
