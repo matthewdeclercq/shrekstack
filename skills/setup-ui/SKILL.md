@@ -11,7 +11,7 @@ disable-model-invocation: true
 
 One model. Do not start another model or fan out.
 
-Run in the target repo. Write `.cursor/skills/ui/SKILL.md`, covering every UI stack in the repo. Do not edit product code. Do not copy a UI skill from another repo.
+Run in the target repo. Write `SKILL.md` in `.cursor/skills/ui/`, covering every UI stack in the repo. Do not edit product code. Do not copy a UI skill from another repo.
 
 ## Learn
 
