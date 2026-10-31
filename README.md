@@ -9,6 +9,7 @@ Matthew's personal shared skills library for Claude Code, Cursor, and his Grok b
 - [test-cleanup](skills/test-cleanup/SKILL.md) prunes tests that no longer lock a live rule.
 - [doc-sync](skills/doc-sync/SKILL.md) fixes doc drift against the code and commits `Doc sync.`
 - [tidy](skills/tidy/SKILL.md) checks the work just finished for anything to clean up or simplify.
+- [review](skills/review/SKILL.md) reviews the agent's own change before a pull request, after tidy.
 
 ## Install
 
