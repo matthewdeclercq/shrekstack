@@ -48,3 +48,14 @@ Each adopting repo's `AGENTS.md` needs these headings:
 - Test passes
 - Code roots
 - Planning docs
+
+## Handoff brief
+
+State the outcome, a check that can pass or fail, what the agent may do on its own, and when to stop. A span of time is not a check.
+
+```text
+Goal: <outcome>
+Finished: <check that passes or fails>
+Without asking: <what the agent may do on its own>
+Stuck: <dead end>. Stop and write why.
+```
