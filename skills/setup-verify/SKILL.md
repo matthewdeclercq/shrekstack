@@ -11,7 +11,9 @@ disable-model-invocation: true
 
 One model. Do not start another model or fan out.
 
-Run in the target repo. Write `.cursor/skills/verify-<app>/SKILL.md`. Do not edit product code. Name `<app>` from the product, in kebab-case.
+Run in the target repo. Write `.agents/skills/verify-<app>/SKILL.md`. Do not edit product code. Name `<app>` from the product, in kebab-case.
+
+Symlink `.claude/skills/verify-<app>` -> ../../.agents/skills/verify-<app>. If that link is already the relative target, leave it. Otherwise unlink it without following it, or remove a real file or directory at that path, then create that one link. After the new folder is written, remove a leftover `.cursor/skills/verify-<app>`.
 
 ## Learn
 
@@ -35,7 +37,7 @@ End with one line: upkeep is shrekstack's maintain-verify skill.
 
 ## Prove
 
-The skill is a draft until this passes once, followed as written:
+The skill is a draft until the `.claude/skills/verify-<app>` link resolves to the real folder, and this passes once, followed as written:
 
 1. Build.
 2. Launch and see the readiness signal.

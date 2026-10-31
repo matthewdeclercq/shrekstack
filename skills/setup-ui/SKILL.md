@@ -11,7 +11,9 @@ disable-model-invocation: true
 
 One model. Do not start another model or fan out.
 
-Run in the target repo. Write `SKILL.md` in `.cursor/skills/ui/`, covering every UI stack in the repo. Do not edit product code. Do not copy a UI skill from another repo.
+Run in the target repo. Write `SKILL.md` in `.agents/skills/ui/`, covering every UI stack in the repo. Do not edit product code. Do not copy a UI skill from another repo.
+
+Symlink `.claude/skills/ui` -> ../../.agents/skills/ui. If that link is already the relative target, leave it. Otherwise unlink it without following it, or remove a real file or directory at that path, then create that one link. After the new folder is written, remove a leftover `.cursor/skills/ui`.
 
 ## Learn
 
@@ -38,4 +40,4 @@ Where a line below names a file, a pattern, or a command, take it from this repo
 
 ## Prove
 
-The skill is a draft until every path it cites exists. If a path is wrong, fix the skill and look again. Do not add a cited file to make it pass.
+The skill is a draft until every path it cites exists and the `.claude/skills/ui` link resolves to `.agents/skills/ui`. If a path is wrong, fix the skill and look again. Do not add a cited file to make it pass.

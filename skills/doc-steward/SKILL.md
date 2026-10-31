@@ -15,11 +15,13 @@ One home per fact. The map names the home. Read it before editing a doc.
 
 ## Setup
 
-Run when the user asks, when `map.md` in `.cursor/skills/doc-steward/` is missing, or when that map has no backlog, goals, or shipped row. Keep a row that is already right unless the user asks for a change.
+Run when the user asks, when `map.md` in `.agents/skills/doc-steward/` is missing, or when that map has no backlog, goals, or shipped row. Keep a row that is already right unless the user asks for a change.
 
 One model. Do not start another model or fan out.
 
-Run in the target repo. Write `map.md` in `.cursor/skills/doc-steward/`. Do not edit product code. Do not copy a map from another repo.
+Run in the target repo. Write `map.md` in `.agents/skills/doc-steward/`. If that file exists only under `.cursor/skills/doc-steward/`, read it before writing. Do not edit product code. Do not copy a map from another repo.
+
+Symlink `.claude/skills/doc-steward` -> ../../.agents/skills/doc-steward. If that link is already the relative target, leave it. Otherwise unlink it without following it, or remove a real file or directory at that path, then create that one link. After the new folder is in place, remove a leftover `.cursor/skills/doc-steward`.
 
 ### Learn
 
@@ -35,7 +37,7 @@ Under the table, write the feature ID scheme: a prefix and the next free number.
 
 ### Prove
 
-Every home path exists. Where another doc mentions a fact, it points at that home instead of restating it. If a home is wrong, fix the map and look again.
+Every home path exists. The `.claude/skills/doc-steward` link resolves to `.agents/skills/doc-steward`. Where another doc mentions a fact, it points at that home instead of restating it. If a home is wrong, fix the map and look again.
 
 ## Rules
 
