@@ -13,7 +13,7 @@ Matthew's personal shared skills library for Claude Code, Cursor, and his Grok b
 - [doc-sync](skills/doc-sync/SKILL.md) fixes doc drift against the code and commits `Doc sync.`
 - [tidy](skills/tidy/SKILL.md) checks the work just finished for anything to clean up or simplify.
 - [review](skills/review/SKILL.md) reviews the agent's own change before a pull request, after tidy.
-- [setup-base](skills/setup-base/SKILL.md) writes that base rule into the adopting repo.
+- [setup-base](skills/setup-base/SKILL.md) writes that base rule, a short AGENTS.md, the CLAUDE.md link, and starter hooks into the adopting repo.
 - [setup-verify](skills/setup-verify/SKILL.md) writes a repo's verify skill and proves it once.
 - [setup-ui](skills/setup-ui/SKILL.md) writes a repo's UI conventions skill and proves every path once.
 - [maintain-verify](skills/maintain-verify/SKILL.md) brings that skill back in line after the code changes.
