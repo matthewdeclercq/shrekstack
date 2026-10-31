@@ -1,6 +1,6 @@
 ---
 description: Generic rules for a repo that adopts this library. Project lists, commands, and paths stay in that repo's AGENTS.md.
-alwaysApply: false
+alwaysApply: true
 ---
 
 # Base rules

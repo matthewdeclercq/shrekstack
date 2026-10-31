@@ -32,7 +32,7 @@ Each `SKILL.md` starts with `name` and `description` frontmatter. `name` matches
 
 [rules/base.md](rules/base.md) is the generic part of a project `AGENTS.md`: ask, don't drift; the code wins when a doc disagrees; the comment policy; lean code and the smallest diff; decide for the long term, with no stopgap meant to be replaced later; prefer small, focused PRs; where a skill script lives; commit messages in complete sentences, one change per commit; a blocker only after 3 or more failed attempts.
 
-The YAML header on that file is Cursor plugin rule frontmatter (`description`, `alwaysApply`). `alwaysApply` is false, so the plugin rule is available on request. It is not forced into every chat. Paste the markdown under the header into an adopting repo's `AGENTS.md` when the rules must always be in context.
+The YAML header on that file is Cursor plugin rule frontmatter (`description`, `alwaysApply`). `alwaysApply` is true, so when the plugin is installed the rule loads in every chat. Paste the markdown under the header into an adopting repo's `AGENTS.md` when that repo should carry the rules without the plugin. Claude Code reads `paths` from a rules file and ignores other frontmatter, so this flag is the Cursor plugin rule, not a Claude Code switch.
 
 Project-specific lists do not live here. Each adopting repo's `AGENTS.md` needs the headings in the table below.
 
@@ -116,6 +116,6 @@ cp -R /absolute/path/to/shrekstack/skills/<name> .claude/skills/<name>
 
 Claude Code also documents a symlink as an option. A skill folder entry may be a symlink to a directory elsewhere, and `.claude/rules/` may be a symlink. Copy unless that repo already uses those links. An external rules symlink does not load until the project approves it.
 
-For rules, paste the markdown under the header in [rules/base.md](rules/base.md) into the adopting repo's `AGENTS.md`. Cursor can instead copy that file to `.cursor/rules/<name>.mdc` with `alwaysApply: true` when the rules must be in every chat. An `@path` line in `AGENTS.md` does not inline the file. Claude Code can copy the file into `.claude/rules/` instead of symlinking it. A Grok bot copies the markdown into `instructions.md` in the bot directory. Do not symlink that file in.
+For rules, paste the markdown under the header in [rules/base.md](rules/base.md) into the adopting repo's `AGENTS.md`. Cursor can instead copy that file to `.cursor/rules/<name>.mdc`. The file already sets `alwaysApply: true`. A plain markdown file in `.cursor/rules/` is ignored, so the copy has to use the `.mdc` name. An `@path` line in `AGENTS.md` does not inline the file. Claude Code can copy the file into `.claude/rules/` instead of symlinking it. A Grok bot copies the markdown into `instructions.md` in the bot directory. Do not symlink that file in.
 
 Each adopting repo still needs its own `AGENTS.md` headings from the table above, including `Doc ownership`, which has no default in this library. The skills read that file for groupings, entry points, doc folders, and lint and test commands, then run those commands.
