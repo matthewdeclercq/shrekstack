@@ -13,7 +13,7 @@ disable-model-invocation: true
 
 Keep this repo's docs true to its code. **This workflow auto-fixes:** apply the edits, commit them, then report what changed.
 
-Be surgical. Change only what is drifted, missing, contradictory, or bloated. Never rewrite accurate prose or expand a section — the bias is toward fewer, tighter docs. Which doc owns which fact: the target repo's `AGENTS.md` heading `Doc ownership`.
+Be surgical. Change only what is drifted, missing, contradictory, or bloated. Never rewrite accurate prose or expand a section — the bias is toward fewer, tighter docs. Which doc owns which fact: `map.md` in `.cursor/skills/doc-steward/` ([doc-steward](../doc-steward/SKILL.md)). If that file is missing, say to run doc-steward setup first.
 
 Read `AGENTS.md` first. Use these headings (any heading level, text after the hashes exactly as written):
 
@@ -24,7 +24,6 @@ Read `AGENTS.md` first. Use these headings (any heading level, text after the ha
 | `Skills due` | Extra paths that make check 4 due | Do not guess trigger paths. Scope `skills`, `--full`, and a skill-file edit still run check 4 |
 | `Architecture due` | Extra paths that make check 5 due | Do not guess trigger paths. Scope `architecture`, `--full`, and an added, deleted, or renamed source file or folder still make check 5 due |
 | `Code roots` | Path prefixes that count as code for comment edits and for the planning-conflict report | Ask before check 6 or 7. Do not treat every changed file as code |
-| `Doc ownership` | Which doc keeps a fact. The others point at it. This library has no default ownership table | Ask before choosing an owner. Do not guess |
 | `Planning docs` | Docs to report against and never edit, unless the user widens scope | Ask which docs are report-only. Until the owner answers, do not edit a doc you are unsure about |
 
 ## Setup
@@ -72,11 +71,11 @@ The script reads the `Code roots` heading in that repo's `AGENTS.md` when `--cod
 
 **2 — Coverage (`AGENTS.md` and `README.md`, when `Doc folders` lists them).** Anything `CHANGED` introduces that a contributor needs — a new folder, script, target, fixture, build step — gets a minimal entry in its natural section. No new top-level section unless it has no home; no planning-doc depth. The root `README.md` is the repo's front door — folder map and prereqs — and links to every other fact rather than copying it: only a new top-level folder or prereq goes there; scripts and build steps go in `AGENTS.md`. If `Doc folders` does not list one of those files, ask before editing it.
 
-**3 — Consistency.** One correct version of each fact across the files `Doc folders` names. Resolve by `Doc ownership`: the owner keeps the fact, the others point. If two docs disagree and `Doc ownership` does not name the owner, ask.
+**3 — Consistency.** One correct version of each fact across the files `Doc folders` names. The map names the owner: it keeps the fact, the others point. If the map is missing, say to run doc-steward setup first. If it names no owner for that fact, ask. Do not guess an owner.
 
 **4 — Skills (when due).** In every skill, only fix dead paths and references to deleted docs — never rewrite a procedure.
 
-**5 — Architecture (when due).** Factual claims only, in the doc named under `Architecture doc`: module layout, named types and services, pipeline steps, storage paths, commands, test targets, and every mermaid node and edge, against the code and the section's prose. Fix the fact in place. Report a missing module only when it changes how the parts connect; never a type's internals. Never touch design intent or rationale. If `Doc ownership` says how a diagram may change, follow it. Otherwise fix the false node or edge in place and do not redraw the diagram.
+**5 — Architecture (when due).** Factual claims only, in the doc named under `Architecture doc`: module layout, named types and services, pipeline steps, storage paths, commands, test targets, and every mermaid node and edge, against the code and the section's prose. Fix the fact in place. Report a missing module only when it changes how the parts connect; never a type's internals. Never touch design intent or rationale. If the map says how a diagram may change, follow it. Otherwise fix the false node or edge in place and do not redraw the diagram.
 
 **6 — Comments (`CHANGED_CODE` only).** Comment only a non-obvious why. Delete comments that restate code; fix or delete stale ones; add a brief one only for a real gotcha, constraint, or workaround. Do not sweep files the diff did not touch.
 
