@@ -55,3 +55,7 @@ Add a short note to the PR body:
 - End with `Reviewed through <full sha>`.
 
 No banners. A few lines.
+
+## Shrekstack candidate
+
+Did this work change a skill that came from shrekstack in a way that would help every repo? If yes, add a short `shrekstack candidate` note to the PR body: what changed and why, with the repo-specific details left out.
