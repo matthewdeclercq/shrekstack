@@ -1,6 +1,11 @@
 {
   "name": "shrekstack",
+  "version": "0.1.0",
   "description": "Matthew's personal shared skills library for Claude Code, Cursor, and his Grok bots.",
+  "author": {
+    "name": "Matthew Declercq"
+  },
   "repository": "https://github.com/matthewdeclercq/shrekstack",
-  "skills": "./skills"
+  "skills": "./skills",
+  "rules": "./rules/"
 }

@@ -1,6 +1,6 @@
 # shrekstack
 
-Matthew's personal shared skills library for Claude Code, Cursor, and his Grok bots. Skills live in `skills/<name>/SKILL.md`. The shared base rules are [rules/base.md](rules/base.md).
+Matthew's personal shared skills library for Claude Code, Cursor, and his Grok bots. Skills live in `skills/<name>/SKILL.md`. The shared base rules are [rules/base.mdc](rules/base.mdc).
 
 ## Skills
 
@@ -19,11 +19,13 @@ Matthew's personal shared skills library for Claude Code, Cursor, and his Grok b
 
 Copy is the default. Copy each `skills/<name>/` directory into the tool's skills directory.
 
-**Cursor.** Copy into `.cursor/skills/<name>/` in the adopting repo. A Cloud Agent loads project skills from that repo. This repo also ships `.cursor-plugin/marketplace.json` and `.cursor-plugin/plugin.json` for import from GitHub. With that plugin installed, [rules/base.md](rules/base.md) loads in every chat.
+**Cursor.** Copy into `.cursor/skills/<name>/` in the adopting repo. A Cloud Agent loads project skills from that repo. This repo also ships `.cursor-plugin/marketplace.json` and `.cursor-plugin/plugin.json` for import from GitHub. With that plugin installed, [rules/base.mdc](rules/base.mdc) loads in every chat.
 
-**Claude Code.** Copy into `.claude/skills/<name>/`. Copy [rules/base.md](rules/base.md) into `.claude/rules/` so the rule text loads at session start.
+Bump `version` in `.cursor-plugin/plugin.json` whenever skills or rules change, because Cursor and Claude Code cache by version to detect updates.
 
-**Grok bots.** Copy into the bot project's `skills/` directory. Copy the body of [rules/base.md](rules/base.md) into `instructions.md` in the bot directory. That file is the bot's always-on prompt.
+**Claude Code.** Copy into `.claude/skills/<name>/`. Copy [rules/base.mdc](rules/base.mdc) into `.claude/rules/` as `base.md` so the rule text loads at session start. A Claude Code plugin does not load rules; its manifest has no `rules` field.
+
+**Grok bots.** Copy into the bot project's `skills/` directory. Copy the body of [rules/base.mdc](rules/base.mdc) into `instructions.md` in the bot directory. That file is the bot's always-on prompt.
 
 ## AGENTS.md
 
