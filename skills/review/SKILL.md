@@ -3,15 +3,24 @@ name: review
 description: >-
   Reviews the agent's own change before a pull request is opened or updated.
   Use when the user asks for a review of the current change, or before
-  opening or updating a PR. One model. tidy runs first.
+  opening or updating a PR. One model. A trivial or already-reviewed diff
+  stops after the note. Otherwise hooks, then tidy, then this review.
 disable-model-invocation: true
 ---
 
 # Review
 
-Run [tidy](../tidy/SKILL.md) on this change first. Do not repeat its checks.
+One model. Do not start another model, an arena, or interrogate.
 
-Then review what remains, in order. One model. Do not start another model, an arena, or interrogate.
+Lint, format, and dead code belong to the repo's pre-commit hooks. Never commit with `--no-verify`.
+
+Read `git diff --stat` and `git log` before any other work. Skip the rest when the diff is only comments, formatting, a lockfile, generated files, or markdown that is not a skill or a rule, or when the worktree is clean and the PR already says `Reviewed through <sha>` for HEAD.
+
+If that note names an older sha, review only `git diff <sha>..HEAD`.
+
+Run the hooks once on the changed files: `pre-commit run --files <paths>`, or the repo's hook runner. If the repo has no hooks, say so in one line and continue. Fix what they report.
+
+Then run [tidy](../tidy/SKILL.md). Do not repeat its checks.
 
 ## Blast radius
 
@@ -34,11 +43,13 @@ Read the diff once for bugs, logic errors, and edge cases. Fix what you find. If
 
 ## Review caught
 
-Add a short note to the PR body, in this order:
+Add a short note to the PR body:
 
-- What tidy fixed. If it fixed nothing, say so.
+- If you skipped, say why, and stop.
+- What tidy fixed. If nothing, say so.
 - What blast radius found, the safety fact, how far it was proven, and the proof.
 - What the adversarial pass caught and fixed.
 - What was checked and cleared.
+- End with `Reviewed through <full sha>`.
 
 No banners. A few lines.
