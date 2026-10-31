@@ -46,7 +46,7 @@ Confirm the contracts listed under `Proof traps` before deleting. Reachability a
 ```markdown
 | ID | Candidate | Evidence | Status |
 | --- | --- | --- | --- |
-| C-1 | `FooHelper` | no refs; the caller uses `BarHelper` | validated |
+| C-1 | helper under the old name | no refs; the caller uses the other helper | validated |
 ```
 
 **Goal loop** — same table, plus `## Review After Cleanup` (deferred refactors, not action items) and `## Next Steps`, in a scratch file the goal names and deletes on ship. Do not check the ledger into a folder listed under `Doc folders`. If `Doc folders` is missing, do not check the ledger in.

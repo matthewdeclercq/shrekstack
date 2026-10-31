@@ -1,3 +1,8 @@
+---
+description: Generic rules for a repo that adopts this library. Project lists, commands, and paths stay in that repo's AGENTS.md.
+alwaysApply: false
+---
+
 # Base rules
 
 Generic rules for a repo that adopts this library. Project lists, commands, and paths stay in that repo's `AGENTS.md`.
@@ -21,6 +26,8 @@ The docs own **intent** — product lines, the queue, constraints, how to build.
 ## Code quality
 
 - Keep code lean: no speculative parameters, protocols, or configuration; the smallest diff that fully solves the goal wins.
+- Decide for the long term — no stopgap meant to be replaced later.
+- Prefer small, focused PRs.
 
 ## Skills
 

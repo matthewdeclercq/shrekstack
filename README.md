@@ -9,6 +9,8 @@ Matthew's `tidy` skill will be added later. It is not in this library yet.
 ## Layout
 
 ```text
+.cursor-plugin/marketplace.json
+.cursor-plugin/plugin.json
 skills/<name>/SKILL.md
 skills/<name>/scripts/     # only when that skill has a script
 rules/base.md
@@ -24,21 +26,23 @@ Each `SKILL.md` starts with `name` and `description` frontmatter. `name` matches
 | [test-cleanup](skills/test-cleanup/SKILL.md) | Prunes tests that no longer lock a live rule |
 | [doc-sync](skills/doc-sync/SKILL.md) | Fixes doc drift against the code and commits `Doc sync.` |
 
-`doc-sync` ships [scripts/dead-paths.py](skills/doc-sync/scripts/dead-paths.py). It lists paths a doc names that the tree no longer has. Pass the target repo with `--root` and the doc files or directories as arguments, `--doc-folder`, or `--config`. With none of those, it exits 2 and does not pick a default list.
+`doc-sync` ships [scripts/dead-paths.py](skills/doc-sync/scripts/dead-paths.py). It lists paths a doc names that the tree no longer has. Pass the target repo with `--root` and the doc files or directories as arguments, `--doc-folder`, or `--config`. With none of those, it exits 2 and does not pick a default list. A bare type name in backticks is checked only when code roots are known: `--code-root`, or the `Code roots` list in the target repo's `AGENTS.md` when the flag is omitted. The script looks for a declaration, or a non-markdown file with that stem, under those roots. It does not append a file extension. An extensionless path whose first directory is already gone is still skipped. [scripts/test_dead_paths.py](skills/doc-sync/scripts/test_dead_paths.py) proves both of those.
 
 ## Rules
 
-[rules/base.md](rules/base.md) is the generic part of a project `AGENTS.md`: ask, don't drift; the code wins when a doc disagrees; the comment policy; lean code and the smallest diff; where a skill script lives; commit messages in complete sentences, one change per commit; a blocker only after 3 or more failed attempts.
+[rules/base.md](rules/base.md) is the generic part of a project `AGENTS.md`: ask, don't drift; the code wins when a doc disagrees; the comment policy; lean code and the smallest diff; decide for the long term, with no stopgap meant to be replaced later; prefer small, focused PRs; where a skill script lives; commit messages in complete sentences, one change per commit; a blocker only after 3 or more failed attempts.
 
-Project-specific lists do not live here. A repo that adopts the skills puts them in its own `AGENTS.md` under the headings below.
+The YAML header on that file is Cursor plugin rule frontmatter (`description`, `alwaysApply`). `alwaysApply` is false, so the plugin rule is available on request. It is not forced into every chat. Paste the markdown under the header into an adopting repo's `AGENTS.md` when the rules must always be in context.
+
+Project-specific lists do not live here. Each adopting repo's `AGENTS.md` needs the headings in the table below.
 
 ## Headings the skills read
 
-A heading matches at any level when the text after the hashes is exact. The skill's own table says what it does when that heading is missing or empty. It does not guess a list, a path, or a command.
+Each adopting repo's `AGENTS.md` needs these headings. A heading matches at any level when the text after the hashes is exact. The skill's own table says what it does when that heading is missing or empty. It does not guess a list, a path, or a command.
 
 | Heading | Skills | What the repo puts there |
 | --- | --- | --- |
-| `Git` | commit-group | Extra commit-message rules, and paths that must never be committed |
+| Git | commit-group | Extra commit-message rules, and paths that must never be committed |
 | `Commit groups` | commit-group | What stays together, what splits, default excludes, a default separate batch, batch order |
 | `Build & test` | commit-group, code-cleanup, test-cleanup | That repo's lint and test commands |
 | `Entry points` | code-cleanup | Where reachability starts |
@@ -51,7 +55,7 @@ A heading matches at any level when the text after the hashes is exact. The skil
 | `Testing defaults` | test-cleanup | What to test, where tests go, owner-rank invariants. The skill looks for the labels `What to test` and `Where tests go` |
 | `Test passes` | test-cleanup | Ordered passes for a full-suite sweep |
 | `Code roots` | doc-sync | Path prefixes that count as code |
-| `Doc ownership` | doc-sync | Which doc keeps a fact |
+| `Doc ownership` | doc-sync | Which doc keeps a fact. This library has no default. The adopting repo writes the list |
 | `Planning docs` | doc-sync | Docs to report against and not edit |
 
 ## How Cursor loads skills and rules
@@ -62,7 +66,9 @@ Cursor discovers a skill folder that contains `SKILL.md` from these directories,
 
 Cursor loads `AGENTS.md` from the project root and from subdirectories. More specific files win. A plain markdown file in `.cursor/rules/` is ignored. A project rule is an `.mdc` file with frontmatter. `alwaysApply: true` includes it every session. An `@path` mention in a rule or in `AGENTS.md` is a pointer: the agent can read the file with its tools, and the contents are not inlined. Anything that must always be in context has to be pasted into `AGENTS.md` or into the `.mdc` body. Source: [Cursor Rules](https://cursor.com/docs/rules).
 
-Cursor does not import skills or rules from a GitHub repository on their own. The documented install is a plugin published through a marketplace, and the repository needs a marketplace manifest under its Cursor plugin directory. This repo does not ship that manifest. Source: the skills and rules pages above.
+Cursor does not import skills or rules from a GitHub repository on their own. The documented install is a plugin, and a repository imported from GitHub needs `.cursor-plugin/marketplace.json` at the repo root. This repo ships that file, plus `.cursor-plugin/plugin.json`. Source: [Cursor Agent Skills](https://cursor.com/docs/skills) and [Plugins reference](https://cursor.com/docs/reference/plugins).
+
+The plugins reference resolves a marketplace `source` by looking for `{source}/.cursor-plugin/plugin.json`, then discovers components in that directory. The published examples use a subdirectory name. This repo sets `source` to `.` so the plugin directory is the repository root and the manifest is `.cursor-plugin/plugin.json`. `plugin.json` sets `name`, `description`, `repository`, and `skills` to `./skills`. With `skills` set, that path replaces skill-folder discovery. Rules are not set in the manifest, so discovery still reads `rules/base.md`, a markdown file under `rules/`. The marketplace entry sets only `name`, `source`, and `description`. The marketplace file also sets `owner.name` and `metadata.description`. The plugins reference lists those. The marketplace schema published with the Cursor plugins repo accepts that entry shape and rejects extra entry fields, so keywords and component paths are not repeated on the marketplace entry.
 
 ## How Claude Code loads skills and rules
 
@@ -90,19 +96,26 @@ Subagent directories do not discover their own `skills/` folder. Source: [Subage
 
 ## How a repo adopts this library
 
-Copy each `skills/<name>/` directory into the tool's skill directory, or symlink the skill directory when that tool documents symlinks.
+Copy is the default. Do not symlink skills or rules into Cursor, a Cursor Cloud Agent, or a Grok bot. Copy the files into the tree that tool loads.
 
-Claude Code, from the adopting repo, with this repo checked out beside it:
+Cursor, on a machine or in a Cloud Agent, copies each skill directory into the adopting repo so the cloned tree contains `.cursor/skills/<name>/SKILL.md`. The same copy works under `.agents/skills/<name>/`, or under the Claude and Codex skill paths Cursor also scans. A Cloud Agent loads project skills from the repo. Copy the files into that repo. User-level skills in the home `.cursor/skills/` directory stay on that machine unless Sync Skills for Cloud Agents is on.
+
+```bash
+mkdir -p .cursor/skills
+cp -R /absolute/path/to/shrekstack/skills/<name> .cursor/skills/<name>
+```
+
+The GitHub plugin route above is how Cursor installs this repository as a plugin. It does not replace the copy into a repo that should carry the skills in git.
+
+Claude Code's default is the same copy:
 
 ```bash
 mkdir -p .claude/skills
-ln -s /absolute/path/to/shrekstack/skills/<name> .claude/skills/<name>
+cp -R /absolute/path/to/shrekstack/skills/<name> .claude/skills/<name>
 ```
 
-Cursor's documented project path is a real `SKILL.md` under `.cursor/skills/<name>/` (or `.agents/skills/<name>/`, or the Claude and Codex paths Cursor also scans). Copy the skill directory there. The skills page does not say that a symlink is followed.
+Claude Code also documents a symlink as an option. A skill folder entry may be a symlink to a directory elsewhere, and `.claude/rules/` may be a symlink. Copy unless that repo already uses those links. An external rules symlink does not load until the project approves it.
 
-For Claude Code rules, symlink [rules/base.md](rules/base.md) into `.claude/rules/` (external targets need the one-time import approval), or put an `@path` import in `AGENTS.md`. For Cursor, paste `rules/base.md` into `AGENTS.md`, or copy it into `.cursor/rules/<name>.mdc` with `alwaysApply: true`. An `@path` line in `AGENTS.md` does not inline the file.
+For rules, paste the markdown under the header in [rules/base.md](rules/base.md) into the adopting repo's `AGENTS.md`. Cursor can instead copy that file to `.cursor/rules/<name>.mdc` with `alwaysApply: true` when the rules must be in every chat. An `@path` line in `AGENTS.md` does not inline the file. Claude Code can copy the file into `.claude/rules/` instead of symlinking it. A Grok bot copies the markdown into `instructions.md` in the bot directory. Do not symlink that file in.
 
-For a Grok bot, copy each skill directory into the bot project's `skills/` directory so the bot has `SKILL.md` plus any `scripts/` sibling. Copy `rules/base.md` into the bot's `instructions.md`, or merge it with the instructions already there.
-
-The adopting repo still needs its own `AGENTS.md` headings from the table above. The skills read that file for groupings, entry points, doc folders, and lint and test commands, then run those commands.
+Each adopting repo still needs its own `AGENTS.md` headings from the table above, including `Doc ownership`, which has no default in this library. The skills read that file for groupings, entry points, doc folders, and lint and test commands, then run those commands.

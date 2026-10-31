@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Lists repo paths that docs name but the tree no longer has.
 
-    dead-paths.py --root ROOT [--doc-folder PATH]... [--config FILE] [FILE...]
+    dead-paths.py --root ROOT [--doc-folder PATH]... [--config FILE]
+                  [--code-root PATH]... [FILE...]
 
 --root is the tree paths resolve against. It defaults to the current directory.
 It is never this file's location: a checkout of the skill library is not the
@@ -18,9 +19,20 @@ not assume a doc list.
 A path counts inside backticks, a Markdown link, or a fenced block. A backtick
 path counts when its first segment exists under --root, or when the last
 segment has a file extension (so a deleted top-level directory still shows up).
-An extensionless path whose first segment is gone is skipped. Relative links
-are always checked. Paths holding a placeholder (<schema>, X.Y.Z, *) are
-skipped. Exit 1 when it finds a dead path.
+An extensionless path whose first segment is gone is skipped, even when the
+last segment is defined under a code root.
+
+A bare type name is a backtick span that is one identifier starting with an
+uppercase letter and containing a lowercase letter. It is
+checked only when code roots are known. --code-root sets those roots and
+overrides the AGENTS.md heading `Code roots`. Without the flag, that heading's
+list items are the roots. If the heading is missing and no flag is passed,
+bare type names are not checked. A name is defined when a non-markdown file
+under a code root has that stem, or a source line declares it. The script does
+not append a file extension.
+
+Paths holding a placeholder (<schema>, X.Y.Z, *) are skipped. Exit 1 when it
+finds a dead path.
 """
 
 import argparse
@@ -32,6 +44,14 @@ PLACEHOLDER = re.compile(r"[<>*$]|X\.Y\.Z|\.\.\.|…")
 CODE_SPAN = re.compile(r"`([^`]+)`")
 MARKDOWN_LINK = re.compile(r"\]\(([^)#\s]+)")
 PATH_TOKEN = re.compile(r"(?<![\w./-])(?:\./)?((?:\.?[\w.+-]+/)+\.?[\w.+-]+)")
+HEADING = re.compile(r"^#{1,6}\s+(.+?)\s*$")
+# A lowercase letter keeps all-caps tokens (CHANGED, URL) out of the type check.
+BARE_TYPE = re.compile(r"[A-Z](?=[A-Za-z0-9]*[a-z])[A-Za-z0-9]*")
+DECL_MODIFIER = r"(?:public|private|protected|internal|export|abstract|final|sealed|data|case|open|pub|async|default)"
+DECL_KIND = r"(?:class|struct|enum|interface|trait|protocol|record|type|object|module|fn|func|function|def)"
+MARKDOWN_SUFFIXES = {".md", ".markdown", ".mdx"}
+SKIP_DIRS = {".git", "__pycache__"}
+MAX_BYTES = 1_000_000
 
 
 def main():
@@ -39,6 +59,7 @@ def main():
     parser.add_argument("--root", type=Path, default=Path.cwd())
     parser.add_argument("--doc-folder", action="append", default=[], type=Path)
     parser.add_argument("--config", type=Path)
+    parser.add_argument("--code-root", action="append", default=[], type=Path)
     parser.add_argument("files", nargs="*", type=Path)
     args = parser.parse_args()
 
@@ -68,6 +89,9 @@ def main():
         )
         sys.exit(2)
 
+    code_roots = load_code_roots(root, args.code_root)
+    defined = index_definitions(code_roots) if code_roots else set()
+
     dead = []
     for doc in files:
         text = doc.read_text(encoding="utf-8")
@@ -81,8 +105,15 @@ def main():
             paths = [p for span in spans for p in PATH_TOKEN.findall(span) if reportable(p, root)]
             paths += [p for p in links if reportable_link(p)]
             for path in sorted(set(paths)):
+                if is_bare_type(path):
+                    continue
                 if not resolves(path, doc, root):
                     dead.append(f"{display(doc, root)}:{n}: {path}")
+            if not code_roots:
+                continue
+            for name in sorted({bare for span in CODE_SPAN.findall(line) if (bare := bare_type(span))}):
+                if name not in defined:
+                    dead.append(f"{display(doc, root)}:{n}: {name}")
 
     print("\n".join(dead) if dead else f"Clean: {len(files)} docs.")
     sys.exit(1 if dead else 0)
@@ -116,8 +147,54 @@ def join_root(root, path):
     return path.resolve() if path.is_absolute() else (root / path).resolve()
 
 
+def load_code_roots(root, cli_roots):
+    rels = [str(path) for path in cli_roots] if cli_roots else roots_from_agents(root)
+    loaded = []
+    for rel in rels:
+        path = Path(rel)
+        hit = path.resolve() if path.is_absolute() else (root / path).resolve()
+        try:
+            hit.relative_to(root)
+        except ValueError:
+            print(f"Code root is outside --root: {rel}", file=sys.stderr)
+            sys.exit(2)
+        if not hit.is_dir():
+            print(f"Code root is not a directory: {rel}", file=sys.stderr)
+            sys.exit(2)
+        loaded.append(hit)
+    return loaded
+
+
+def roots_from_agents(root):
+    agents = root / "AGENTS.md"
+    if not agents.is_file():
+        return []
+    found = []
+    capture = False
+    for line in agents.read_text(encoding="utf-8").splitlines():
+        heading = HEADING.match(line)
+        if heading:
+            capture = heading.group(1) == "Code roots"
+            continue
+        if not capture:
+            continue
+        item = line.strip()
+        if item.startswith(("- ", "* ")):
+            item = item[2:].strip()
+        else:
+            continue
+        spans = CODE_SPAN.findall(item)
+        text = spans[0] if spans else item
+        text = text.strip().strip("`").split()[0].rstrip("/")
+        if text and checkable(text):
+            found.append(text)
+    return found
+
+
 def reportable(path, root):
     if not checkable(path):
+        return False
+    if "/" not in path.removeprefix("./"):
         return False
     first = path.removeprefix("./").split("/", 1)[0]
     if first in (".", ".."):
@@ -138,6 +215,17 @@ def checkable(path):
     return not PLACEHOLDER.search(path) and "://" not in path and not path.startswith("mailto:")
 
 
+def is_bare_type(path):
+    return bare_type(path) == path
+
+
+def bare_type(span):
+    text = span.strip()
+    if BARE_TYPE.fullmatch(text):
+        return text
+    return ""
+
+
 def resolves(path, doc, root):
     rel = path.removeprefix("./")
     for base in (root / rel, doc.parent / rel):
@@ -153,6 +241,28 @@ def resolves(path, doc, root):
             continue
         return True
     return False
+
+
+def index_definitions(code_roots):
+    found = set()
+    decl = re.compile(
+        rf"(?m)^[ \t]*(?:{DECL_MODIFIER}\s+)*{DECL_KIND}\s+([A-Z][A-Za-z0-9]*)\b"
+    )
+    for code_root in code_roots:
+        for path in code_root.rglob("*"):
+            if not path.is_file() or any(part in SKIP_DIRS or part.startswith(".") for part in path.relative_to(code_root).parts[:-1]):
+                continue
+            stem = path.stem
+            if path.suffix.lower() not in MARKDOWN_SUFFIXES and bare_type(stem):
+                found.add(stem)
+            if path.stat().st_size > MAX_BYTES or path.suffix.lower() in MARKDOWN_SUFFIXES:
+                continue
+            try:
+                text = path.read_text(encoding="utf-8")
+            except (UnicodeDecodeError, OSError):
+                continue
+            found.update(decl.findall(text))
+    return found
 
 
 def display(doc, root):

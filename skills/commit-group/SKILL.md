@@ -15,7 +15,7 @@ Read the target repo's `AGENTS.md` before planning. Use these headings (any head
 
 | Heading | What it holds | If it is missing or empty |
 |---------|----------------|---------------------------|
-| `Git` | Commit-message rules beyond this skill, and paths that must never be committed | Use the commit-message rules in this skill. Ask before excluding any path that is not in the secret list below |
+| Git | Commit-message rules beyond this skill, and paths that must never be committed | Use the commit-message rules in this skill. Ask before excluding any path that is not in the secret list below |
 | `Commit groups` | What stays together, what splits apart, default excludes, a default separate batch, and batch order | Ask. Do not guess a grouping, a separate batch, or an order |
 | `Build & test` | Lint and test commands for optional validation | Do not guess a command. Ask when the user asked to validate. A missing section does not block the commits |
 
@@ -61,11 +61,11 @@ Apply what `Commit groups` says to keep together, split apart, exclude, and brea
 
 - `.env`, credentials, API keys, `*.pem`, `*.p12`
 
-Also exclude every path `Git` says never to commit. If `Git` is missing, ask before assuming any further excludes. Still apply the list above.
+Also exclude every path the Git heading says never to commit. If that heading is missing, ask before assuming any further excludes. Still apply the list above.
 
 ### Commit messages
 
-Per `Git` when that section exists. Otherwise:
+Per the Git heading when that section exists. Otherwise:
 
 - Complete sentences; focus on **why**, not a file list
 - One logical change per commit

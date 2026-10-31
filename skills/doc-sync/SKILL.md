@@ -24,7 +24,7 @@ Read `AGENTS.md` first. Use these headings (any heading level, text after the ha
 | `Skills due` | Extra paths that make check 4 due | Do not guess trigger paths. Scope `skills`, `--full`, and a skill-file edit still run check 4 |
 | `Architecture due` | Extra paths that make check 5 due | Do not guess trigger paths. Scope `architecture`, `--full`, and an added, deleted, or renamed source file or folder still make check 5 due |
 | `Code roots` | Path prefixes that count as code for comment edits and for the planning-conflict report | Ask before check 6 or 7. Do not treat every changed file as code |
-| `Doc ownership` | Which doc keeps a fact. The others point at it | Ask before choosing an owner. Do not guess |
+| `Doc ownership` | Which doc keeps a fact. The others point at it. This library has no default ownership table | Ask before choosing an owner. Do not guess |
 | `Planning docs` | Docs to report against and never edit, unless the user widens scope | Ask which docs are report-only. Until the owner answers, do not edit a doc you are unsure about |
 
 ## Setup
@@ -66,7 +66,7 @@ Start every run with this skill's `scripts/dead-paths.py`, after `Doc folders` i
 python3 "<skill>/scripts/dead-paths.py" --root "<repo>" --doc-folder "<doc folders entry>"
 ```
 
-The script treats a file as that file and a directory as the markdown under it. Each line it prints is a doc naming a path the tree no longer has — a check 1, 4, or 5 fix. It sees paths only; the claims below stay yours. Exit 2 means the doc list was not passed: ask, do not pick a default list.
+The script reads the `Code roots` heading in that repo's `AGENTS.md` when `--code-root` is omitted. Pass `--code-root` only to override that heading. A bare type name is checked against those roots. An extensionless path whose first directory is gone is still skipped. If `Code roots` is missing and you do not pass `--code-root`, the script does not guess roots and does not check bare type names. The script treats a file as that file and a directory as the markdown under it. Each line it prints is a doc naming a path the tree no longer has — a check 1, 4, or 5 fix. It sees paths only; the claims below stay yours. Exit 2 means the doc list was not passed: ask, do not pick a default list.
 
 **1 — Drift (every file `Doc folders` names, including `AGENTS.md` and `README.md` when they are listed).** Verify every concrete claim — paths, layout, commands, names, and links. Fix each false claim in place, keeping the phrasing around it. Never expand goal prose into `AGENTS.md`.
 
