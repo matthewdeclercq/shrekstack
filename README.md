@@ -2,14 +2,13 @@
 
 Matthew's personal shared skills library for Claude Code, Cursor, and his Grok bots. Skills live in `skills/<name>/SKILL.md`. The shared base rules are [rules/base.md](rules/base.md).
 
-Matthew's `tidy` skill will be added later.
-
 ## Skills
 
 - [commit-group](skills/commit-group/SKILL.md) turns an unstaged tree into logical commits and commits them.
 - [code-cleanup](skills/code-cleanup/SKILL.md) removes dead code after proof, without a style refactor.
 - [test-cleanup](skills/test-cleanup/SKILL.md) prunes tests that no longer lock a live rule.
 - [doc-sync](skills/doc-sync/SKILL.md) fixes doc drift against the code and commits `Doc sync.`
+- [tidy](skills/tidy/SKILL.md) checks the work just finished for anything to clean up or simplify.
 
 ## Install
 
