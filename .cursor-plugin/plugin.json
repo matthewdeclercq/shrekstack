@@ -6,6 +6,5 @@
     "name": "Matthew Declercq"
   },
   "repository": "https://github.com/matthewdeclercq/shrekstack",
-  "skills": "./skills",
-  "rules": "./rules/"
+  "skills": "./skills"
 }
