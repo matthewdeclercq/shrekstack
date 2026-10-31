@@ -58,7 +58,8 @@ If the map has no row for the doc, run setup.
 - **Reorder.** Edit the order table only. A file that needs the new order is breaking rule 1: point it at the goals doc.
 - **Ship.**
   1. Move the backlog rows it covers to the shipped doc and cut each to one or two lines.
-  2. Remove its section, including its command block, and its order row.
-  3. Search the repo. Nothing still lists that goal as open.
+  2. In the decision doc the map names, move any design note that would bring back a dead approach to the dropped-design doc as one entry, when the map names that doc. Strip goal numbers, status, and scoping notes from every row the goal touched.
+  3. Remove its section, including its command block, and its order row.
+  4. Search the repo. Nothing still lists that goal as open.
 
 No map: run setup. Do not guess an owner.
