@@ -29,7 +29,7 @@ Frontmatter `name: verify-<app>`. The description names the app, the surface, an
 - **Drive.** The main user paths, with this repo's real commands and selectors. Do not invent handles.
 - **Evidence.** For a path, the action and the state it left. A user path, not a test-only endpoint. Write captures under `evidence/` next to the skill. Add that folder to the repo's `.gitignore` unless `git check-ignore` already says it is ignored.
 - **Cleanup.** Kill only what this run started. Leave the evidence.
-- **Features.** The top few user-facing features: what it is, how to reach it, how to drive it, and the end state a user can see. Keep the list in this file, or in `features.md` beside it when the list would bury the steps.
+- **Features.** A `features/` folder beside the skill: a `README.md` index with the baseline state every recipe starts from, and one file per user-facing feature, the top 3–5 to start. Each feature file opens with one paragraph on what the user sees, then exactly four sections: `Sub-features` (a short ID and one line each), `How to get to it` (every user entry point), `Driving it` (preconditions, then each action with its exact command and the result to see), and `Gotchas`. A missing precondition is a failure with its reason in `Gotchas`; never weaken the recipe to pass.
 
 End with one line: upkeep is shrekstack's maintain-verify skill.
 
