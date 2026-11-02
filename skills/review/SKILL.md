@@ -10,7 +10,7 @@ disable-model-invocation: true
 
 # Review
 
-Lint, format, and dead code belong to the repo's hooks. Review reports to the user; it does not write the PR description.
+Lint and format belong to the repo's hooks. Review reports to the user; it does not write the PR description.
 
 1. **Skip check.** Read `git diff --stat` and `git log`. Go straight to the note when the diff is only comments, formatting, a lockfile, generated files, or markdown that is not a skill or a rule. If an earlier review this session covered part of the branch, review only what is new since the commit it ended on.
 2. **Hooks.** Run them once on the changed files: `pre-commit run --files <paths>`, or the repo's hook runner. Fix what they report. No hooks: say so in one line.

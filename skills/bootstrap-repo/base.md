@@ -45,4 +45,4 @@ Follow a skill whenever its task comes up. Run a skill on one model; fan out onl
 
 ## When blocked
 
-Record a blocker in goal progress only after 3+ failed attempts at the same issue: what was tried, the errors, and the decision you recommend.
+After 3 failed attempts at the same issue, stop and report to the owner: what was tried, the errors, and the decision you recommend.

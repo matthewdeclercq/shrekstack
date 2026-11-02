@@ -1,7 +1,7 @@
 ---
 name: doc-sync
 description: >-
-  Keeps a repo's docs and code comments true to its code: detects doc drift
+  Keeps a repo's docs true to its code: detects doc drift
   on the current branch, fixes it, and commits the result as "Doc sync." Use
   before opening a pull request, or when the user asks to sync docs or fix doc
   drift. Pass --full to audit every doc against the whole codebase.
@@ -16,7 +16,7 @@ Be surgical. Change only what is drifted, missing, contradictory, or bloated. Ne
 
 **The docs.** In scope: every doc the doc map names (`doc-map.md` in `.agents/`, from [doc-steward](../doc-steward/SKILL.md)), `AGENTS.md`, `README.md`, and `.agents/skills/`. The planning docs the map names (decision, goals, backlog, shipped, dropped-design) are report-only. If the map is missing, say to run doc-steward's Bootstrap first.
 
-**The code.** `Code roots` in `AGENTS.md` lists the path prefixes that count as code. A heading whose body starts with `TODO` counts as missing. If it is missing, ask before checks 5 and 6; do not treat every changed file as code.
+**The code.** `Code roots` in `AGENTS.md` lists the path prefixes that count as code. A heading whose body starts with `TODO` counts as missing. If it is missing, ask before check 5; do not treat every changed file as code.
 
 ## Diff
 
@@ -45,13 +45,11 @@ The script reads the `Code roots` heading in that repo's `AGENTS.md` when `--cod
 
 **3 — Skills (when due).** In every skill, fix only dead paths and references to deleted docs — never rewrite a procedure. Also, from the repo's UI conventions skill at `.agents/skills/ui` (not the bootstrap skill that writes it), delete screen inventories (button copy, field lists, icons, defaults), not its reference-screen or casing tables.
 
-**4 — Architecture (when due).** Factual claims only, in the architecture doc: module layout, named types and services, pipeline steps, storage paths, commands, test targets, and every mermaid node and edge, against the code and the section's prose. Fix the fact in place. Report a missing module only when it changes how the parts connect; never a type's internals. Never touch design intent or rationale. Fix a false node or edge in place and do not redraw the diagram (doc-steward rule 9).
+**4 — Architecture (when due).** Factual claims only, in the architecture doc: module layout, named types and services, pipeline steps, storage paths, commands, test targets, and every mermaid node and edge, against the code and the section's prose. Fix each false fact, node, or edge in place. Never touch design intent or rationale. What counts as missing, and how a diagram may change, is doc-steward rule 9.
 
-**5 — Comments (`CHANGED_CODE` only).** Apply the Comments section of [base.md](../bootstrap-repo/base.md): delete comments that restate code, and fix or delete stale ones. Do not sweep files the diff did not touch.
+**5 — Planning conflicts, report only.** List where `CHANGED_CODE` and a planning doc disagree: a rule the code breaks, a shipped row whose code is gone, a guardrail the code no longer meets. Never edit those docs or change code to match — the owner decides which side is wrong.
 
-**6 — Planning conflicts, report only.** List where `CHANGED_CODE` and a planning doc disagree: a rule the code breaks, a shipped row whose code is gone, a guardrail the code no longer meets. Never edit those docs or change code to match — the owner decides which side is wrong.
-
-**Trimming, in every doc touched.** Cut sentences that restate a neighbour, duplicate examples, and filler. In an architecture doc, cut file catalogs, UI chrome, and restated product rules. Never strip gotchas, constraints, exact commands, or paths; when unsure, leave it.
+**Trimming, in every doc touched.** Cut sentences that restate a neighbour, duplicate examples, and filler. Never strip gotchas, constraints, exact commands, or paths; when unsure, leave it.
 
 ## Out of scope
 
@@ -67,6 +65,6 @@ Short prose, no banners:
 
 1. The diff in one line ("branch vs main, 44 files", or "`--full`").
 2. Each fix, one line, grouped by file.
-3. Planning conflicts from check 6, one line each (row, file:line, what differs) — or "none".
+3. Planning conflicts from check 5, one line each (row, file:line, what differs) — or "none".
 4. Anything deliberately skipped.
 5. Whether `Doc sync.` landed.
