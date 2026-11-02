@@ -9,7 +9,7 @@ disable-model-invocation: true
 
 # Bootstrap Repo
 
-Run in the target repo. Do not edit product code. Never overwrite or rewrite anything already there except the two rule files.
+Run in the target repo. Do not edit product code. Never overwrite or rewrite anything already there except the two rule files, or as step 3 says.
 
 1. **Rule.** Write `base.md` from beside this skill as `shrekstack-base.md` in `.claude/rules/`, unchanged, and as `shrekstack-base.mdc` in `.cursor/rules/`, with this frontmatter, a blank line, then the text. Overwrite both on every run.
 
@@ -27,6 +27,6 @@ Run in the target repo. Do not edit product code. Never overwrite or rewrite any
 
    If AGENTS.md is a directory, or a symlink to something outside the repo, leave it and say so.
 
-3. **CLAUDE.md.** If nothing is at that path, symlink it to `AGENTS.md` (`ln -s AGENTS.md CLAUDE.md`). If something is there, leave it and say what it is.
+3. **CLAUDE.md.** End with `CLAUDE.md` a relative symlink to `AGENTS.md` (`ln -s AGENTS.md CLAUDE.md`). A symlink already there is replaced. A real file or folder may hold hand-written instructions: ask the user whether to move what it holds into `AGENTS.md`, or start fresh. Do that, then remove it and create the link.
 
 Then list the `TODO`s and ask the owner to fill them in. Skills treat a heading whose body starts with `TODO` as missing.
