@@ -1,6 +1,6 @@
 # shrekstack
 
-Matthew's personal shared skills library for Claude Code and Cursor. Skills live in `skills/<name>/SKILL.md`. The shared base rule is [skills/setup-base/base.md](skills/setup-base/base.md).
+Matthew's personal shared skills library for Claude Code, Cursor, and his Grok bots. Skills live in `skills/<name>/SKILL.md`. The shared base rule is [skills/setup-base/base.md](skills/setup-base/base.md).
 
 ## Skills
 
@@ -28,11 +28,11 @@ Install the plugin, so every repo gets the same skills and updates from this one
 
 **Cursor.** Import this repo as a plugin from GitHub. `.cursor-plugin/` holds its manifest.
 
-**A repo that must pin its own copy.** Copy each `skills/<name>/` directory into `.claude/skills/` or `.cursor/skills/`. A copy does not get updates.
+**Grok bots, or a repo that must pin its own copy.** Copy each `skills/<name>/` directory into the bot's `skills/`, `.claude/skills/`, or `.cursor/skills/`. A copy does not get updates. The base text goes into each bot's own instructions.
 
 Then run [setup-base](skills/setup-base/SKILL.md) in each adopting repo to install the base rule and the AGENTS.md headings.
 
-Bump `version` in both `.claude-plugin/plugin.json` and `.cursor-plugin/plugin.json` whenever skills change, to the same number. CI checks they match. Claude Code updates an installed plugin only when that version changes.
+`.claude-plugin/plugin.json` and `.cursor-plugin/plugin.json` carry the same `version`, and CI checks they match. Claude Code pins an install to that version, so an installed plugin updates only when it changes.
 
 ## AGENTS.md
 
