@@ -1,21 +1,28 @@
 ---
 name: bootstrap-repo
 description: >-
-  Writes the shared shrekstack base rule into a repo for Cursor and Claude
-  Code, the AGENTS.md headings shrekstack skills read, and a CLAUDE.md
-  symlink. Use when the user asks to install the base rule or run bootstrap-repo.
+  Writes the shared shrekstack base rule and response style into a repo for
+  Cursor and Claude Code, the AGENTS.md headings shrekstack skills read, and
+  a CLAUDE.md symlink. Use when the user asks to install the base rule or run bootstrap-repo.
 disable-model-invocation: true
 ---
 
 # Bootstrap Repo
 
-Run in the target repo. Do not edit product code. Never overwrite or rewrite anything already there except the two rule files, or as step 3 says.
+Run in the target repo. Do not edit product code. Never overwrite or rewrite anything already there except the four rule files, or as step 3 says.
 
-1. **Rule.** Write `base.md` from beside this skill as `shrekstack-base.md` in `.claude/rules/`, unchanged, and as `shrekstack-base.mdc` in `.cursor/rules/`, with this frontmatter, a blank line, then the text. Overwrite both on every run.
+1. **Rules.** Write each file in this table, from beside this skill, into the repo twice: unchanged as a `.md` in `.claude/rules/`, and as a `.mdc` in `.cursor/rules/` with frontmatter, a blank line, then the text. Overwrite all four on every run.
+
+   | Source | Name in the repo | Cursor `description` |
+   |--------|------------------|----------------------|
+   | `base.md` | `shrekstack-base` | Generic rules for a repo that adopts this library. Project lists, commands, and paths stay in that repo's AGENTS.md. |
+   | `style.md` | `shrekstack-style` | How agents talk to the owner in chat. |
+
+   The Cursor frontmatter:
 
    ```
    ---
-   description: Generic rules for a repo that adopts this library. Project lists, commands, and paths stay in that repo's AGENTS.md.
+   description: <Cursor description>
    alwaysApply: true
    ---
    ```

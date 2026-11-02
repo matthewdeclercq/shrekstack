@@ -1,6 +1,6 @@
 # shrekstack
 
-Matthew's personal shared skills library for Claude Code, Cursor, and his Grok bots. Skills live in `skills/<name>/SKILL.md`. The shared base rule is [skills/bootstrap-repo/base.md](skills/bootstrap-repo/base.md).
+Matthew's personal shared skills library for Claude Code, Cursor, and his Grok bots. Skills live in `skills/<name>/SKILL.md`. The shared base rule is [skills/bootstrap-repo/base.md](skills/bootstrap-repo/base.md), and how agents talk to you is [skills/bootstrap-repo/style.md](skills/bootstrap-repo/style.md).
 
 ## Skills
 
@@ -11,7 +11,7 @@ Matthew's personal shared skills library for Claude Code, Cursor, and his Grok b
 - [doc-sync](skills/doc-sync/SKILL.md) fixes doc drift against the code and commits `Doc sync.`
 - [tidy](skills/tidy/SKILL.md) checks the work just finished for anything to clean up or simplify.
 - [review](skills/review/SKILL.md) reviews the agent's own change before a pull request: hooks, tidy, doc-sync, then blast radius. It reports to you; it does not write the PR description.
-- [bootstrap-repo](skills/bootstrap-repo/SKILL.md) writes that base rule, the AGENTS.md headings skills read, and the CLAUDE.md link into the adopting repo.
+- [bootstrap-repo](skills/bootstrap-repo/SKILL.md) writes the base rule and response style, the AGENTS.md headings skills read, and the CLAUDE.md link into the adopting repo.
 - [bootstrap-verify](skills/bootstrap-verify/SKILL.md) writes a repo's verify skill and proves it once.
 - [bootstrap-ui](skills/bootstrap-ui/SKILL.md) writes a repo's UI conventions skill and proves every path once.
 - [maintain-verify](skills/maintain-verify/SKILL.md) brings that skill back in line after the code changes.
@@ -28,7 +28,7 @@ Install the plugin, so every repo gets the same skills and updates from this one
 
 **Cursor and Grok bots.** Import this repo as a plugin from GitHub. `.cursor-plugin/` holds its manifest.
 
-Then run [bootstrap-repo](skills/bootstrap-repo/SKILL.md) in each adopting repo to install the base rule and the AGENTS.md headings.
+Then run [bootstrap-repo](skills/bootstrap-repo/SKILL.md) in each adopting repo to install the base rule, the response style, and the AGENTS.md headings.
 
 ## AGENTS.md
 
