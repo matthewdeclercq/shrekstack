@@ -1,6 +1,6 @@
 # shrekstack
 
-Matthew's personal shared skills library for Claude Code, Cursor, and his Grok bots. Skills live in `skills/<name>/SKILL.md`. The shared base rule is [skills/setup-base/base.md](skills/setup-base/base.md).
+Matthew's personal shared skills library for Claude Code and Cursor. Skills live in `skills/<name>/SKILL.md`. The shared base rule is [skills/setup-base/base.md](skills/setup-base/base.md).
 
 ## Skills
 
@@ -28,7 +28,7 @@ Install the plugin, so every repo gets the same skills and updates from this one
 
 **Cursor.** Import this repo as a plugin from GitHub. `.cursor-plugin/` holds its manifest.
 
-**Grok bots, or a repo that must pin its own copy.** Copy each `skills/<name>/` directory into the bot's `skills/`, `.claude/skills/`, or `.cursor/skills/`. A copy does not get updates. The base text goes into each bot's own instructions.
+**A repo that must pin its own copy.** Copy each `skills/<name>/` directory into `.claude/skills/` or `.cursor/skills/`. A copy does not get updates.
 
 Then run [setup-base](skills/setup-base/SKILL.md) in each adopting repo to install the base rule and the AGENTS.md headings.
 
