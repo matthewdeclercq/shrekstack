@@ -3,14 +3,12 @@ name: review
 description: >-
   Reviews the agent's own change before a pull request is opened or updated.
   Use when the user asks for a review of the current change, or before
-  opening or updating a PR. One model. A trivial or already-reviewed diff
-  skips to the note. Otherwise hooks, then tidy, then this review.
+  opening or updating a PR. A trivial or already-reviewed diff skips to
+  the note. Otherwise hooks, then tidy, then this review.
 disable-model-invocation: true
 ---
 
 # Review
-
-One model. Do not start another model.
 
 Lint, format, and dead code belong to the repo's pre-commit hooks. Never commit with `--no-verify`.
 

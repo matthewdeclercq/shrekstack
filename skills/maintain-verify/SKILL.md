@@ -2,14 +2,14 @@
 name: maintain-verify
 description: >-
   Brings a repo's verify skill back in line with the code after it changes.
-  Use when the user asks to update the verify skill. One model. Edits only
-  that skill's files.
+  Use when the user asks to update the verify skill. Edits only that
+  skill's files.
 disable-model-invocation: true
 ---
 
 # Maintain Verify
 
-One model. Do not fan out per feature. Edit only files under the verify skill. Never edit product code.
+Edit only files under the verify skill. Never edit product code.
 
 Outcomes: `clean`, `changed`, `blocked`.
 

@@ -26,7 +26,7 @@ The docs own **intent** — product lines, the queue, constraints, how to build.
 
 ## Skills
 
-Follow a skill whenever its task comes up. A script only one skill runs lives in that skill's `scripts/` folder; `Scripts/` holds the rest. A script that mostly runs other tools is Bash; one that mostly parses text is Python 3. A skill that fans out read-only explorers runs them on a mid-tier model and keeps the orchestrator, which edits and validates, on the strongest: a missed finding is never re-checked. The smallest tier only for a pure locate-the-file search.
+Follow a skill whenever its task comes up. Run a skill on one model; fan out only when the skill says to. A script only one skill runs lives in that skill's `scripts/` folder; `Scripts/` holds the rest. A script that mostly runs other tools is Bash; one that mostly parses text is Python 3. A skill that fans out read-only explorers runs them on a mid-tier model and keeps the orchestrator, which edits and validates, on the strongest: a missed finding is never re-checked. The smallest tier only for a pure locate-the-file search.
 
 ## Git
 

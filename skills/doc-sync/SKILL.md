@@ -15,14 +15,12 @@ Keep this repo's docs true to its code. **This workflow auto-fixes:** apply the 
 
 Be surgical. Change only what is drifted, missing, contradictory, or bloated. Never rewrite accurate prose or expand a section — the bias is toward fewer, tighter docs. Which doc owns which fact: `doc-map.md` in `.agents/` ([doc-steward](../doc-steward/SKILL.md)). If that file is missing, say to run doc-steward setup first.
 
-Read `AGENTS.md` first. Use these headings (any heading level, text after the hashes exactly as written):
+Read `AGENTS.md` first. Use these headings (any heading level, text after the hashes exactly as written). A heading whose body starts with `TODO` counts as missing:
 
 | Heading | What it holds | If it is missing or empty |
 |---------|----------------|---------------------------|
 | `Doc folders` | Files and directories in scope for checks 1–5 | Ask. Do not pick a doc list |
 | `Architecture doc` | The one doc check 5 may edit | Ask when scope is `architecture` or check 5 is due. Do not guess which doc is the architecture doc |
-| `Skills due` | Extra paths that make check 4 due | Do not guess trigger paths. Scope `skills`, `--full`, and a skill-file edit still run check 4 |
-| `Architecture due` | Extra paths that make check 5 due | Do not guess trigger paths. Scope `architecture`, `--full`, and an added, deleted, or renamed source file or folder still make check 5 due |
 | `Code roots` | Path prefixes that count as code for comment edits and for the planning-conflict report | Ask before check 6 or 7. Do not treat every changed file as code |
 | `Planning docs` | Docs to report against and never edit, unless the user widens scope | Ask which docs are report-only. Until the owner answers, do not edit a doc you are unsure about |
 
@@ -52,8 +50,8 @@ Arguments come from the user message (e.g. `all`, `agents --working`, `skills --
 
 From the diff: `CHANGED` (files), and `CHANGED_CODE` (those under a prefix in `Code roots`). If `CHANGED` is empty and the run is neither `--full` nor `skills`, say so and stop. If check 6 or 7 is in scope and `Code roots` is missing, ask before those checks. Do not treat every changed file as code.
 
-- **Skills due:** scope `skills`, `--full`, `CHANGED` touches a skill file, or `CHANGED` touches a path listed under `Skills due`.
-- **Architecture due:** scope `architecture`, `--full`, `CHANGED` adds, deletes, or renames a source file or folder, or `CHANGED` touches a path listed under `Architecture due`.
+- **Skills due:** scope `skills`, `--full`, or `CHANGED` touches a skill file.
+- **Architecture due:** scope `architecture`, `--full`, or `CHANGED` adds, deletes, or renames a source file or folder.
 
 **Fan out** when `--full`, more than 15 files changed, or the diff spans more than three top-level areas: spawn one read-only subagent per check below, each told to run that check and return findings only (doc location, claim, what is true). Apply every edit yourself. Otherwise work inline.
 
@@ -77,7 +75,7 @@ The script reads the `Code roots` heading in that repo's `AGENTS.md` when `--cod
 
 **5 — Architecture (when due).** Factual claims only, in the doc named under `Architecture doc`: module layout, named types and services, pipeline steps, storage paths, commands, test targets, and every mermaid node and edge, against the code and the section's prose. Fix the fact in place. Report a missing module only when it changes how the parts connect; never a type's internals. Never touch design intent or rationale. If the map says how a diagram may change, follow it. Otherwise fix the false node or edge in place and do not redraw the diagram.
 
-**6 — Comments (`CHANGED_CODE` only).** Comment only a non-obvious why. Delete comments that restate code; fix or delete stale ones; add a brief one only for a real gotcha, constraint, or workaround. Do not sweep files the diff did not touch.
+**6 — Comments (`CHANGED_CODE` only).** Apply the Comments section of [base.md](../setup-base/base.md): delete comments that restate code, and fix or delete stale ones. Do not sweep files the diff did not touch.
 
 **7 — Planning conflicts, report only (`all`).** List where `CHANGED_CODE` and a doc under `Planning docs` disagree: a rule the code breaks, a shipped row whose code is gone, a guardrail the code no longer meets. Never edit those docs or change code to match — the owner decides which side is wrong.
 

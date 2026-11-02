@@ -3,13 +3,11 @@ name: setup-verify
 description: >-
   Writes a repo's verify skill: how to build it, run it, and check it the
   way a user would, then proves that skill once. Use when the user asks to
-  set up verification or add a verify skill. One model.
+  set up verification or add a verify skill.
 disable-model-invocation: true
 ---
 
 # Setup Verify
-
-One model. Do not start another model or fan out.
 
 Run in the target repo. Write `.agents/skills/verify-<app>/SKILL.md`. Do not edit product code. Name `<app>` from the product, in kebab-case.
 

@@ -17,8 +17,6 @@ One home per fact. The map names the home. Read it before editing a doc.
 
 Run when the user asks, when the map is missing, or when it has no backlog, goals, or shipped row. Keep a row that is already right unless the user asks for a change.
 
-One model. Do not start another model or fan out.
-
 Run in the target repo. The map is `doc-map.md` in `.agents/`. It is a doc, not a skill: never put it in a skills folder. Do not edit product code. Do not copy a map from another repo.
 
 An older setup kept the map as `map.md` in `.agents/skills/doc-steward/` or `.cursor/skills/doc-steward/`. If one exists and the new map does not, move it to the new path. Then remove `.claude/skills/doc-steward` only when it is a symlink into `.agents/skills/doc-steward`, and remove `.agents/skills/doc-steward` when it is empty. Leave any folder that holds a `SKILL.md`: that is the installed skill.

@@ -3,13 +3,11 @@ name: setup-ui
 description: >-
   Writes a repo's UI conventions skill from its screens, tokens, and
   patterns, then proves every path once. Use when the user asks to set up
-  UI conventions or add a UI skill. One model.
+  UI conventions or add a UI skill.
 disable-model-invocation: true
 ---
 
 # Setup UI
-
-One model. Do not start another model or fan out.
 
 Run in the target repo. Write `SKILL.md` in `.agents/skills/ui/`, covering every UI stack in the repo. Do not edit product code. Do not copy a UI skill from another repo.
 
