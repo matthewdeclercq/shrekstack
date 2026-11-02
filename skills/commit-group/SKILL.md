@@ -11,12 +11,12 @@ disable-model-invocation: true
 
 Turn a messy **unstaged** working tree into **logical commits** — inventory, plan batches, then **commit all batches in order** without waiting for approval.
 
-Read the target repo's `AGENTS.md` before planning. Use these headings (any heading level, text after the hashes exactly as written):
+Read the target repo's `AGENTS.md` before planning. Use these headings (any heading level, text after the hashes exactly as written). A heading whose body starts with `TODO` counts as missing:
 
 | Heading | What it holds | If it is missing or empty |
 |---------|----------------|---------------------------|
 | Git | Commit-message rules beyond this skill, and paths that must never be committed | Use the commit-message rules in this skill. Ask before excluding any path that is not in the secret list below |
-| `Commit groups` | What stays together, what splits apart, default excludes, a default separate batch, and batch order | Ask. Do not guess a grouping, a separate batch, or an order |
+| `Commit groups` | What stays together, what splits apart, default excludes, a default separate batch, and batch order | Group by logical change, order batches so each builds on the ones before it, and make no default separate batch |
 | `Build & test` | Lint and test commands for optional validation | Do not guess a command. Ask when the user asked to validate. A missing section does not block the commits |
 
 ## Modes
@@ -53,7 +53,7 @@ Also skim `git log -5 --oneline` for message style.
 
 Group by **one logical change** (buildable/reviewable slice), not by file type alone.
 
-Apply what `Commit groups` says to keep together, split apart, exclude, and break out as a default separate batch. Do not copy a grouping from another repo.
+When `Commit groups` exists, apply what it says to keep together, split apart, exclude, and break out as a default separate batch. Do not copy a grouping from another repo.
 
 **Partial files:** if one file mixes unrelated edits, keep one batch and note it in the summary — do not block on approval.
 
@@ -117,9 +117,7 @@ Use sensible defaults — do not pause for approval:
 - One file with mixed stories → one batch, mention in summary
 - Suspected secrets → stop and flag; commit everything else only after user confirms
 
-Ask for these. Do not guess them:
-
-- Batch ordering → the order `Commit groups` gives. If it gives none, ask
-- A default separate batch → only the one `Commit groups` names, included automatically. If it names none, ask; do not invent one
+- Batch ordering → the order `Commit groups` gives; otherwise each batch builds on the ones before it
+- A default separate batch → only the one `Commit groups` names, included automatically; otherwise none
 
 When the tree is empty, say so — do not create empty commits.

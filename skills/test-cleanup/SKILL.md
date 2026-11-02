@@ -13,12 +13,12 @@ Delete or merge tests that no longer lock a live rule. Do not change production 
 
 What belongs in a test is the part of `Testing defaults` labeled `What to test`. Placement and "do not bulk-migrate" live in that section too, including the part labeled `Where tests go`. This skill is the sweep method.
 
-Read `AGENTS.md` first. Use these headings (any heading level, text after the hashes exactly as written):
+Read `AGENTS.md` first. Use these headings (any heading level, text after the hashes exactly as written). A heading whose body starts with `TODO` counts as missing:
 
 | Heading | What it holds | If it is missing or empty |
 |---------|----------------|---------------------------|
 | `Testing defaults` | What to test, where tests go, and which invariants are owner-rank | Ask before deleting or moving a test. Do not guess what to test. If the section exists but has no `What to test` label, ask which part that is |
-| `Test passes` | Ordered passes for a full-suite sweep | Ask before a full-suite sweep. Do not invent passes. A scoped loop of 1–5 candidates may use the rubric |
+| `Test passes` | Ordered passes for a full-suite sweep | Run the default passes under Passes |
 | `Build & test` | The suite commands that own the files, and the commands that must be green after an edit | Ask. Do not guess a command |
 | `File layout` | Test areas a multi-agent pass may split on | Ask before fanning out. Do not invent areas |
 
@@ -54,9 +54,7 @@ Do not optimize for fewer files or coverage percentage.
 
 A full-suite sweep starts by classifying every test file into the ledger. No edits on that pass.
 
-Then run the passes under `Test passes`, in that order. Compare what tests **assert**, not what they are named, when a pass is about duplicates. Two names that read differently over the same assertion is the shape that gets missed.
-
-If `Test passes` is missing, a scoped loop of 1–5 candidates can still use the rubric. Do not invent passes for a full-suite sweep.
+Then run the passes under `Test passes`, in that order. Without that heading, run three passes from the rubric: delete, then merge, then move. Compare what tests **assert**, not what they are named, when a pass is about duplicates. Two names that read differently over the same assertion is the shape that gets missed.
 
 ## Ledger
 

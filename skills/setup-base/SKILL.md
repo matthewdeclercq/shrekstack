@@ -2,51 +2,31 @@
 name: setup-base
 description: >-
   Writes the shared shrekstack base rule into a repo for Cursor and Claude
-  Code, a short AGENTS.md when one is missing, a CLAUDE.md symlink, and
-  starter hooks. Use when the user asks to install the base rule or run
-  setup-base. One model.
+  Code, an AGENTS.md starter or its missing headings, a CLAUDE.md symlink,
+  and starter hooks. Use when the user asks to install the base rule or run
+  setup-base.
 disable-model-invocation: true
 ---
 
 # Setup Base
 
-One model. Do not start another model or fan out.
+Run in the target repo. Do not edit product code. Run this skill's script by its path, with `--root` set to the target repo:
 
-Run in the target repo. Read `base.md` beside this skill and write it to two places, overwriting both on every run. Do not edit product code. Read [stacks.md](stacks.md) for the starter, the commands, and the hooks. Do not guess a command or a tool.
+```bash
+python3 "<skill>/scripts/setup_base.py" --root "<repo>"
+```
 
-## Write
+The script does all the writing. Do not write or edit those files by hand, and do not guess a command or a tool it left as `TODO`.
 
-`base.md` is the rule text, with no frontmatter. If it is not beside this skill, stop and say so.
+- **Rule.** `base.md` beside this skill, written to the Cursor and Claude Code rule folders. Overwritten on every run.
+- **AGENTS.md.** A starter when the file is missing: the first sentence of the README, the skills line, the build, test, and run commands it can detect, and a `TODO` stub for every heading shrekstack skills read. An existing file gains only the skills line and the missing headings. A symlink outside the repo, or anything that is not a file, is left alone.
+- **CLAUDE.md.** A relative symlink to `AGENTS.md` when the path is empty. Anything already there is left alone.
+- **Hooks.** A formatter, a linter, and a secrets check for the one stack it detects, in `.pre-commit-config.yaml`, or husky with lint-staged when the repo already depends on both. An existing hook install is left alone, and each missing kind is reported.
 
-- **Cursor.** Write `shrekstack-base.mdc` in `.cursor/rules/`. Start with this frontmatter, then a blank line, then the text of `base.md`:
+After a new `.pre-commit-config.yaml`, run `pre-commit autoupdate` when `pre-commit` is installed, so the pins are current.
 
-  ```
-  ---
-  description: Generic rules for a repo that adopts this library. Project lists, commands, and paths stay in that repo's AGENTS.md.
-  alwaysApply: true
-  ---
-  ```
+## Report
 
-- **Claude Code.** Write `shrekstack-base.md` in `.claude/rules/`. The text of `base.md` only. No frontmatter.
+Pass on every line the script prints. Then list the `TODO` headings and commands in `AGENTS.md` and ask the owner to fill them in: shrekstack skills treat a `TODO` heading as missing and stop to ask.
 
-- **AGENTS.md.** The skills line, on its own line, is:
-
-  ```
-  Repo-specific skills live in `.agents/skills/`.
-  ```
-
-  If `AGENTS.md` is missing, write the starter in `stacks.md`, including that line once. If it exists, do not rewrite it and do not replace it with a starter. Follow `stacks.md` for a symlink or a non-file. Otherwise add the line when no line is exactly that text. If more than one line is exactly that text, keep the first and delete the extras.
-
-- **CLAUDE.md.** After `AGENTS.md` is a file in the repo, at the repo root: if `CLAUDE.md` is missing, create a relative symlink whose target text is `AGENTS.md` (`ln -s AGENTS.md CLAUDE.md`). If it is already a symlink that resolves to that `AGENTS.md`, do nothing. If it is a regular file, or a symlink to anything else, leave it. Never replace it.
-
-- **Hooks.** If the repo already has a hook install from `stacks.md`, leave it and report each missing kind. Otherwise write the one config `stacks.md` names for the single detected stack. Write nothing when no stack, or more than one, matches.
-
-Create a directory if it is missing.
-
-## Notes
-
-Use the end-note sentences in `stacks.md`. Name a `CLAUDE.md` you left in place, and any hook gap. Do not tell the user to create the symlink.
-
-## Prove
-
-The skill is a draft until the Cursor file is that frontmatter, a blank line, and the text of `base.md`, and the Claude file is that text alone. Run it again and both are replaced. A missing `AGENTS.md` is the starter, and an existing one gains only the skills line. A second run does not add the line again and does not regenerate the starter. A missing `CLAUDE.md` is that relative symlink; a regular file or other symlink is unchanged. A new hook config matches `stacks.md`; an existing install is unchanged. Product code is unchanged.
+If the script exits 2, report its message and stop.

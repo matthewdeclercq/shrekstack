@@ -15,7 +15,7 @@ Deletes unused surfaces after proof; does not refactor live code for style.
 
 Work from reachability and contracts, not tool reports. Read the target repo's `AGENTS.md` first.
 
-Use these headings (any heading level, text after the hashes exactly as written):
+Use these headings (any heading level, text after the hashes exactly as written). A heading whose body starts with `TODO` counts as missing:
 
 | Heading | What it holds | If it is missing or empty |
 |---------|----------------|---------------------------|
