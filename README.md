@@ -11,41 +11,48 @@ Matthew's personal shared skills library for Claude Code, Cursor, and his Grok b
 - [doc-sync](skills/doc-sync/SKILL.md) fixes doc drift against the code and commits `Doc sync.`
 - [tidy](skills/tidy/SKILL.md) checks the work just finished for anything to clean up or simplify.
 - [review](skills/review/SKILL.md) reviews the agent's own change before a pull request, after tidy.
-- [setup-base](skills/setup-base/SKILL.md) writes that base rule, a short AGENTS.md, the CLAUDE.md link, and starter hooks into the adopting repo.
+- [setup-base](skills/setup-base/SKILL.md) writes that base rule, the AGENTS.md headings skills read, the CLAUDE.md link, and starter hooks into the adopting repo.
 - [setup-verify](skills/setup-verify/SKILL.md) writes a repo's verify skill and proves it once.
 - [setup-ui](skills/setup-ui/SKILL.md) writes a repo's UI conventions skill and proves every path once.
 - [maintain-verify](skills/maintain-verify/SKILL.md) brings that skill back in line after the code changes.
 
 ## Install
 
-Copy is the default. Copy each `skills/<name>/` directory into the tool's skills directory. Run [setup-base](skills/setup-base/SKILL.md) in the adopting repo to install the base rule for Cursor and Claude Code.
+Install the plugin, so every repo gets the same skills and updates from this one. Skills then run as `/shrekstack:<name>`.
 
-**Cursor.** Copy into `.cursor/skills/<name>/` in the adopting repo. A Cloud Agent loads project skills from that repo. This repo also ships `.cursor-plugin/marketplace.json` and `.cursor-plugin/plugin.json` for import from GitHub.
+**Claude Code.**
 
-Bump `version` in both `.cursor-plugin/plugin.json` and `.claude-plugin/plugin.json` whenever skills change, to the same number. Claude Code reads `.claude-plugin/plugin.json`, or the commit SHA when no version is set.
+```text
+/plugin install shrekstack --marketplace matthewdeclercq/shrekstack
+```
 
-**Claude Code.** Copy into `.claude/skills/<name>/`.
+**Cursor.** Import this repo as a plugin from GitHub. `.cursor-plugin/` holds its manifest.
 
-**Grok bots.** Copy into the bot project's `skills/` directory. The base text goes into each bot's own instructions.
+**Grok bots, or a repo that must pin its own copy.** Copy each `skills/<name>/` directory into the bot's `skills/`, `.claude/skills/`, or `.cursor/skills/`. A copy does not get updates. The base text goes into each bot's own instructions.
+
+Then run [setup-base](skills/setup-base/SKILL.md) in each adopting repo to install the base rule and the AGENTS.md headings.
+
+Bump `version` in both `.claude-plugin/plugin.json` and `.cursor-plugin/plugin.json` whenever skills change, to the same number. CI checks they match. Claude Code updates an installed plugin only when that version changes.
 
 ## AGENTS.md
 
-Each adopting repo's `AGENTS.md` needs these headings:
+Skills read these headings from the adopting repo's `AGENTS.md`. setup-base writes a `TODO` stub for each one that is missing. A heading whose body starts with `TODO` counts as missing, and the skill that needs it asks.
 
-- Git
-- Commit groups
 - Build & test
 - Entry points
 - Proof traps
 - File layout
-- Doc folders
-- Architecture doc
-- Skills due
-- Architecture due
-- Testing defaults
-- Test passes
 - Code roots
+- Doc folders
 - Planning docs
+- Architecture doc
+- Testing defaults
+
+These are optional. Each has a default in the skill that reads it:
+
+- Git
+- Commit groups
+- Test passes
 
 ## Handoff brief
 

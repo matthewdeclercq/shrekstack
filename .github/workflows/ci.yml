@@ -25,6 +25,16 @@ jobs:
       - name: Skill frontmatter
         run: python3 .github/skill_frontmatter.py
 
+      - name: Setup-base tests
+        run: python3 skills/setup-base/scripts/test_setup_base.py
+
+      - name: Plugin versions match
+        run: >-
+          python3 -c "import json, sys;
+          a = json.load(open('.claude-plugin/plugin.json'))['version'];
+          b = json.load(open('.cursor-plugin/plugin.json'))['version'];
+          sys.exit(0 if a == b else f'plugin versions differ: {a} != {b}')"
+
       - name: Links
         uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
         with:
