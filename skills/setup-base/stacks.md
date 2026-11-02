@@ -15,7 +15,7 @@ Repo-specific skills live in `.agents/skills/`.
 
 <what>
 
-## Build, test, run
+## Build & test
 
 - Build: `<build>`
 - Test: `<test>`

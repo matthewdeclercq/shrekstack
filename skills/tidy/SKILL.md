@@ -7,7 +7,7 @@ description: After a task is done, check the work just finished for anything to 
 
 Look only at what this task changed, not the whole codebase.
 
-1. Find the change: uncommitted edits and new files. If the work is already committed, use the commits since this branch split from main.
+1. Find the change: uncommitted edits and new files. If the work is already committed, use the commits since this branch split from the default branch (`origin/HEAD`).
 2. Look for:
    - Dead code: unused functions, parameters, imports, or leftovers from earlier tries.
    - Debris: debug prints, temp files, scratch scripts, TODOs added this session.

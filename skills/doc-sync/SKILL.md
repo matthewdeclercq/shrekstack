@@ -13,7 +13,7 @@ disable-model-invocation: true
 
 Keep this repo's docs true to its code. **This workflow auto-fixes:** apply the edits, commit them, then report what changed.
 
-Be surgical. Change only what is drifted, missing, contradictory, or bloated. Never rewrite accurate prose or expand a section — the bias is toward fewer, tighter docs. Which doc owns which fact: `map.md` in `.agents/skills/doc-steward/` ([doc-steward](../doc-steward/SKILL.md)). If that file is missing, say to run doc-steward setup first.
+Be surgical. Change only what is drifted, missing, contradictory, or bloated. Never rewrite accurate prose or expand a section — the bias is toward fewer, tighter docs. Which doc owns which fact: `doc-map.md` in `.agents/` ([doc-steward](../doc-steward/SKILL.md)). If that file is missing, say to run doc-steward setup first.
 
 Read `AGENTS.md` first. Use these headings (any heading level, text after the hashes exactly as written):
 
@@ -44,7 +44,7 @@ Arguments come from the user message (e.g. `all`, `agents --working`, `skills --
 
 | Flag | Diff |
 |------|------|
-| omitted | Branch vs `main` (`git merge-base HEAD main`), including uncommitted work |
+| omitted | Branch vs the default branch (`git merge-base HEAD origin/HEAD`), including uncommitted work. If `origin/HEAD` is not set, ask which branch |
 | `--working` | `git diff HEAD` |
 | `--staged` | `git diff --cached` |
 | `--from <ref>` | vs `<ref>`, including uncommitted |

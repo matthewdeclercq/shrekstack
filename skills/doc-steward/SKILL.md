@@ -15,13 +15,13 @@ One home per fact. The map names the home. Read it before editing a doc.
 
 ## Setup
 
-Run when the user asks, when `map.md` in `.agents/skills/doc-steward/` is missing, or when that map has no backlog, goals, or shipped row. Keep a row that is already right unless the user asks for a change.
+Run when the user asks, when the map is missing, or when it has no backlog, goals, or shipped row. Keep a row that is already right unless the user asks for a change.
 
 One model. Do not start another model or fan out.
 
-Run in the target repo. Write `map.md` in `.agents/skills/doc-steward/`. If that file exists only under `.cursor/skills/doc-steward/`, read it before writing. Do not edit product code. Do not copy a map from another repo.
+Run in the target repo. The map is `doc-map.md` in `.agents/`. It is a doc, not a skill: never put it in a skills folder. Do not edit product code. Do not copy a map from another repo.
 
-Symlink `.claude/skills/doc-steward` -> ../../.agents/skills/doc-steward. If that link is already the relative target, leave it. Otherwise unlink it without following it, or remove a real file or directory at that path, then create that one link. After the new folder is in place, remove a leftover `.cursor/skills/doc-steward`.
+An older setup kept the map as `map.md` in `.agents/skills/doc-steward/` or `.cursor/skills/doc-steward/`. If one exists and the new map does not, move it to the new path. Then remove `.claude/skills/doc-steward` only when it is a symlink into `.agents/skills/doc-steward`, and remove `.agents/skills/doc-steward` when it is empty. Leave any folder that holds a `SKILL.md`: that is the installed skill.
 
 ### Learn
 
@@ -37,7 +37,7 @@ Under the table, write the feature ID scheme: a prefix and the next free number.
 
 ### Prove
 
-Every home path exists. The `.claude/skills/doc-steward` link resolves to `.agents/skills/doc-steward`. Where another doc mentions a fact, it points at that home instead of restating it. If a home is wrong, fix the map and look again.
+Every home path exists. No skills folder holds the map. Where another doc mentions a fact, it points at that home instead of restating it. If a home is wrong, fix the map and look again.
 
 ## Rules
 

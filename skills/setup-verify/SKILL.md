@@ -29,7 +29,7 @@ Frontmatter `name: verify-<app>`. The description names the app, the surface, an
 - **Launch.** The repo's run command, from the state a new user gets, and the readiness signal. Ready means usable, not merely running. Say how to stop it.
 - **Check.** One read-only health check.
 - **Drive.** The main user paths, with this repo's real commands and selectors. Do not invent handles.
-- **Evidence.** For a path, the action and the state it left. A user path, not a test-only endpoint. Write captures under `evidence/` next to the skill, and do not commit them.
+- **Evidence.** For a path, the action and the state it left. A user path, not a test-only endpoint. Write captures under `evidence/` next to the skill. Add that folder to the repo's `.gitignore` unless `git check-ignore` already says it is ignored.
 - **Cleanup.** Kill only what this run started. Leave the evidence.
 - **Features.** The top few user-facing features: what it is, how to reach it, how to drive it, and the end state a user can see. Keep the list in this file, or in `features.md` beside it when the list would bury the steps.
 
@@ -44,6 +44,6 @@ The skill is a draft until the `.claude/skills/verify-<app>` link resolves to th
 3. Run the health check.
 4. Drive one feature the way a user would.
 5. Capture the evidence.
-6. Clean up. The evidence is still there, and nothing you started is still running.
+6. Clean up. The evidence is still there, `git status` does not show it, and nothing you started is still running.
 
 Name any setup step you stood in for. If a step fails, fix the skill and rerun that step. Do not weaken the path to make it pass.
