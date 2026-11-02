@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Dead paths
-        run: python3 skills/doc-sync/scripts/dead-paths.py --root . --doc-folder README.md --doc-folder rules --doc-folder skills
+        run: python3 skills/doc-sync/scripts/dead-paths.py --root . --doc-folder README.md --doc-folder skills
 
       - name: Dead-path tests
         run: python3 skills/doc-sync/scripts/test_dead_paths.py

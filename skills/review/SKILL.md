@@ -4,17 +4,17 @@ description: >-
   Reviews the agent's own change before a pull request is opened or updated.
   Use when the user asks for a review of the current change, or before
   opening or updating a PR. One model. A trivial or already-reviewed diff
-  skips to the note, then sorts. Otherwise hooks, then tidy, then this review.
+  skips to the note. Otherwise hooks, then tidy, then this review.
 disable-model-invocation: true
 ---
 
 # Review
 
-One model. Do not start another model, an arena, or interrogate.
+One model. Do not start another model.
 
 Lint, format, and dead code belong to the repo's pre-commit hooks. Never commit with `--no-verify`.
 
-Read `git diff --stat` and `git log` before any other work. When the diff is only comments, formatting, a lockfile, generated files, or markdown that is not a skill or a rule, or when the worktree is clean and the PR already says `Reviewed through <sha>` for HEAD, skip to the note, then Sort.
+Read `git diff --stat` and `git log` before any other work. When the diff is only comments, formatting, a lockfile, generated files, or markdown that is not a skill or a rule, or when the worktree is clean and the PR already says `Reviewed through <sha>` for HEAD, skip to the note.
 
 If that note names an older sha, review only `git diff <sha>..HEAD`.
 
@@ -47,7 +47,7 @@ Read the diff once for bugs, logic errors, and edge cases. Fix what you find. If
 
 Add a short note to the PR body:
 
-- If you skipped, say why, and skip to Sort.
+- If you skipped, say why, then end with the last line below.
 - What tidy fixed. If nothing, say so.
 - What blast radius found, the safety fact, how far it was proven, and the proof.
 - What the adversarial pass caught and fixed.
@@ -60,10 +60,3 @@ No banners. A few lines.
 
 Did this work change a skill that came from shrekstack in a way that would help every repo? If yes, add a short `shrekstack candidate` note to the PR body: what changed and why, with the repo-specific details left out.
 
-## Sort
-
-Sort the PR low-risk or needs-owner from the repo's own merge rule, or from `rules/merge.md` if it has none.
-
-Low-risk, and the checks are green: merge.
-
-Otherwise leave it open and put the reason in the PR body.

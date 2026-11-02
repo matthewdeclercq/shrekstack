@@ -2,8 +2,6 @@
 
 Matthew's personal shared skills library for Claude Code, Cursor, and his Grok bots. Skills live in `skills/<name>/SKILL.md`. The shared base rule is [skills/setup-base/base.md](skills/setup-base/base.md).
 
-[rules/merge.md](rules/merge.md) says which changes may auto-merge.
-
 ## Skills
 
 - [commit-group](skills/commit-group/SKILL.md) turns an unstaged tree into logical commits and commits them.
