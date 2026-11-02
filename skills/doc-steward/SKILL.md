@@ -1,65 +1,72 @@
 ---
 name: doc-steward
 description: >-
-  One home per fact, and how a decision change is recorded. Bootstrap writes
-  the target repo's map of which doc owns which kind of fact, and creates
-  backlog, goals, and shipped docs when the repo has none. Use when setting up
-  doc ownership, editing a doc the map names, adding, reordering, or shipping
-  a goal, or locking, amending, or unlocking a decision.
-disable-model-invocation: true
+  Structure and lifecycle rules for a repo's planning docs. Use whenever
+  editing a doc the repo's doc map names, and when adding, reordering, or
+  shipping a goal, locking or amending a decision, answering a challenged
+  decision, auditing doc structure, or making a code change that alters a
+  module, edge, or flow the architecture doc draws. Also writes the doc map
+  in a repo that has none.
 ---
 
 # Doc Steward
 
-One home per fact. The map, `doc-map.md` in `.agents/`, names the home. Read it before editing a doc.
+How the planning docs fit together. The map, `doc-map.md` in `.agents/`, names the doc that owns each kind of fact. Read it before editing a doc it names, and before a code change that alters a module, edge, or flow the architecture doc draws. No map: run Bootstrap.
+
+Below, "the decision doc", "the goals doc", and so on mean the doc the map names for that role. Skip a rule whose doc the map does not name.
 
 ## Bootstrap
 
-Run when the user asks, when the map is missing, or when it has no backlog, goals, or shipped row. Keep a row that is already right unless the user asks for a change.
+Run when the user asks, when the map is missing, or when it has no backlog, goals, or shipped row. Keep a row that is already right unless the user asks for a change. Do not edit product code. Do not copy a map from another repo.
 
-Run in the target repo. The map is `doc-map.md` in `.agents/`. It is a doc, not a skill: never put it in a skills folder. Do not edit product code. Do not copy a map from another repo.
+The map is a doc, not a skill: never put it in a skills folder. An older version kept it as `map.md` in `.agents/skills/doc-steward/` or `.cursor/skills/doc-steward/`. If one exists and the new map does not, move it to the new path. Remove `.claude/skills/doc-steward` only when it is a symlink into `.agents/skills/doc-steward`, and remove `.agents/skills/doc-steward` when it is empty. Leave any folder that holds a `SKILL.md`.
 
-An older version kept the map as `map.md` in `.agents/skills/doc-steward/` or `.cursor/skills/doc-steward/`. If one exists and the new map does not, move it to the new path. Then remove `.claude/skills/doc-steward` only when it is a symlink into `.agents/skills/doc-steward`, and remove `.agents/skills/doc-steward` when it is empty. Leave any folder that holds a `SKILL.md`: that is the installed skill.
+**Learn.** Read `AGENTS.md` (`Doc folders`, `Planning docs`, `Architecture doc`), the README, and the docs those name. Ask only which doc is the one home for a kind of fact you cannot place. Do not invent the doc list.
 
-### Learn
+**Write.** One table: each row is one kind of fact and the path of the doc that owns it. No fact in two rows. Name the backlog, goals, and shipped docs. When one is missing, copy its template from beside this skill (`templates/backlog.md`, `templates/goals.md`, `templates/shipped.md`) beside the other planning docs, or into a docs directory when there are none. Never replace a doc that exists. Add a row for each of these the repo has: the decision doc, the architecture doc, the dropped-design doc, a docs index, `AGENTS.md` (build and test, environment, hard constraints), and the UI conventions skill (reusable screen patterns, never screen inventories).
 
-Read `AGENTS.md` (`Doc folders`, `Planning docs`, `Architecture doc`), the README, and the docs those name. Ask only what those do not say: which doc is the one home for a kind of fact you cannot place. If a heading is missing, ask. Do not invent the doc list.
+Under the table: the feature ID scheme, a prefix and the next free number (default `F`, from 1), and the goal command block limit when it is not 4000 characters.
 
-### Write
-
-The map is the only home for who owns what. One table. Each row is one kind of fact and the path of the doc that owns it. No fact in two rows. When the repo locks product decisions, one row names that doc. When it keeps dropped designs an agent might rebuild, one row names that doc. Leave a row out when the repo has no such doc. If another doc already lists who owns what, point it at the map.
-
-Name the backlog doc, the goals doc, and the shipped doc in that table. When one is missing, copy its template from beside this skill (`templates/backlog.md`, `templates/goals.md`, `templates/shipped.md`) to the path that row will use: beside the other planning docs, or in a docs directory when the repo has no planning docs. Keep the file name. Name a doc that already exists. Do not replace it.
-
-Under the table, write the feature ID scheme: a prefix and the next free number. Default to prefix `F`, starting at 1, when the repo has none. If the repo caps goal size, one line in the map says so. Nothing else.
-
-### Prove
-
-Every home path exists. No skills folder holds the map. Where another doc mentions a fact, it points at that home instead of restating it. If a home is wrong, fix the map and look again.
+**Prove.** Every home path exists. No skills folder holds the map. Where another doc mentions a fact, it points at the home instead of restating it.
 
 ## Rules
 
-1. **One home per fact.** Every other mention is a pointer, never a copy. A copy so it is not missed drifts. When two docs disagree, fix the one that does not own the fact.
-2. **Precedence.** The decision doc, then the goals doc, then the backlog and shipped docs as one rank, then the architecture doc. Skip a doc the map does not name. Fix the losing doc. Any other doc sits outside this chain.
-3. **Stable feature IDs.** The map names the scheme. An ID is never renumbered or reused. Issuing an ID takes the next number and advances it in the map. Each ID lives in exactly one of the backlog doc or the shipped doc. Other docs refer to a feature by ID. Dropping a feature deletes it and every reference to its ID. Git history keeps it.
-4. **Backlog is a list, not permission to build.** Only what the goals doc queues gets built.
-5. **Self-contained goals.** The goals doc is the only place open goals and their order live. Each goal has its own fenced command block: what to read, the IDs in scope, where to start, constraints, out of scope, and the definition of done. The definition of done lives only in that block. When the map states a size cap, the block stays within it.
-6. **A decision change is recorded in the decision doc the map names.** Never invent a call. Never reverse or reword a settled row without the owner. If the map names no doc for the change, ask. Do not invent one. A row says what the product does or must never do, what was refused, and why. When in doubt, do not lock. Status, process, catalogs, and code shape stay in the rows that own them.
-   - **Change** amends the row and names what was refused. The one restatement allowed is the acceptance line in the doc the map says owns that feature. The decision doc wins.
-   - **Unlock** deletes the row. No dropped-design entry. Git history covers it.
-   - **Keep** adds one dated clause naming what was rejected and why, so it is not argued again.
-   - A design an agent might rebuild, when it dies, gets one entry in the dropped-design doc the map names. The decision row keeps only the surviving line.
+1. **One home per fact.** Every other mention, in any doc, skill, `AGENTS.md`, or code comment, is a link, never a copy. A copy "so it is not missed" drifts.
+2. **Precedence:** the decision doc, then the goals doc, then the backlog and shipped docs, then the architecture doc. Fix the losing doc; never leave a contradiction. `AGENTS.md` and the UI skill sit outside this chain.
+3. **Stable feature IDs.** Never renumbered or reused. Issuing one takes the next number in the map and advances it. Each ID lives in exactly one of the backlog or shipped doc, and other docs refer to features by ID. A feature the owner drops is deleted with every reference to its ID; git history keeps it.
+4. **Backlog is inventory, not a license.** Build only what the goals doc queues. Backlog status is `Open` (a goal queues it) or `Later`.
+5. **Shipped is a list.** ID, name, one or two lines on what it does, and any guardrail no other doc holds. Being there is the status. Detail belongs to the code and its tests.
+6. **Self-contained goals.** The goals doc is the only place open goals and their order live. Each open goal is a `## Goal N` section with its purpose, its dependencies, and one fenced command block: what to read, scope by ID, starting files, constraints, out of scope, and the definition of done. The definition of done lives only there.
+7. **What the decision doc admits.** A row binds what the product does or never does, names what was refused, and rests on evidence, safety, law, or a failed design. When in doubt, do not lock. Title sections by product rule, not goal; a goal number appears only as a link to an open goal. Never in the decision doc:
+   - **Status:** shipped or done marks, ID pass-lists, open-goal or key-file tables.
+   - **Goal scoping:** "out of this goal", deferred notes. That is the goal's definition of done.
+   - **Ledgers:** goal numbers in a cell, sections named after goals, "(amended <date>)" markers.
+   - **Supersession stories:** keep only the surviving imperative ("do not reintroduce X").
+   - **Process:** belongs in `AGENTS.md` or a skill.
+   - **Chrome:** layout, order, colours. Reusable on a new screen goes in the UI skill; otherwise the code.
+   - **Tuning:** timers, caps, file and type names.
+   - **Catalogs:** toggle, column, and preset lists. Defaults go in acceptance criteria.
+   - **Code shape:** `AGENTS.md` or the architecture doc.
+8. **The dropped-design doc holds dropped designs only.** A design an agent might rebuild gets one entry when it dies; the decision row that replaced it keeps only the surviving imperative. Never a shipped feature, a goal, or an unlocked decision: unlocking deletes the row, and git history covers it.
+9. **The architecture doc is a map, not a tour.** Prose stays a few lines under each diagram. A module, adapter, store, or runtime pattern is missing only when it changes how the parts connect. When a module, edge, or type a diagram shows changes, update the diagram in the same edit. Never add a diagram, turn one into a type catalog, or redraw one whose facts still hold. A product rule there is a bug: replace it with a pointer.
+10. **Technical decision rows record the owner's calls.** A change that lands a new library, module cut, or runtime pattern adds its row in the same change: why, and what was refused, from the owner's call, the settling spike, or the landing commit. Never invent a call. Never reverse or reword a settled row without the owner.
+11. **Size budgets for new writing.** Decision cells about 40 words or fewer. Goal purpose two sentences or fewer. Goal command blocks within the limit in the map, 4000 characters by default (the `/goal` condition limit): state deltas against decisions, point at the decision doc for policy, and leave wrap-up to the skills. UI skill table cells: one clause. Do not rewrite existing goals to fit unless the owner asks.
 
-## Goals
+## Workflows
 
-If the map has no row for the doc, run Bootstrap.
-
-- **Add.** Append a section with its command block, and a row at the end of the order table. Lock a decision only when it passes rule 6.
-- **Reorder.** Edit the order table only. A file that needs the new order is breaking rule 1: point it at the goals doc.
-- **Ship.**
-  1. Move the backlog rows it covers to the shipped doc and cut each to one or two lines.
-  2. In the decision doc the map names, move any design note that would bring back a dead approach to the dropped-design doc as one entry, when the map names that doc. Strip goal numbers, status, and scoping notes from every row the goal touched.
-  3. Remove its section, including its command block, and its order row.
-  4. Search the repo. Nothing still lists that goal as open.
-
-No map: run Bootstrap. Do not guess an owner.
+- **Add a goal:** append its section and a row at the end of the order table, and mark its backlog IDs `Open`. Lock a decision only if it passes rule 7; most goals lock nothing.
+- **Reorder goals:** the order table only. Any other file that needs an edit is breaking rule 1: make it a pointer.
+- **Lock or amend a decision:** the row passes rule 7 and names what was refused. Update the affected acceptance criteria in the backlog or shipped doc, the one restatement allowed; the decision doc wins.
+- **Answer a challenged decision:** "change it" amends or deletes the row. "Unlock" deletes it, with no dropped-design entry. "No" adds one dated clause naming what was rejected and why, so it is not argued again.
+- **Ship a goal:**
+  1. Move its rows from the backlog to the same epic in the shipped doc, each cut to one or two lines: a guardrail only when no decision row holds it, and no type names, measurements, or build story. Move epic prose that now describes shipped behaviour, cut the same way.
+  2. In the decision doc, move any note that would bring back a dead approach to the dropped-design doc as one entry, and strip goal bookkeeping from every row the goal touched (rule 7).
+  3. Delete its section, its order-table row, and any header prose about it.
+  4. Search for the goal number: no doc may still list it as open.
+- **Audit:**
+  - The order table and the `## Goal N` sections list the same goals in the same order.
+  - Every goal has one fenced command block within the size limit.
+  - The decision doc names a goal only when it is open.
+  - No open-goal lists, goal order, or definition-of-done copies outside the goals doc.
+  - In the decision doc, search for `shipped`, `Done`, `Out of this`, and `Superseded`. Each hit is bookkeeping to strip unless it is a product rule. Every row names a refused path. Directions to UI ("Settings → …") still match the app.
+  - In the architecture doc, no product rule is restated, and no diagram node or edge names code that is gone.
