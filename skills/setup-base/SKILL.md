@@ -2,31 +2,31 @@
 name: setup-base
 description: >-
   Writes the shared shrekstack base rule into a repo for Cursor and Claude
-  Code, an AGENTS.md starter or its missing headings, a CLAUDE.md symlink,
-  and starter hooks. Use when the user asks to install the base rule or run
-  setup-base.
+  Code, the AGENTS.md headings shrekstack skills read, and a CLAUDE.md
+  symlink. Use when the user asks to install the base rule or run setup-base.
 disable-model-invocation: true
 ---
 
 # Setup Base
 
-Run in the target repo. Do not edit product code. Run this skill's script by its path, with `--root` set to the target repo:
+Run in the target repo. Do not edit product code. Never overwrite or rewrite anything already there except the two rule files.
 
-```bash
-python3 "<skill>/scripts/setup_base.py" --root "<repo>"
-```
+1. **Rule.** Write `base.md` from beside this skill as `shrekstack-base.md` in `.claude/rules/`, unchanged, and as `shrekstack-base.mdc` in `.cursor/rules/`, with this frontmatter, a blank line, then the text. Overwrite both on every run.
 
-The script does all the writing. Do not write or edit those files by hand, and do not guess a command or a tool it left as `TODO`.
+   ```
+   ---
+   description: Generic rules for a repo that adopts this library. Project lists, commands, and paths stay in that repo's AGENTS.md.
+   alwaysApply: true
+   ---
+   ```
 
-- **Rule.** `base.md` beside this skill, written to the Cursor and Claude Code rule folders. Overwritten on every run.
-- **AGENTS.md.** A starter when the file is missing: the first sentence of the README, the skills line, the build, test, and run commands it can detect, and a `TODO` stub for every heading shrekstack skills read. An existing file gains only the skills line and the missing headings. A symlink outside the repo, or anything that is not a file, is left alone.
-- **CLAUDE.md.** A relative symlink to `AGENTS.md` when the path is empty. Anything already there is left alone.
-- **Hooks.** A formatter, a linter, and a secrets check for the one stack it detects, in `.pre-commit-config.yaml`, or husky with lint-staged when the repo already depends on both. An existing hook install is left alone, and each missing kind is reported.
+2. **AGENTS.md.** Create it if it is missing, with the repo name as the title and one sentence from the README on what the repo is. Make sure it has the line ``Repo-specific skills live in `.agents/skills/`.`` exactly once. Add each heading below that it does not already have, at the end:
 
-After a new `.pre-commit-config.yaml`, run `pre-commit autoupdate` when `pre-commit` is installed, so the pins are current.
+   - `Build & test`: the build, test, and run commands, read from the repo. Write `TODO` for one you cannot find; do not guess.
+   - `Entry points`, `Proof traps`, `File layout`, `Code roots`, `Doc folders`, `Planning docs`, `Architecture doc`, `Testing defaults`: a body of `TODO: ` and what the heading holds, from the skill that reads it.
 
-## Report
+   If AGENTS.md is a directory, or a symlink to something outside the repo, leave it and say so.
 
-Pass on every line the script prints. Then list the `TODO` headings and commands in `AGENTS.md` and ask the owner to fill them in: shrekstack skills treat a `TODO` heading as missing and stop to ask.
+3. **CLAUDE.md.** If nothing is at that path, symlink it to `AGENTS.md` (`ln -s AGENTS.md CLAUDE.md`). If something is there, leave it and say what it is.
 
-If the script exits 2, report its message and stop.
+Then list the `TODO`s and ask the owner to fill them in. Skills treat a heading whose body starts with `TODO` as missing.

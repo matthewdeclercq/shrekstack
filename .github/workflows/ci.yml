@@ -25,9 +25,6 @@ jobs:
       - name: Skill frontmatter
         run: python3 .github/skill_frontmatter.py
 
-      - name: Setup-base tests
-        run: python3 skills/setup-base/scripts/test_setup_base.py
-
       - name: Plugin versions match
         run: >-
           python3 -c "import json, sys;
