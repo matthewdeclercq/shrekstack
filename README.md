@@ -32,8 +32,6 @@ Install the plugin, so every repo gets the same skills and updates from this one
 
 Then run [setup-base](skills/setup-base/SKILL.md) in each adopting repo to install the base rule and the AGENTS.md headings.
 
-`.claude-plugin/plugin.json` and `.cursor-plugin/plugin.json` carry the same `version`, and CI checks they match. Claude Code pins an install to that version, so an installed plugin updates only when it changes.
-
 ## AGENTS.md
 
 Skills read these headings from the adopting repo's `AGENTS.md`. setup-base writes a `TODO` stub for each one that is missing. A heading whose body starts with `TODO` counts as missing, and the skill that needs it asks.
