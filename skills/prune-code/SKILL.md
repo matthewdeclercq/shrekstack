@@ -1,5 +1,5 @@
 ---
-name: code-cleanup
+name: prune-code
 description: >-
   Proves and removes dead, obsolete, or duplicate code while preserving runtime
   contracts. Use for deletion-focused cleanup or goal-loop cruft reduction — not
@@ -7,7 +7,7 @@ description: >-
 disable-model-invocation: true
 ---
 
-# Code Cleanup
+# Prune Code
 
 Remove dead code, obsolete contracts, and true duplicates without changing live behavior. Prove before deleting, from reachability and contracts, not tool reports. No style refactors.
 

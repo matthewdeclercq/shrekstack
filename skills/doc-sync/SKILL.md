@@ -47,7 +47,7 @@ The script reads the `Code roots` heading in that repo's `AGENTS.md` when `--cod
 
 **4 — Architecture (when due).** Factual claims only, in the architecture doc: module layout, named types and services, pipeline steps, storage paths, commands, test targets, and every mermaid node and edge, against the code and the section's prose. Fix the fact in place. Report a missing module only when it changes how the parts connect; never a type's internals. Never touch design intent or rationale. Fix a false node or edge in place and do not redraw the diagram (doc-steward rule 9).
 
-**5 — Comments (`CHANGED_CODE` only).** Apply the Comments section of [base.md](../bootstrap-base/base.md): delete comments that restate code, and fix or delete stale ones. Do not sweep files the diff did not touch.
+**5 — Comments (`CHANGED_CODE` only).** Apply the Comments section of [base.md](../bootstrap-repo/base.md): delete comments that restate code, and fix or delete stale ones. Do not sweep files the diff did not touch.
 
 **6 — Planning conflicts, report only.** List where `CHANGED_CODE` and a planning doc disagree: a rule the code breaks, a shipped row whose code is gone, a guardrail the code no longer meets. Never edit those docs or change code to match — the owner decides which side is wrong.
 

@@ -1,5 +1,5 @@
 ---
-name: test-cleanup
+name: prune-tests
 description: >-
   Prunes, merges, and places tests so each remaining test is a domain or adapter
   rule, a regression lock, or an integration proof that cannot be a unit test.
@@ -7,7 +7,7 @@ description: >-
 disable-model-invocation: true
 ---
 
-# Test Cleanup
+# Prune Tests
 
 Delete or merge tests that no longer lock a live rule. Do not change production behaviour, and do not add tests for gaps you notice.
 
@@ -20,7 +20,7 @@ Delete or merge tests that no longer lock a live rule. Do not change production 
 
 ## Proof
 
-Name the failure the next refactor would see without the test. If you cannot, keep it or ask. A test whose name is the only record of an invariant stays, or the invariant moves onto the test that remains. Reachability is the wrong proof here ([code-cleanup](../code-cleanup/SKILL.md)), and the compiler already catches a deleted API.
+Name the failure the next refactor would see without the test. If you cannot, keep it or ask. A test whose name is the only record of an invariant stays, or the invariant moves onto the test that remains. Reachability is the wrong proof here ([prune-code](../prune-code/SKILL.md)), and the compiler already catches a deleted API.
 
 ## Rubric
 
