@@ -47,6 +47,10 @@ These are optional. Each has a default in the skill that reads it:
 - Commit groups
 - Test passes
 
+## Writing skills
+
+A script only one skill runs lives in that skill's `scripts/` folder. A script that mostly runs other tools is Bash; one that mostly parses text is Python 3.
+
 ## Handoff brief
 
 State the outcome, a check that can pass or fail, what the agent may do on its own, and when to stop. A span of time is not a check.

@@ -19,7 +19,7 @@ Below, "the decision doc", "the goals doc", and so on mean the doc the map names
 
 Run when the user asks, when the map is missing, or when it has no backlog, goals, or shipped row. Keep a row that is already right unless the user asks for a change. Do not edit product code. Do not copy a map from another repo.
 
-The map is a doc, not a skill: never put it in a skills folder. An older version kept it as `map.md` in `.agents/skills/doc-steward/` or `.cursor/skills/doc-steward/`. If one exists and the new map does not, move it to the new path. Remove `.claude/skills/doc-steward` only when it is a symlink into `.agents/skills/doc-steward`, and remove `.agents/skills/doc-steward` when it is empty. Leave any folder that holds a `SKILL.md`.
+The map is a doc, not a skill: never put it in a skills folder.
 
 **Learn.** Read `AGENTS.md`, the README, the docs they link, and any docs directory. Ask only which doc is the one home for a kind of fact you cannot place. Do not invent the doc list.
 
