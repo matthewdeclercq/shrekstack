@@ -25,7 +25,7 @@ Run in the target repo. Do not edit product code. Never overwrite or rewrite any
    - `Build & test`: the build, test, and run commands, read from the repo. Write `TODO` for one you cannot find; do not guess.
    - `Entry points`, `Proof traps`, `File layout`, `Code roots`, `Testing defaults`: a body of `TODO: ` and what the heading holds, from the skill that reads it.
 
-   If AGENTS.md is a directory, or a symlink to something outside the repo, leave it and say so.
+   If AGENTS.md is a directory, or a symlink to something outside the repo, leave it, say so, and skip step 3.
 
 3. **CLAUDE.md.** End with `CLAUDE.md` a relative symlink to `AGENTS.md` (`ln -s AGENTS.md CLAUDE.md`). A symlink already there is replaced. A real file or folder may hold hand-written instructions: ask the user whether to move what it holds into `AGENTS.md`, or start fresh. Do that, then remove it and create the link.
 
