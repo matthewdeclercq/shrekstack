@@ -24,6 +24,7 @@ The docs own **intent** — product lines, the queue, constraints, how to build.
 
 - Keep code lean: no speculative parameters, protocols, or configuration; the smallest diff that fully solves the goal wins.
 - Remove before you add: delete dead weight first, then build on the simpler base.
+- When the owner corrects the same mistake twice, make it impossible: architecture first, then types or a lint whose error names the fix, then a test. Write a rule only for judgment calls.
 - Decide for the long term — no stopgap meant to be replaced later.
 - Prefer small, focused PRs.
 
