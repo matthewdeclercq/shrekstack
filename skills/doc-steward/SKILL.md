@@ -21,7 +21,7 @@ Run when the user asks, when the map is missing, or when it has no backlog, goal
 
 The map is a doc, not a skill: never put it in a skills folder. An older version kept it as `map.md` in `.agents/skills/doc-steward/` or `.cursor/skills/doc-steward/`. If one exists and the new map does not, move it to the new path. Remove `.claude/skills/doc-steward` only when it is a symlink into `.agents/skills/doc-steward`, and remove `.agents/skills/doc-steward` when it is empty. Leave any folder that holds a `SKILL.md`.
 
-**Learn.** Read `AGENTS.md` (`Doc folders`, `Planning docs`, `Architecture doc`), the README, and the docs those name. Ask only which doc is the one home for a kind of fact you cannot place. Do not invent the doc list.
+**Learn.** Read `AGENTS.md` (`Doc folders`), the README, and the docs those name. Ask only which doc is the one home for a kind of fact you cannot place. Do not invent the doc list.
 
 **Write.** One table: each row is one kind of fact and the path of the doc that owns it. No fact in two rows. Name the backlog, goals, and shipped docs. When one is missing, copy its template from beside this skill (`templates/backlog.md`, `templates/goals.md`, `templates/shipped.md`) beside the other planning docs, or into a docs directory when there are none. When the repo has no architecture doc, copy `templates/architecture.md` too, fill its `<...>` links from the map, and leave its `TODO`s for the owner. Never replace a doc that exists. Add a row for each of these the repo has: the decision doc, the architecture doc, the dropped-design doc, a docs index, `AGENTS.md` (build and test, environment, hard constraints), and the UI conventions skill (reusable screen patterns, never screen inventories).
 

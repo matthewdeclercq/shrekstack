@@ -40,8 +40,6 @@ Skills read these headings from the adopting repo's `AGENTS.md`. bootstrap-base 
 - File layout
 - Code roots
 - Doc folders
-- Planning docs
-- Architecture doc
 - Testing defaults
 
 These are optional. Each has a default in the skill that reads it:

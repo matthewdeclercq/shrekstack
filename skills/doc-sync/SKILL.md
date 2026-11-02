@@ -13,16 +13,14 @@ disable-model-invocation: true
 
 Keep this repo's docs true to its code. **This workflow auto-fixes:** apply the edits, commit them, then report what changed.
 
-Be surgical. Change only what is drifted, missing, contradictory, or bloated. Never rewrite accurate prose or expand a section — the bias is toward fewer, tighter docs. Which doc owns which fact: `doc-map.md` in `.agents/` ([doc-steward](../doc-steward/SKILL.md)). If that file is missing, say to run doc-steward's Bootstrap first.
+Be surgical. Change only what is drifted, missing, contradictory, or bloated. Never rewrite accurate prose or expand a section — the bias is toward fewer, tighter docs. Which doc owns which fact: `doc-map.md` in `.agents/` ([doc-steward](../doc-steward/SKILL.md)). The map names the architecture doc and the planning docs: the decision, goals, backlog, shipped, and dropped-design docs. If the map is missing, say to run doc-steward's Bootstrap first.
 
 Read `AGENTS.md` first. Use these headings (any heading level, text after the hashes exactly as written). A heading whose body starts with `TODO` counts as missing:
 
 | Heading | What it holds | If it is missing or empty |
 |---------|----------------|---------------------------|
 | `Doc folders` | Files and directories in scope for checks 1–5 | Ask. Do not pick a doc list |
-| `Architecture doc` | The one doc check 5 may edit | Ask when scope is `architecture` or check 5 is due. Do not guess which doc is the architecture doc |
 | `Code roots` | Path prefixes that count as code for comment edits and for the planning-conflict report | Ask before check 6 or 7. Do not treat every changed file as code |
-| `Planning docs` | Docs to report against and never edit, unless the user widens scope | Ask which docs are report-only. Until the owner answers, do not edit a doc you are unsure about |
 
 ## Setup
 
@@ -33,7 +31,7 @@ Arguments come from the user message (e.g. `all`, `agents --working`, `skills --
 | Scope | Checks |
 |-------|--------|
 | `agents` / `readme` | 1–2 on that file |
-| `architecture` | 5, on the doc named under `Architecture doc` |
+| `architecture` | 5, on the architecture doc |
 | `skills` | 4 |
 | `comments` | 6 |
 | `all` or omitted | 1–7, with 4 and 5 only when due (below) |
@@ -73,17 +71,17 @@ The script reads the `Code roots` heading in that repo's `AGENTS.md` when `--cod
 
 **4 — Skills (when due).** In every skill, fix only dead paths and references to deleted docs — never rewrite a procedure. Also, from the repo's UI conventions skill at `.agents/skills/ui` (not the bootstrap skill that writes it), delete screen inventories (button copy, field lists, icons, defaults), not its reference-screen or casing tables.
 
-**5 — Architecture (when due).** Factual claims only, in the doc named under `Architecture doc`: module layout, named types and services, pipeline steps, storage paths, commands, test targets, and every mermaid node and edge, against the code and the section's prose. Fix the fact in place. Report a missing module only when it changes how the parts connect; never a type's internals. Never touch design intent or rationale. If the map says how a diagram may change, follow it. Otherwise fix the false node or edge in place and do not redraw the diagram.
+**5 — Architecture (when due).** Factual claims only, in the architecture doc: module layout, named types and services, pipeline steps, storage paths, commands, test targets, and every mermaid node and edge, against the code and the section's prose. Fix the fact in place. Report a missing module only when it changes how the parts connect; never a type's internals. Never touch design intent or rationale. Fix a false node or edge in place and do not redraw the diagram (doc-steward rule 9).
 
 **6 — Comments (`CHANGED_CODE` only).** Apply the Comments section of [base.md](../bootstrap-base/base.md): delete comments that restate code, and fix or delete stale ones. Do not sweep files the diff did not touch.
 
-**7 — Planning conflicts, report only (`all`).** List where `CHANGED_CODE` and a doc under `Planning docs` disagree: a rule the code breaks, a shipped row whose code is gone, a guardrail the code no longer meets. Never edit those docs or change code to match — the owner decides which side is wrong.
+**7 — Planning conflicts, report only (`all`).** List where `CHANGED_CODE` and a planning doc disagree: a rule the code breaks, a shipped row whose code is gone, a guardrail the code no longer meets. Never edit those docs or change code to match — the owner decides which side is wrong.
 
 **Trimming, in every doc touched.** Cut sentences that restate a neighbour, duplicate examples, and filler. In an architecture doc, cut file catalogs, UI chrome, and restated product rules. Never strip gotchas, constraints, exact commands, or paths; when unsure, leave it.
 
 ## Out of scope
 
-Never edit a path listed under `Planning docs` unless the user widens scope. Fix broken references *to* them (and drop references to deleted docs) in the files `Doc folders` names, and in skills.
+Never edit a planning doc unless the user widens scope; doc-steward owns them. Fix broken references *to* them (and drop references to deleted docs) in the files `Doc folders` names, and in skills.
 
 ## Commit
 
