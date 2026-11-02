@@ -1,6 +1,6 @@
 # shrekstack
 
-Matthew's shared skills for Claude Code, Cursor, and his Grok bots.
+This is my swamp.
 
 ## Skills
 
