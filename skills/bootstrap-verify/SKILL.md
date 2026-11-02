@@ -11,7 +11,7 @@ disable-model-invocation: true
 
 Run in the target repo. Write `.agents/skills/verify-<app>/SKILL.md`. Do not edit product code. Name `<app>` from the product, in kebab-case.
 
-Symlink `.claude/skills/verify-<app>` -> ../../.agents/skills/verify-<app>. If that link is already the relative target, leave it. Otherwise unlink it without following it, or remove a real file or directory at that path, then create that one link. After the new folder is written, remove a leftover `.cursor/skills/verify-<app>`.
+Link `.claude/skills/verify-<app>` to the new folder with a relative symlink. A symlink already there is replaced. A real file or folder at that path, or a leftover `.cursor/skills/verify-<app>`, may hold hand-written work: before writing, ask the user whether to move what it holds into `.agents/skills/verify-<app>/` and build on it, or start fresh. Do that, then remove the old copy and create the link.
 
 ## Learn
 

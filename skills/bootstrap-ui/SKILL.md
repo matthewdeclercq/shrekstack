@@ -11,7 +11,7 @@ disable-model-invocation: true
 
 Run in the target repo. Write `SKILL.md` in `.agents/skills/ui/`, covering every UI stack in the repo. Do not edit product code. Do not copy a UI skill from another repo.
 
-Symlink `.claude/skills/ui` -> ../../.agents/skills/ui. If that link is already the relative target, leave it. Otherwise unlink it without following it, or remove a real file or directory at that path, then create that one link. After the new folder is written, remove a leftover `.cursor/skills/ui`.
+Link `.claude/skills/ui` to the new folder with a relative symlink. A symlink already there is replaced. A real file or folder at that path, or a leftover `.cursor/skills/ui`, may hold hand-written work: before writing, ask the user whether to move what it holds into `.agents/skills/ui/` and build on it, or start fresh. Do that, then remove the old copy and create the link.
 
 ## Learn
 
