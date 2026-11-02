@@ -2,18 +2,6 @@
 
 Matthew's shared skills for Claude Code, Cursor, and his Grok bots.
 
-## Install
-
-**Claude Code.**
-
-```text
-/plugin install shrekstack --marketplace matthewdeclercq/shrekstack
-```
-
-**Cursor and Grok bots.** Import this repo as a plugin from GitHub.
-
-Then run bootstrap-repo in each repo. Skills run as `/shrekstack:<name>`.
-
 ## Skills
 
 Once per repo:
