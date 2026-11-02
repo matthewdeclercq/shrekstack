@@ -7,8 +7,7 @@ Matthew's personal shared skills library for Claude Code, Cursor, and his Grok b
 - [commit-group](skills/commit-group/SKILL.md) turns an unstaged tree into logical commits and commits them.
 - [code-cleanup](skills/code-cleanup/SKILL.md) removes dead code after proof, without a style refactor.
 - [test-cleanup](skills/test-cleanup/SKILL.md) prunes tests that no longer lock a live rule.
-- [doc-steward](skills/doc-steward/SKILL.md) keeps one home per fact and records a decision change.
-- [bootstrap-doc-steward](skills/bootstrap-doc-steward/SKILL.md) writes the map of which doc owns which fact.
+- [doc-steward](skills/doc-steward/SKILL.md) writes the map of which doc owns which fact, and records a decision change.
 - [doc-sync](skills/doc-sync/SKILL.md) fixes doc drift against the code and commits `Doc sync.`
 - [tidy](skills/tidy/SKILL.md) checks the work just finished for anything to clean up or simplify.
 - [review](skills/review/SKILL.md) reviews the agent's own change before a pull request, after tidy.

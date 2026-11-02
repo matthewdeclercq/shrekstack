@@ -13,7 +13,7 @@ disable-model-invocation: true
 
 Keep this repo's docs true to its code. **This workflow auto-fixes:** apply the edits, commit them, then report what changed.
 
-Be surgical. Change only what is drifted, missing, contradictory, or bloated. Never rewrite accurate prose or expand a section — the bias is toward fewer, tighter docs. Which doc owns which fact: `doc-map.md` in `.agents/` ([doc-steward](../doc-steward/SKILL.md)). If that file is missing, say to run bootstrap-doc-steward first.
+Be surgical. Change only what is drifted, missing, contradictory, or bloated. Never rewrite accurate prose or expand a section — the bias is toward fewer, tighter docs. Which doc owns which fact: `doc-map.md` in `.agents/` ([doc-steward](../doc-steward/SKILL.md)). If that file is missing, say to run doc-steward's Bootstrap first.
 
 Read `AGENTS.md` first. Use these headings (any heading level, text after the hashes exactly as written). A heading whose body starts with `TODO` counts as missing:
 
@@ -69,7 +69,7 @@ The script reads the `Code roots` heading in that repo's `AGENTS.md` when `--cod
 
 **2 — Coverage (`AGENTS.md` and `README.md`, when `Doc folders` lists them).** Anything `CHANGED` introduces that a contributor needs — a new folder, script, target, fixture, build step — gets a minimal entry in its natural section. No new top-level section unless it has no home; no planning-doc depth. The root `README.md` is the repo's front door — folder map and prereqs — and links to every other fact rather than copying it: only a new top-level folder or prereq goes there; scripts and build steps go in `AGENTS.md`. If `Doc folders` does not list one of those files, ask before editing it.
 
-**3 — Consistency.** One correct version of each fact across the files `Doc folders` names. The map names the owner: it keeps the fact, the others point. If the map is missing, say to run bootstrap-doc-steward first. If it names no owner for that fact, ask. Do not guess an owner.
+**3 — Consistency.** One correct version of each fact across the files `Doc folders` names. The map names the owner: it keeps the fact, the others point. If the map is missing, say to run doc-steward's Bootstrap first. If it names no owner for that fact, ask. Do not guess an owner.
 
 **4 — Skills (when due).** In every skill, fix only dead paths and references to deleted docs — never rewrite a procedure. Also, from the repo's UI conventions skill at `.agents/skills/ui` (not the bootstrap skill that writes it), delete screen inventories (button copy, field lists, icons, defaults), not its reference-screen or casing tables.
 
