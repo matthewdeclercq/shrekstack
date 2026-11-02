@@ -1,123 +1,41 @@
 ---
 name: commit-group
 description: >-
-  Groups unstaged changes into logical git commits and commits them automatically.
-  Use when the user asks to commit-group, group commits, split unstaged changes,
-  or organize a messy working tree into commits.
+  Groups uncommitted changes into logical commits and commits them. Use when
+  the user asks to commit-group, group commits, or split a messy working tree
+  into commits.
 disable-model-invocation: true
 ---
 
 # Commit Group
 
-Turn a messy **unstaged** working tree into **logical commits** — inventory, plan batches, then **commit all batches in order** without waiting for approval.
+Turn a messy working tree into logical commits, then commit them all in order without waiting for approval. If the user says `plan only`, stop after the plan.
 
-Read the target repo's `AGENTS.md` before planning. Use these headings (any heading level, text after the hashes exactly as written). A heading whose body starts with `TODO` counts as missing:
+Two optional `AGENTS.md` headings (a body that starts with `TODO` counts as missing):
 
-| Heading | What it holds | If it is missing or empty |
-|---------|----------------|---------------------------|
-| Git | Commit-message rules beyond this skill, and paths that must never be committed | Use the commit-message rules in this skill. Ask before excluding any path that is not in the secret list below |
-| `Commit groups` | What stays together, what splits apart, default excludes, a default separate batch, and batch order | Group by logical change, order batches so each builds on the ones before it, and make no default separate batch |
-| `Build & test` | Lint and test commands for optional validation | Do not guess a command. Ask when the user asked to validate. A missing section does not block the commits |
+- `Git`: commit-message rules, and paths never to commit.
+- `Commit groups`: what stays together or splits, extra excludes, a batch that always goes alone, and batch order.
 
-## Modes
+## Inventory
 
-| User says | Action |
-|-----------|--------|
-| `commit-group` / `group my commits` | Inventory → plan → **commit all batches** |
-| `commit all` | Same as above |
-| `commit batch N` / `commit 1` | Stage and commit **only** batch N (re-inventory if needed) |
-| `plan only` / `revise` | Inventory + batch plan only — **do not commit** |
+Run `git status --short`, `git diff`, and `git ls-files --others --exclude-standard`, and read `git log -5 --oneline` for message style. If something is already staged, unstage it (`git restore --staged .`) unless the user asked to include it. Nothing to commit: say so and stop.
 
-If anything is already staged (`git diff --cached` non-empty), unstage first (`git restore --staged .`) unless the user explicitly asked to include staged changes.
+## Plan
 
----
+- One batch per logical change, something a reviewer can read on its own, not per file type. Usually 2–8 batches.
+- Apply `Commit groups` when it exists. Otherwise order batches so each builds on the ones before, and break nothing out on its own.
+- A file with unrelated edits stays in one batch; say so in the summary.
+- Never commit `.env`, credentials, keys, `*.pem`, `*.p12`, or a path `Git` excludes. A suspected secret: stop and flag it, and commit the rest only after the user confirms.
+- Messages follow `Git`. Otherwise: complete sentences, why over a file list, and no conventional prefixes unless recent history uses them.
 
-## Phase 1 — Inventory
+## Commit
 
-Run in parallel:
+Show the plan (titles and draft messages), then for each batch in order:
 
-```bash
-git status --short
-git diff --stat
-git diff
-git ls-files --others --exclude-standard
-```
+1. `git add -- <this batch's paths>`, never `-A` or `.`.
+2. Check `git diff --cached --stat` matches the batch.
+3. Commit, with the message in a heredoc.
 
-Also skim `git log -5 --oneline` for message style.
+A hook fails: fix it or report it, then make a new commit. Never `--no-verify`, never amend unless the user asks, and do not push unless asked.
 
-**Never stage or commit during inventory alone** (unless the user invoked `commit batch N` and inventory is just a quick refresh).
-
----
-
-## Phase 2 — Plan batches
-
-Group by **one logical change** (buildable/reviewable slice), not by file type alone.
-
-When `Commit groups` exists, apply what it says to keep together, split apart, exclude, and break out as a default separate batch. Do not copy a grouping from another repo.
-
-**Partial files:** if one file mixes unrelated edits, keep one batch and note it in the summary — do not block on approval.
-
-### Always exclude (never stage/commit)
-
-- `.env`, credentials, API keys, `*.pem`, `*.p12`
-
-Also exclude every path the Git heading says never to commit. If that heading is missing, ask before assuming any further excludes. Still apply the list above.
-
-### Commit messages
-
-Per the Git heading when that section exists. Otherwise:
-
-- Complete sentences; focus on **why**, not a file list
-- One logical change per commit
-- No conventional-prefix requirement unless the repo already uses them in recent history
-
-Keep batches to **2–8** when possible; merge tiny related edits, split unrelated work.
-
----
-
-## Phase 3 — Commit (default)
-
-Unless the user said `plan only` or `revise`, **immediately** commit every planned batch **in order**:
-
-1. Briefly show the batch plan (titles + draft messages — no approval gate)
-2. For each batch, **sequentially**:
-   - `git add -- <exact paths for this batch only>` — never `git add -A` or `git add .`
-   - `git diff --cached --stat` — confirm scope matches the batch
-   - Commit via HEREDOC:
-
-```bash
-git commit -m "$(cat <<'EOF'
-Message here.
-
-EOF
-)"
-```
-
-3. After the last batch: `git status --short` and a summary table of commits created
-
-Stop on pre-commit hook failure; fix or report; **new commit**, do not amend a failed commit.
-
-### Git safety (non-negotiable)
-
-- **Never** `git config`, force push, hard reset, or `--no-verify` unless the user explicitly asks
-- **Never** amend unless: user asked, HEAD is your commit this session, and not pushed
-- **Never** commit secrets — if suspected, stop and flag instead of committing
-- Do not push unless the user asks
-
-### Optional validation
-
-After a batch that touches code, offer the lint and test commands in `Build & test`, and run them if the user asked. Run the targeted command when a batch is clearly scoped to one area that section names; skip the full suite unless the user requests. If `Build & test` is missing, ask when the user asked to validate, and do not guess a command. Do not block the commits on that question.
-
----
-
-## Judgment calls
-
-Use sensible defaults — do not pause for approval:
-
-- One file with mixed stories → one batch, mention in summary
-- Suspected secrets → stop and flag; commit everything else only after user confirms
-
-- Batch ordering → the order `Commit groups` gives; otherwise each batch builds on the ones before it
-- A default separate batch → only the one `Commit groups` names, included automatically; otherwise none
-
-When the tree is empty, say so — do not create empty commits.
+End with `git status --short` and the commits made, one line each.

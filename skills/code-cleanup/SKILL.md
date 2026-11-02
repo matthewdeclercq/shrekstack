@@ -9,38 +9,26 @@ disable-model-invocation: true
 
 # Code Cleanup
 
-Remove dead code, obsolete contracts, and true duplicates without changing live behavior.
+Remove dead code, obsolete contracts, and true duplicates without changing live behavior. Prove before deleting, from reachability and contracts, not tool reports. No style refactors.
 
-Deletes unused surfaces after proof; does not refactor live code for style.
+`AGENTS.md` headings. A body that starts with `TODO` counts as missing; ask rather than guess:
 
-Work from reachability and contracts, not tool reports. Read the target repo's `AGENTS.md` first.
-
-Use these headings (any heading level, text after the hashes exactly as written). A heading whose body starts with `TODO` counts as missing:
-
-| Heading | What it holds | If it is missing or empty |
-|---------|----------------|---------------------------|
-| `Entry points` | Where reachability starts | Ask. Do not pick a root |
-| `Proof traps` | Contracts to confirm before deleting | Ask. Do not delete while the contract list is unknown |
-| `Build & test` | Lint and test commands for the baseline and for validation | Ask. Do not guess a command |
-| `File layout` | Disjoint areas a multi-agent pass may split on | Ask before fanning out. Do not invent areas. A surface the user already named can be worked inline |
+- `Entry points`: where reachability starts.
+- `Proof traps`: contracts to confirm before deleting. Reachability alone is not proof while this list is unknown.
+- `Build & test`: lint and test commands for the baseline and after each batch.
+- `File layout`: disjoint areas to split a fan-out on.
 
 ## Loop
 
-1. Scope surface + stopping condition
-2. Baseline — lint and tests per `Build & test`
-3. Trace reachability from `Entry points`
-4. Prove 1–5 candidates (imports, wiring, tests, persistence keys, cross-area usage)
-5. Edit proven batch → validate with `Build & test` → record result
+1. Scope the surface and when to stop.
+2. Baseline: lint and tests.
+3. Trace reachability from the entry points.
+4. Prove 1–5 candidates: imports, wiring, tests, persistence keys, use from other areas, and the proof traps.
+5. Delete the proven batch, run lint and tests, and record the result.
 
 Defer layer moves, new dependencies, persistence changes, and product-scope changes.
 
-## Proof traps
-
-Confirm the contracts listed under `Proof traps` before deleting. Reachability alone is not enough while that list is unknown.
-
 ## Ledger
-
-**One-turn** — compact table in the response:
 
 ```markdown
 | ID | Candidate | Evidence | Status |
@@ -48,25 +36,12 @@ Confirm the contracts listed under `Proof traps` before deleting. Reachability a
 | C-1 | helper under the old name | no refs; the caller uses the other helper | validated |
 ```
 
-**Goal loop** — same table, plus `## Review After Cleanup` (deferred refactors, not action items) and `## Next Steps`, in a scratch file the goal names and deletes on ship. Never check the ledger into the repo.
+Statuses: `candidate`, `safe-to-remove`, `changed`, `validated`, `deferred`, `rejected`. The ledger goes in the response. A cleanup that spans a goal keeps it, with deferred refactors and next steps, in a scratch file the goal names and deletes on ship. Never commit it.
 
-Statuses: `candidate`, `safe-to-remove`, `changed`, `validated`, `deferred`, `rejected`.
+## Fan out
 
-## Multi-agent
+Fan out when the scope covers two or more `File layout` areas, one area is too big to prove alone, the change adds or removes fixture files (one slice proves each remaining file still has a reader), or it is a broad cruft pass. Launch read-only explorers together, one per area. If `File layout` does not name the split, ask; do not invent areas. Explorers return candidate tables only. The orchestrator alone edits, validates, and keeps the ledger. Paste the surface, the loop, and the proof traps into each explorer's prompt.
 
-For large diffs or multi-area surfaces, **fan out** — launch parallel readonly explorers in one turn, one per disjoint slice. Do not serially walk the tree yourself when the scope spans more than one area `File layout` names.
+## Report
 
-**Fan out when:**
-
-- Scope covers 2 or more areas named in `File layout`
-- The diff adds or removes files under a fixture or sample tree `File layout` names — one slice proves each remaining file still has a reader
-- A single area is too large for one agent to prove thoroughly
-- The goal is a broad cruft pass, not a known 1–5 candidate batch
-
-**Split by** the areas `File layout` names — as many as needed, launched together. If `File layout` does not name the split, ask. Do not invent areas.
-
-Explorers return candidate tables only. The orchestrator alone edits, validates, and updates the ledger. Subagents do not inherit this skill — paste the surface, loop steps, and proof traps into each dispatch prompt.
-
-## Output
-
-Surface, candidates + evidence, edits, validation result, residue.
+Surface, candidates and evidence, edits, validation, residue.
