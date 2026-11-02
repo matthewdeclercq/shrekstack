@@ -1,24 +1,24 @@
 ---
 name: review
 description: >-
-  Reviews the agent's own change before a pull request is opened or updated.
-  Use when the user asks for a review of the current change, or before
-  opening or updating a PR. A trivial or already-reviewed diff skips to
-  the note. Otherwise hooks, then tidy, then this review.
+  Reviews the agent's own change before a pull request is opened or updated:
+  hooks, tidy, doc-sync, then blast radius and an adversarial pass. Use when
+  the user asks for a review of the current change, or before opening or
+  updating a PR.
 disable-model-invocation: true
 ---
 
 # Review
 
-Lint, format, and dead code belong to the repo's pre-commit hooks. Never commit with `--no-verify`.
+Lint, format, and dead code belong to the repo's hooks. The note goes in the PR body, or in the PR description you are drafting.
 
-Read `git diff --stat` and `git log` before any other work. When the diff is only comments, formatting, a lockfile, generated files, or markdown that is not a skill or a rule, or when the worktree is clean and the PR already says `Reviewed through <sha>` for HEAD, skip to the note.
-
-If that note names an older sha, review only `git diff <sha>..HEAD`.
-
-Run the hooks once on the changed files: `pre-commit run --files <paths>`, or the repo's hook runner. If the repo has no hooks, say so in one line and continue. Fix what they report.
-
-Then run [tidy](../tidy/SKILL.md). Do not repeat its checks.
+1. **Skip check.** Read `git diff --stat` and `git log`. Go straight to the note when the diff is only comments, formatting, a lockfile, generated files, or markdown that is not a skill or a rule, or when the worktree is clean and the PR already says `Reviewed through <sha>` for HEAD. If that line names an older sha, review only `git diff <sha>..HEAD`.
+2. **Hooks.** Run them once on the changed files: `pre-commit run --files <paths>`, or the repo's hook runner. Fix what they report. No hooks: say so in one line.
+3. **Tidy.** Run [tidy](../tidy/SKILL.md). Do not repeat its checks.
+4. **Doc sync.** Run [doc-sync](../doc-sync/SKILL.md), unless it already ran on this diff and nothing changed since.
+5. **Blast radius**, below.
+6. **Adversarial pass.** Read the diff once for bugs, logic errors, and edge cases. Fix what you find. If a fix can change the safety fact, prove it again.
+7. **Note**, below.
 
 ## Blast radius
 
@@ -28,33 +28,20 @@ Find what the change could break outside the diff. A list of callers is not the 
 2. Find the one fact the change is safe because of. Spend the time here, not on a list of maybes.
 3. Look where a name search stops: the library's own source at the pinned version, and any local patch; data formats (API JSON, a DB column, a wire format, another language reading the same bytes); config and flags; code a few hops downstream.
 4. Keep a risk only when it has a real chance and a real cost. Cite a real file:line. A search that finds nothing is still an answer. Never invent a caller or an API. Put checked-and-cleared items aside for the note.
-5. Prove that fact. Run a script or test that calls the real code and fails if the fact is wrong. Use a check the repo already has when it does that. Record how far the proof got, or mark the fact unproven:
-   1. Said so. That does not count.
-   2. Pointed at the line.
-   3. Walked the bad case and it cannot happen.
-   4. Ran the real code.
-   5. Reproduced it in the running app.
+5. Prove that fact with a script or test that calls the real code and fails if the fact is wrong. Use a check the repo already has when it does that. If the repo has `.agents/skills/verify-*/SKILL.md`, run it for the affected features. Record how far the proof got, or mark the fact unproven:
+   1. Pointed at the line.
+   2. Walked the bad case, and it cannot happen.
+   3. Ran the real code.
+   4. Reproduced it in the running app.
 
-If the repo has `.agents/skills/verify-*/SKILL.md`, run it for the affected features as part of proving the change is safe.
+## Note
 
-## Adversarial pass
+A few lines, no banners:
 
-Read the diff once for bugs, logic errors, and edge cases. Fix what you find. If that edit can change the safety fact, run the proof again.
-
-## Review caught
-
-Add a short note to the PR body:
-
-- If you skipped, say why, then end with the last line below.
-- What tidy fixed. If nothing, say so.
+- If you skipped, why.
+- What tidy and doc-sync fixed, or that nothing needed it.
 - What blast radius found, the safety fact, how far it was proven, and the proof.
 - What the adversarial pass caught and fixed.
 - What was checked and cleared.
+- If this work showed a shrekstack skill was wrong or missing something, or improved a repo skill shrekstack also has: a `shrekstack candidate` line saying what and why, without the repo-specific details.
 - End with `Reviewed through <full sha>`.
-
-No banners. A few lines.
-
-## Shrekstack candidate
-
-Did this work change a skill that came from shrekstack in a way that would help every repo? If yes, add a short `shrekstack candidate` note to the PR body: what changed and why, with the repo-specific details left out.
-

@@ -10,7 +10,7 @@ Matthew's personal shared skills library for Claude Code, Cursor, and his Grok b
 - [doc-steward](skills/doc-steward/SKILL.md) keeps the planning docs in shape: which doc owns which fact, goals, decisions, and shipping.
 - [doc-sync](skills/doc-sync/SKILL.md) fixes doc drift against the code and commits `Doc sync.`
 - [tidy](skills/tidy/SKILL.md) checks the work just finished for anything to clean up or simplify.
-- [review](skills/review/SKILL.md) reviews the agent's own change before a pull request, after tidy.
+- [review](skills/review/SKILL.md) reviews the agent's own change before a pull request: hooks, tidy, doc-sync, then blast radius.
 - [bootstrap-base](skills/bootstrap-base/SKILL.md) writes that base rule, the AGENTS.md headings skills read, and the CLAUDE.md link into the adopting repo.
 - [bootstrap-verify](skills/bootstrap-verify/SKILL.md) writes a repo's verify skill and proves it once.
 - [bootstrap-ui](skills/bootstrap-ui/SKILL.md) writes a repo's UI conventions skill and proves every path once.
