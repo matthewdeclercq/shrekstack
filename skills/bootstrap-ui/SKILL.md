@@ -1,5 +1,5 @@
 ---
-name: setup-ui
+name: bootstrap-ui
 description: >-
   Writes a repo's UI conventions skill from its screens, tokens, and
   patterns, then proves every path once. Use when the user asks to set up
@@ -7,7 +7,7 @@ description: >-
 disable-model-invocation: true
 ---
 
-# Setup UI
+# Bootstrap UI
 
 Run in the target repo. Write `SKILL.md` in `.agents/skills/ui/`, covering every UI stack in the repo. Do not edit product code. Do not copy a UI skill from another repo.
 

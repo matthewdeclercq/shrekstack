@@ -1,5 +1,5 @@
 ---
-name: setup-verify
+name: bootstrap-verify
 description: >-
   Writes a repo's verify skill: how to build it, run it, and check it the
   way a user would, then proves that skill once. Use when the user asks to
@@ -7,7 +7,7 @@ description: >-
 disable-model-invocation: true
 ---
 
-# Setup Verify
+# Bootstrap Verify
 
 Run in the target repo. Write `.agents/skills/verify-<app>/SKILL.md`. Do not edit product code. Name `<app>` from the product, in kebab-case.
 

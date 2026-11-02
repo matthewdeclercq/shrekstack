@@ -15,11 +15,11 @@ Outcomes: `clean`, `changed`, `blocked`.
 
 ## Locate
 
-Look for `.agents/skills/verify-*/SKILL.md`. None found: stop and point at [setup-verify](../setup-verify/SKILL.md). More than one: run the pass below for each whose named paths overlap the diff. No overlap among them: `clean`, and stop.
+Look for `.agents/skills/verify-*/SKILL.md`. None found: stop and point at [bootstrap-verify](../bootstrap-verify/SKILL.md). More than one: run the pass below for each whose named paths overlap the diff. No overlap among them: `clean`, and stop.
 
 ## Since last update
 
-Take the last commit that touched that directory (`git log -1` on it). If it has never been committed, stop and point at [setup-verify](../setup-verify/SKILL.md).
+Take the last commit that touched that directory (`git log -1` on it). If it has never been committed, stop and point at [bootstrap-verify](../bootstrap-verify/SKILL.md).
 
 Diff the working tree against that commit, only on paths named in that directory (`git diff <sha> -- <paths>`, plus untracked files on those paths). A command that names no file counts when the diff touches an entry point that command starts. If the skill names no paths, diff the `Entry points` paths and nothing else.
 

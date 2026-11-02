@@ -1,13 +1,13 @@
 ---
-name: setup-base
+name: bootstrap-base
 description: >-
   Writes the shared shrekstack base rule into a repo for Cursor and Claude
   Code, the AGENTS.md headings shrekstack skills read, and a CLAUDE.md
-  symlink. Use when the user asks to install the base rule or run setup-base.
+  symlink. Use when the user asks to install the base rule or run bootstrap-base.
 disable-model-invocation: true
 ---
 
-# Setup Base
+# Bootstrap Base
 
 Run in the target repo. Do not edit product code. Never overwrite or rewrite anything already there except the two rule files.
 
