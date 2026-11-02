@@ -83,8 +83,7 @@ def main():
     if not files:
         print(
             "Name the docs to check: pass FILE, --doc-folder, or --config. "
-            "The list is the target repo's AGENTS.md heading 'Doc folders'. "
-            "This script does not guess it.",
+            "This script does not guess them.",
             file=sys.stderr,
         )
         sys.exit(2)

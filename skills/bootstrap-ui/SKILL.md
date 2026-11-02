@@ -1,19 +1,17 @@
 ---
-name: setup-ui
+name: bootstrap-ui
 description: >-
   Writes a repo's UI conventions skill from its screens, tokens, and
   patterns, then proves every path once. Use when the user asks to set up
-  UI conventions or add a UI skill. One model.
+  UI conventions or add a UI skill.
 disable-model-invocation: true
 ---
 
-# Setup UI
-
-One model. Do not start another model or fan out.
+# Bootstrap UI
 
 Run in the target repo. Write `SKILL.md` in `.agents/skills/ui/`, covering every UI stack in the repo. Do not edit product code. Do not copy a UI skill from another repo.
 
-Symlink `.claude/skills/ui` -> ../../.agents/skills/ui. If that link is already the relative target, leave it. Otherwise unlink it without following it, or remove a real file or directory at that path, then create that one link. After the new folder is written, remove a leftover `.cursor/skills/ui`.
+Link `.claude/skills/ui` to the new folder with a relative symlink. A symlink already there is replaced. A real file or folder at that path, or a leftover `.cursor/skills/ui`, may hold hand-written work: before writing, ask the user whether to move what it holds into `.agents/skills/ui/` and build on it, or start fresh. Do that, then remove the old copy and create the link.
 
 ## Learn
 

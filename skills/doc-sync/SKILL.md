@@ -1,11 +1,10 @@
 ---
 name: doc-sync
 description: >-
-  Keeps the docs listed in the target repo's AGENTS.md, and code comments, in
-  sync with the codebase — detects doc drift, auto-fixes it, and commits the
-  result as "Doc sync." Use when the user asks to sync docs, fix doc drift,
-  update AGENTS.md or README, or run doc-sync with scope agents, readme,
-  architecture, skills, comments, or all.
+  Keeps a repo's docs true to its code: detects doc drift
+  on the current branch, fixes it, and commits the result as "Doc sync." Use
+  before opening a pull request, or when the user asks to sync docs or fix doc
+  drift. Pass --full to audit every doc against the whole codebase.
 disable-model-invocation: true
 ---
 
@@ -13,79 +12,48 @@ disable-model-invocation: true
 
 Keep this repo's docs true to its code. **This workflow auto-fixes:** apply the edits, commit them, then report what changed.
 
-Be surgical. Change only what is drifted, missing, contradictory, or bloated. Never rewrite accurate prose or expand a section — the bias is toward fewer, tighter docs. Which doc owns which fact: `map.md` in `.agents/skills/doc-steward/` ([doc-steward](../doc-steward/SKILL.md)). If that file is missing, say to run doc-steward setup first.
+Be surgical. Change only what is drifted, missing, contradictory, or bloated. Never rewrite accurate prose or expand a section — the bias is toward fewer, tighter docs.
 
-Read `AGENTS.md` first. Use these headings (any heading level, text after the hashes exactly as written):
+**The docs.** In scope: every doc the doc map names (`doc-map.md` in `.agents/`, from [doc-steward](../doc-steward/SKILL.md)), `AGENTS.md`, `README.md`, and `.agents/skills/`. The planning docs the map names (decision, goals, backlog, shipped, dropped-design) are report-only. If the map is missing, say to run doc-steward's Bootstrap first.
 
-| Heading | What it holds | If it is missing or empty |
-|---------|----------------|---------------------------|
-| `Doc folders` | Files and directories in scope for checks 1–5 | Ask. Do not pick a doc list |
-| `Architecture doc` | The one doc check 5 may edit | Ask when scope is `architecture` or check 5 is due. Do not guess which doc is the architecture doc |
-| `Skills due` | Extra paths that make check 4 due | Do not guess trigger paths. Scope `skills`, `--full`, and a skill-file edit still run check 4 |
-| `Architecture due` | Extra paths that make check 5 due | Do not guess trigger paths. Scope `architecture`, `--full`, and an added, deleted, or renamed source file or folder still make check 5 due |
-| `Code roots` | Path prefixes that count as code for comment edits and for the planning-conflict report | Ask before check 6 or 7. Do not treat every changed file as code |
-| `Planning docs` | Docs to report against and never edit, unless the user widens scope | Ask which docs are report-only. Until the owner answers, do not edit a doc you are unsure about |
+**The code.** `Code roots` in `AGENTS.md` lists the path prefixes that count as code. A heading whose body starts with `TODO` counts as missing. If it is missing, ask before check 5; do not treat every changed file as code.
 
-## Setup
+## Diff
 
-Arguments come from the user message (e.g. `all`, `agents --working`, `skills --full`).
+By default, the branch against the default branch (`git merge-base HEAD origin/HEAD`), including uncommitted work. If `origin/HEAD` is not set, ask which branch. With `--full`, no diff: audit every doc in scope against the whole codebase (expensive; always fan out).
 
-**Scope** — first non-flag word:
+From the diff: `CHANGED` (files), and `CHANGED_CODE` (those under a prefix in `Code roots`). If `CHANGED` is empty and the run is not `--full`, say so and stop.
 
-| Scope | Checks |
-|-------|--------|
-| `agents` / `readme` | 1–2 on that file |
-| `architecture` | 5, on the doc named under `Architecture doc` |
-| `skills` | 4 |
-| `comments` | 6 |
-| `all` or omitted | 1–7, with 4 and 5 only when due (below) |
-
-**Diff source** — flag:
-
-| Flag | Diff |
-|------|------|
-| omitted | Branch vs `main` (`git merge-base HEAD main`), including uncommitted work |
-| `--working` | `git diff HEAD` |
-| `--staged` | `git diff --cached` |
-| `--from <ref>` | vs `<ref>`, including uncommitted |
-| `--full` | No diff: audit every in-scope doc against the whole codebase (expensive; always fan out) |
-
-From the diff: `CHANGED` (files), and `CHANGED_CODE` (those under a prefix in `Code roots`). If `CHANGED` is empty and the run is neither `--full` nor `skills`, say so and stop. If check 6 or 7 is in scope and `Code roots` is missing, ask before those checks. Do not treat every changed file as code.
-
-- **Skills due:** scope `skills`, `--full`, `CHANGED` touches a skill file, or `CHANGED` touches a path listed under `Skills due`.
-- **Architecture due:** scope `architecture`, `--full`, `CHANGED` adds, deletes, or renames a source file or folder, or `CHANGED` touches a path listed under `Architecture due`.
+- **Skills due:** `--full`, or `CHANGED` touches a skill file.
+- **Architecture due:** `--full`, or `CHANGED` adds, deletes, or renames a source file or folder.
 
 **Fan out** when `--full`, more than 15 files changed, or the diff spans more than three top-level areas: spawn one read-only subagent per check below, each told to run that check and return findings only (doc location, claim, what is true). Apply every edit yourself. Otherwise work inline.
 
 ## Checks
 
-Start every run with this skill's `scripts/dead-paths.py`, after `Doc folders` is known. Run that file by its path. Do not assume the current directory is the skill directory or the target repo. `--root` is the target repo. Pass each `Doc folders` entry as its own `--doc-folder` value (a file or a directory):
+Start every run with this skill's `scripts/dead-paths.py`. Run that file by its path. Do not assume the current directory is the skill directory or the target repo. `--root` is the target repo. Pass each doc in scope as its own `--doc-folder` value (a file or a directory):
 
 ```bash
-python3 "<skill>/scripts/dead-paths.py" --root "<repo>" --doc-folder "<doc folders entry>"
+python3 "<skill>/scripts/dead-paths.py" --root "<repo>" --doc-folder "<doc in scope>"
 ```
 
-The script reads the `Code roots` heading in that repo's `AGENTS.md` when `--code-root` is omitted. Pass `--code-root` only to override that heading. A bare type name is checked against those roots. An extensionless path whose first directory is gone is still skipped. If `Code roots` is missing and you do not pass `--code-root`, the script does not guess roots and does not check bare type names. The script treats a file as that file and a directory as the markdown under it. Each line it prints is a doc naming a path the tree no longer has — a check 1, 4, or 5 fix. It sees paths only; the claims below stay yours. Exit 2 means the doc list was not passed: ask, do not pick a default list.
+The script reads the `Code roots` heading in that repo's `AGENTS.md` when `--code-root` is omitted. Pass `--code-root` only to override that heading. A bare type name is checked against those roots. An extensionless path whose first directory is gone is still skipped. If `Code roots` is missing and you do not pass `--code-root`, the script does not guess roots and does not check bare type names. The script treats a file as that file and a directory as the markdown under it. Each line it prints is a doc naming a path the tree no longer has — a check 1, 3, or 4 fix. It sees paths only; the claims below stay yours. Exit 2 means no doc was passed.
 
-**1 — Drift (every file `Doc folders` names, including `AGENTS.md` and `README.md` when they are listed).** Verify every concrete claim — paths, layout, commands, names, and links. Fix each false claim in place, keeping the phrasing around it. Never expand goal prose into `AGENTS.md`.
+**1 — Drift (every doc in scope but the planning docs).** Verify every concrete claim — paths, layout, commands, names, and links. Fix each false claim in place, keeping the phrasing around it. Never expand goal prose into `AGENTS.md`.
 
-**2 — Coverage (`AGENTS.md` and `README.md`, when `Doc folders` lists them).** Anything `CHANGED` introduces that a contributor needs — a new folder, script, target, fixture, build step — gets a minimal entry in its natural section. No new top-level section unless it has no home; no planning-doc depth. The root `README.md` is the repo's front door — folder map and prereqs — and links to every other fact rather than copying it: only a new top-level folder or prereq goes there; scripts and build steps go in `AGENTS.md`. If `Doc folders` does not list one of those files, ask before editing it.
+**2 — Coverage (`AGENTS.md` and `README.md`).** Anything `CHANGED` introduces that a contributor needs — a new folder, script, target, fixture, build step — gets a minimal entry in its natural section. No new top-level section unless it has no home; no planning-doc depth. The root `README.md` is the repo's front door — folder map and prereqs — and links to every other fact rather than copying it: only a new top-level folder or prereq goes there; scripts and build steps go in `AGENTS.md`.
 
-**3 — Consistency.** One correct version of each fact across the files `Doc folders` names. The map names the owner: it keeps the fact, the others point. If the map is missing, say to run doc-steward setup first. If it names no owner for that fact, ask. Do not guess an owner.
+**3 — Skills (when due).** In every skill, fix only dead paths and references to deleted docs — never rewrite a procedure.
 
-**4 — Skills (when due).** In every skill, fix only dead paths and references to deleted docs — never rewrite a procedure. Also, from the repo's UI conventions skill at `.agents/skills/ui` (not the setup skill that writes it), delete screen inventories (button copy, field lists, icons, defaults), not its reference-screen or casing tables.
+**4 — Architecture (when due).** Factual claims only, in the architecture doc: module layout, named types and services, pipeline steps, storage paths, commands, test targets, and every mermaid node and edge, against the code and the section's prose. Fix each false fact, node, or edge in place. Never touch design intent or rationale. What counts as missing, and how a diagram may change, is doc-steward rule 9.
 
-**5 — Architecture (when due).** Factual claims only, in the doc named under `Architecture doc`: module layout, named types and services, pipeline steps, storage paths, commands, test targets, and every mermaid node and edge, against the code and the section's prose. Fix the fact in place. Report a missing module only when it changes how the parts connect; never a type's internals. Never touch design intent or rationale. If the map says how a diagram may change, follow it. Otherwise fix the false node or edge in place and do not redraw the diagram.
+**5 — Planning conflicts, report only.** List where `CHANGED_CODE` and a planning doc disagree: a rule the code breaks, a shipped row whose code is gone, a guardrail the code no longer meets. Never edit those docs or change code to match — the owner decides which side is wrong.
 
-**6 — Comments (`CHANGED_CODE` only).** Comment only a non-obvious why. Delete comments that restate code; fix or delete stale ones; add a brief one only for a real gotcha, constraint, or workaround. Do not sweep files the diff did not touch.
-
-**7 — Planning conflicts, report only (`all`).** List where `CHANGED_CODE` and a doc under `Planning docs` disagree: a rule the code breaks, a shipped row whose code is gone, a guardrail the code no longer meets. Never edit those docs or change code to match — the owner decides which side is wrong.
-
-**Trimming, in every doc touched.** Cut sentences that restate a neighbour, duplicate examples, and filler. In an architecture doc, cut file catalogs, UI chrome, and restated product rules. Never strip gotchas, constraints, exact commands, or paths; when unsure, leave it.
+**Trimming, in every doc touched.** Cut sentences that restate a neighbour, duplicate examples, and filler. Never strip gotchas, constraints, exact commands, or paths; when unsure, leave it.
 
 ## Out of scope
 
-Never edit a path listed under `Planning docs` unless the user widens scope. Fix broken references *to* them (and drop references to deleted docs) in the files `Doc folders` names, and in skills.
+Never edit a planning doc unless the user widens scope; doc-steward owns them. Fix broken references *to* them, and drop references to deleted docs, in the other docs in scope.
 
 ## Commit
 
@@ -95,8 +63,8 @@ If the run edited files, commit only those paths (`git add -- <paths>`, never `-
 
 Short prose, no banners:
 
-1. Scope and diff source in one line ("`all`, branch vs main, 44 files").
+1. The diff in one line ("branch vs main, 44 files", or "`--full`").
 2. Each fix, one line, grouped by file.
-3. Planning conflicts from check 7, one line each (row, file:line, what differs) — or "none".
+3. Planning conflicts from check 5, one line each (row, file:line, what differs) — or "none".
 4. Anything deliberately skipped.
 5. Whether `Doc sync.` landed.

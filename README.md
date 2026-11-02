@@ -1,53 +1,55 @@
 # shrekstack
 
-Matthew's personal shared skills library for Claude Code, Cursor, and his Grok bots. Skills live in `skills/<name>/SKILL.md`. The shared base rule is [skills/setup-base/base.md](skills/setup-base/base.md).
-
-[rules/merge.md](rules/merge.md) says which changes may auto-merge.
+Matthew's personal shared skills library for Claude Code, Cursor, and his Grok bots. Skills live in `skills/<name>/SKILL.md`. The shared base rule is [skills/bootstrap-repo/base.md](skills/bootstrap-repo/base.md), and how agents talk to you is [skills/bootstrap-repo/style.md](skills/bootstrap-repo/style.md).
 
 ## Skills
 
-- [commit-group](skills/commit-group/SKILL.md) turns an unstaged tree into logical commits and commits them.
-- [code-cleanup](skills/code-cleanup/SKILL.md) removes dead code after proof, without a style refactor.
-- [test-cleanup](skills/test-cleanup/SKILL.md) prunes tests that no longer lock a live rule.
-- [doc-steward](skills/doc-steward/SKILL.md) writes the map of which doc owns which fact, and records a decision change.
+- [commit-group](skills/commit-group/SKILL.md) turns a messy working tree into logical commits and commits them.
+- [prune-code](skills/prune-code/SKILL.md) removes dead code after proof, without a style refactor.
+- [prune-tests](skills/prune-tests/SKILL.md) prunes tests that no longer lock a live rule.
+- [doc-steward](skills/doc-steward/SKILL.md) keeps the planning docs in shape: which doc owns which fact, goals, decisions, and shipping.
 - [doc-sync](skills/doc-sync/SKILL.md) fixes doc drift against the code and commits `Doc sync.`
 - [tidy](skills/tidy/SKILL.md) checks the work just finished for anything to clean up or simplify.
-- [review](skills/review/SKILL.md) reviews the agent's own change before a pull request, after tidy.
-- [setup-base](skills/setup-base/SKILL.md) writes that base rule, a short AGENTS.md, the CLAUDE.md link, and starter hooks into the adopting repo.
-- [setup-verify](skills/setup-verify/SKILL.md) writes a repo's verify skill and proves it once.
-- [setup-ui](skills/setup-ui/SKILL.md) writes a repo's UI conventions skill and proves every path once.
+- [review](skills/review/SKILL.md) reviews the agent's own change before a pull request: hooks, tidy, doc-sync, then blast radius. It reports to you; it does not write the PR description.
+- [bootstrap-repo](skills/bootstrap-repo/SKILL.md) writes the base rule and response style, the AGENTS.md headings skills read, and the CLAUDE.md link into the adopting repo.
+- [bootstrap-verify](skills/bootstrap-verify/SKILL.md) writes a repo's verify skill and proves it once.
+- [bootstrap-ui](skills/bootstrap-ui/SKILL.md) writes a repo's UI conventions skill and proves every path once.
 - [maintain-verify](skills/maintain-verify/SKILL.md) brings that skill back in line after the code changes.
 
 ## Install
 
-Copy is the default. Copy each `skills/<name>/` directory into the tool's skills directory. Run [setup-base](skills/setup-base/SKILL.md) in the adopting repo to install the base rule for Cursor and Claude Code.
+Install the plugin, so every repo gets the same skills and updates from this one. Skills then run as `/shrekstack:<name>`.
 
-**Cursor.** Copy into `.cursor/skills/<name>/` in the adopting repo. A Cloud Agent loads project skills from that repo. This repo also ships `.cursor-plugin/marketplace.json` and `.cursor-plugin/plugin.json` for import from GitHub.
+**Claude Code.**
 
-Bump `version` in both `.cursor-plugin/plugin.json` and `.claude-plugin/plugin.json` whenever skills change, to the same number. Claude Code reads `.claude-plugin/plugin.json`, or the commit SHA when no version is set.
+```text
+/plugin install shrekstack --marketplace matthewdeclercq/shrekstack
+```
 
-**Claude Code.** Copy into `.claude/skills/<name>/`.
+**Cursor and Grok bots.** Import this repo as a plugin from GitHub. `.cursor-plugin/` holds its manifest.
 
-**Grok bots.** Copy into the bot project's `skills/` directory. The base text goes into each bot's own instructions.
+Then run [bootstrap-repo](skills/bootstrap-repo/SKILL.md) in each adopting repo to install the base rule, the response style, and the AGENTS.md headings.
 
 ## AGENTS.md
 
-Each adopting repo's `AGENTS.md` needs these headings:
+Skills read these headings from the adopting repo's `AGENTS.md`. bootstrap-repo writes a `TODO` stub for each one that is missing. A heading whose body starts with `TODO` counts as missing, and the skill that needs it asks.
 
-- Git
-- Commit groups
 - Build & test
 - Entry points
 - Proof traps
 - File layout
-- Doc folders
-- Architecture doc
-- Skills due
-- Architecture due
-- Testing defaults
-- Test passes
 - Code roots
-- Planning docs
+- Testing defaults
+
+These are optional. Each has a default in the skill that reads it:
+
+- Git
+- Commit groups
+- Test passes
+
+## Writing skills
+
+A script only one skill runs lives in that skill's `scripts/` folder. A script that mostly runs other tools is Bash; one that mostly parses text is Python 3.
 
 ## Handoff brief
 
