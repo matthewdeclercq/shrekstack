@@ -39,7 +39,6 @@ Skills read these headings from the adopting repo's `AGENTS.md`. bootstrap-base 
 - Proof traps
 - File layout
 - Code roots
-- Doc folders
 - Testing defaults
 
 These are optional. Each has a default in the skill that reads it:

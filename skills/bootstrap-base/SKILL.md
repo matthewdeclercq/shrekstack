@@ -23,7 +23,7 @@ Run in the target repo. Do not edit product code. Never overwrite or rewrite any
 2. **AGENTS.md.** Create it if it is missing, with the repo name as the title and one sentence from the README on what the repo is. Make sure it has the line ``Repo-specific skills live in `.agents/skills/`.`` exactly once. Add each heading below that it does not already have, at the end:
 
    - `Build & test`: the build, test, and run commands, read from the repo. Write `TODO` for one you cannot find; do not guess.
-   - `Entry points`, `Proof traps`, `File layout`, `Code roots`, `Doc folders`, `Testing defaults`: a body of `TODO: ` and what the heading holds, from the skill that reads it.
+   - `Entry points`, `Proof traps`, `File layout`, `Code roots`, `Testing defaults`: a body of `TODO: ` and what the heading holds, from the skill that reads it.
 
    If AGENTS.md is a directory, or a symlink to something outside the repo, leave it and say so.
 

@@ -23,7 +23,6 @@ Use these headings (any heading level, text after the hashes exactly as written)
 | `Proof traps` | Contracts to confirm before deleting | Ask. Do not delete while the contract list is unknown |
 | `Build & test` | Lint and test commands for the baseline and for validation | Ask. Do not guess a command |
 | `File layout` | Disjoint areas a multi-agent pass may split on | Ask before fanning out. Do not invent areas. A surface the user already named can be worked inline |
-| `Doc folders` | Doc trees the ledger must not be checked into | Do not check the ledger into the repo. Ask before writing it into any tree that might hold docs |
 
 ## Loop
 
@@ -49,7 +48,7 @@ Confirm the contracts listed under `Proof traps` before deleting. Reachability a
 | C-1 | helper under the old name | no refs; the caller uses the other helper | validated |
 ```
 
-**Goal loop** — same table, plus `## Review After Cleanup` (deferred refactors, not action items) and `## Next Steps`, in a scratch file the goal names and deletes on ship. Do not check the ledger into a folder listed under `Doc folders`. If `Doc folders` is missing, do not check the ledger in.
+**Goal loop** — same table, plus `## Review After Cleanup` (deferred refactors, not action items) and `## Next Steps`, in a scratch file the goal names and deletes on ship. Never check the ledger into the repo.
 
 Statuses: `candidate`, `safe-to-remove`, `changed`, `validated`, `deferred`, `rejected`.
 
