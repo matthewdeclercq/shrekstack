@@ -4,7 +4,7 @@ Matthew's personal shared skills library for Claude Code, Cursor, and his Grok b
 
 ## Skills
 
-- [commit-group](skills/commit-group/SKILL.md) turns an unstaged tree into logical commits and commits them.
+- [commit-group](skills/commit-group/SKILL.md) turns a messy working tree into logical commits and commits them.
 - [prune-code](skills/prune-code/SKILL.md) removes dead code after proof, without a style refactor.
 - [prune-tests](skills/prune-tests/SKILL.md) prunes tests that no longer lock a live rule.
 - [doc-steward](skills/doc-steward/SKILL.md) keeps the planning docs in shape: which doc owns which fact, goals, decisions, and shipping.
