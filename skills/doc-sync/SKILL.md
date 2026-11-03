@@ -2,10 +2,9 @@
 name: doc-sync
 description: >-
   Keeps a repo's docs true to its code: detects doc drift
-  on the current branch, fixes it, and commits the result as "Doc sync." Use
-  before opening a pull request, or when the user asks to sync docs or fix doc
-  drift. Pass --full to audit every doc against the whole codebase.
-disable-model-invocation: true
+  on the current branch, fixes it, and commits the result. Use before opening
+  a pull request, or when the user asks to sync docs or fix doc drift. Pass
+  --full to audit every doc against the whole codebase.
 ---
 
 # Doc Sync
@@ -14,9 +13,9 @@ Keep this repo's docs true to its code. **This workflow auto-fixes:** apply the 
 
 Be surgical. Change only what is drifted, missing, contradictory, or bloated. Never rewrite accurate prose or expand a section — the bias is toward fewer, tighter docs.
 
-**The docs.** In scope: every doc the doc map names (`doc-map.md` in `.agents/`, from [doc-steward](../doc-steward/SKILL.md)), `AGENTS.md`, `README.md`, and `.agents/skills/`. The planning docs the map names (decision, goals, backlog, shipped, dropped-design) are report-only. If the map is missing, say to run doc-steward's Bootstrap first.
+**The docs.** In scope: every doc the doc map names (`doc-map.md` in `.agents/`, from [doc-steward](../doc-steward/SKILL.md)), `AGENTS.md`, `README.md`, and `.agents/skills/`. The planning docs the map names (decision, goals, backlog, shipped, dropped-design) are report-only unless the user widens scope; doc-steward owns them. If the map is missing, say to run doc-steward's Bootstrap first.
 
-**The code.** `Code roots` in `AGENTS.md` lists the path prefixes that count as code. A heading whose body starts with `TODO` counts as missing. If it is missing, ask before check 5; do not treat every changed file as code.
+**The code.** `Code roots` in `AGENTS.md` lists the path prefixes that count as code. If it is missing, ask before check 5; do not treat every changed file as code.
 
 ## Diff
 
@@ -27,7 +26,7 @@ From the diff: `CHANGED` (files), and `CHANGED_CODE` (those under a prefix in `C
 - **Skills due:** `--full`, or `CHANGED` touches a skill file.
 - **Architecture due:** `--full`, or `CHANGED` adds, deletes, or renames a source file or folder.
 
-**Fan out** when `--full`, more than 15 files changed, or the diff spans more than three top-level areas: spawn one read-only subagent per check below, each told to run that check and return findings only (doc location, claim, what is true). Apply every edit yourself. Otherwise work inline.
+**Fan out** when `--full`, more than 15 files changed, or the diff spans more than three top-level areas: one explorer per check below, each returning doc location, claim, and what is true. Otherwise work inline.
 
 ## Checks
 
@@ -37,7 +36,7 @@ Start every run with this skill's `scripts/dead-paths.py`. Run that file by its 
 python3 "<skill>/scripts/dead-paths.py" --root "<repo>" --doc-folder "<doc in scope>"
 ```
 
-The script reads the `Code roots` heading in that repo's `AGENTS.md` when `--code-root` is omitted. Pass `--code-root` only to override that heading. A bare type name is checked against those roots. An extensionless path whose first directory is gone is still skipped. If `Code roots` is missing and you do not pass `--code-root`, the script does not guess roots and does not check bare type names. The script treats a file as that file and a directory as the markdown under it. Each line it prints is a doc naming a path the tree no longer has — a check 1, 3, or 4 fix. It sees paths only; the claims below stay yours. Exit 2 means no doc was passed.
+It reads `Code roots` itself; its docstring has the details. Each line it prints is a doc naming a path the tree no longer has — a check 1, 3, or 4 fix. It sees paths only; the claims below stay yours.
 
 **1 — Drift (every doc in scope but the planning docs).** Verify every concrete claim — paths, layout, commands, names, and links. Fix each false claim in place, keeping the phrasing around it. Never expand goal prose into `AGENTS.md`.
 
@@ -47,24 +46,22 @@ The script reads the `Code roots` heading in that repo's `AGENTS.md` when `--cod
 
 **4 — Architecture (when due).** Factual claims only, in the architecture doc: module layout, named types and services, pipeline steps, storage paths, commands, test targets, and every mermaid node and edge, against the code and the section's prose. Fix each false fact, node, or edge in place. Never touch design intent or rationale. What counts as missing, and how a diagram may change, is doc-steward rule 9.
 
-**5 — Planning conflicts, report only.** List where `CHANGED_CODE` and a planning doc disagree: a rule the code breaks, a shipped row whose code is gone, a guardrail the code no longer meets. Never edit those docs or change code to match — the owner decides which side is wrong.
+**5 — Planning conflicts, report only.** List where `CHANGED_CODE` and a planning doc disagree: a rule the code breaks, a shipped row whose code is gone, a guardrail the code no longer meets. Never change code to match — the owner decides which side is wrong.
 
 **Trimming, in every doc touched.** Cut sentences that restate a neighbour, duplicate examples, and filler. Never strip gotchas, constraints, exact commands, or paths; when unsure, leave it.
 
-## Out of scope
-
-Never edit a planning doc unless the user widens scope; doc-steward owns them. Fix broken references *to* them, and drop references to deleted docs, in the other docs in scope.
+In the other docs in scope, fix broken references *to* the planning docs, and drop references to deleted docs.
 
 ## Commit
 
-If the run edited files, commit only those paths (`git add -- <paths>`, never `-A`), check `git diff --cached --stat`, and commit with the subject `Doc sync.` No commit when nothing changed.
+If the run edited files, commit only those paths (`git add -- <paths>`, never `-A`), check `git diff --cached --stat`, and commit with the subject `Sync the docs with the code.` No commit when nothing changed.
 
 ## Report
 
-Short prose, no banners:
+Bullets, no banners:
 
 1. The diff in one line ("branch vs main, 44 files", or "`--full`").
 2. Each fix, one line, grouped by file.
 3. Planning conflicts from check 5, one line each (row, file:line, what differs) — or "none".
 4. Anything deliberately skipped.
-5. Whether `Doc sync.` landed.
+5. Whether the commit landed.

@@ -11,7 +11,7 @@ disable-model-invocation: true
 
 Turn a messy working tree into logical commits, then commit them all in order without waiting for approval. If the user says `plan only`, stop after the plan.
 
-Two optional `AGENTS.md` headings (a body that starts with `TODO` counts as missing):
+Two optional `AGENTS.md` headings:
 
 - `Git`: commit-message rules, and paths never to commit.
 - `Commit groups`: what stays together or splits, extra excludes, a batch that always goes alone, and batch order.

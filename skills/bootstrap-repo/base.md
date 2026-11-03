@@ -36,7 +36,9 @@ The docs own **intent** — product lines, the queue, constraints, how to build.
 
 ## Skills
 
-Follow a skill whenever its task comes up. Run a skill on one model; fan out only when the skill says to. A skill that fans out read-only explorers runs them on a cheaper model, and keeps the orchestrator, which edits and validates, on the strongest.
+Follow a skill whenever its task comes up. An `AGENTS.md` heading a skill reads counts as missing when its body starts with `TODO`.
+
+Run a skill on one model; fan out only when the skill says to. A skill that fans out read-only explorers runs them on a cheaper model, and keeps the orchestrator on the strongest. Explorers return findings only; the orchestrator alone edits, validates, and keeps any ledger. Split only on areas the skill or an `AGENTS.md` heading names; if none does, ask. A ledger goes in the response, or in a scratch file the goal names and deletes on ship. Never commit it.
 
 ## Git
 

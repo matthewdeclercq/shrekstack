@@ -63,7 +63,7 @@ Under the table: the feature ID scheme, a prefix and the next free number (defau
 - **Add a goal:** append its section and a row at the end of the order table, and mark its backlog IDs `Open`. Lock a decision only if it passes rule 7; most goals lock nothing.
 - **Reorder goals:** the order table only. Any other file that needs an edit is breaking rule 1: make it a pointer.
 - **Lock or amend a decision:** the row passes rule 7 and names what was refused. Update the affected acceptance criteria in the backlog or shipped doc, the one restatement allowed; the decision doc wins.
-- **Answer a challenged decision:** "change it" amends or deletes the row. "Unlock" deletes it, with no dropped-design entry. "No" adds one dated clause naming what was rejected and why, so it is not argued again.
+- **Answer a challenged decision:** "change it" amends or deletes the row. "Unlock" deletes it, with no dropped-design entry. "No" adds one clause naming what was rejected and why, so it is not argued again.
 - **Ship a goal:**
   1. Move its rows from the backlog to the same epic in the shipped doc, each cut to one or two lines: a guardrail only when no decision row holds it, and no type names, measurements, or build story. Move epic prose that now describes shipped behaviour, cut the same way.
   2. In the decision doc, move any note that would bring back a dead approach to the dropped-design doc as one entry, and strip goal bookkeeping from every row the goal touched (rule 7).
