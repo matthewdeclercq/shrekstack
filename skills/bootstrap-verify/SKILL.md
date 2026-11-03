@@ -11,7 +11,7 @@ disable-model-invocation: true
 
 Run in the target repo. Write `.agents/skills/verify-<app>/SKILL.md`. Do not edit product code. Name `<app>` from the product, in kebab-case.
 
-Link `.claude/skills/verify-<app>` to the new folder with a relative symlink. A symlink already there is replaced. A real file or folder at that path, or a leftover `.cursor/skills/verify-<app>`, may hold hand-written work: before writing, ask the user whether to move what it holds into `.agents/skills/verify-<app>/` and build on it, or start fresh. Do that, then remove the old copy and create the link.
+Link the new folder for each tool `Agent tools` in `AGENTS.md` names, with a relative symlink: `.claude/skills/verify-<app>` for Claude Code, `.cursor/skills/verify-<app>` for Cursor. Missing: run [bootstrap-repo](../bootstrap-repo/SKILL.md) first. A symlink already there is replaced. A real file or folder at either path may hold hand-written work: before writing, ask the user whether to move what it holds into `.agents/skills/verify-<app>/` and build on it, or start fresh. Do that, then remove the old copy and create the links.
 
 ## Learn
 
@@ -35,7 +35,7 @@ End with one line: upkeep is shrekstack's maintain-verify skill.
 
 ## Prove
 
-The skill is a draft until the `.claude/skills/verify-<app>` link resolves to the real folder, and this passes once, followed as written:
+The skill is a draft until each link resolves to the real folder, and this passes once, followed as written:
 
 1. Build.
 2. Launch and see the readiness signal.

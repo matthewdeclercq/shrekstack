@@ -11,7 +11,7 @@ disable-model-invocation: true
 
 Run in the target repo. Write `SKILL.md` in `.agents/skills/ui/`, covering every UI stack in the repo. Do not edit product code. Do not copy a UI skill from another repo.
 
-Link `.claude/skills/ui` to the new folder with a relative symlink. A symlink already there is replaced. A real file or folder at that path, or a leftover `.cursor/skills/ui`, may hold hand-written work: before writing, ask the user whether to move what it holds into `.agents/skills/ui/` and build on it, or start fresh. Do that, then remove the old copy and create the link.
+Link the new folder for each tool `Agent tools` in `AGENTS.md` names, with a relative symlink: `.claude/skills/ui` for Claude Code, `.cursor/skills/ui` for Cursor. Missing: run [bootstrap-repo](../bootstrap-repo/SKILL.md) first. A symlink already there is replaced. A real file or folder at either path may hold hand-written work: before writing, ask the user whether to move what it holds into `.agents/skills/ui/` and build on it, or start fresh. Do that, then remove the old copy and create the links.
 
 ## Learn
 
@@ -38,4 +38,4 @@ Where a line below names a file, a pattern, or a command, take it from this repo
 
 ## Prove
 
-The skill is a draft until every path it cites exists and the `.claude/skills/ui` link resolves to `.agents/skills/ui`. If a path is wrong, fix the skill and look again. Do not add a cited file to make it pass.
+The skill is a draft until every path it cites exists and each link resolves to `.agents/skills/ui`. If a path is wrong, fix the skill and look again. Do not add a cited file to make it pass.
