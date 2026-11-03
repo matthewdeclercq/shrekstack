@@ -6,7 +6,7 @@ This is my swamp.
 
 Once per repo:
 
-- [bootstrap-repo](skills/bootstrap-repo/SKILL.md) installs the [base rule](skills/bootstrap-repo/base.md) and [response style](skills/bootstrap-repo/style.md), adds the `AGENTS.md` headings the skills read, and links `CLAUDE.md`.
+- [bootstrap-repo](skills/bootstrap-repo/SKILL.md) installs the [base rule](skills/bootstrap-repo/base.md) and [response style](skills/bootstrap-repo/style.md), folds every agent file into one lean root `AGENTS.md`, drafts the headings the skills read from the code, and links `CLAUDE.md`.
 - [bootstrap-verify](skills/bootstrap-verify/SKILL.md) writes the repo's verify skill and proves it once.
 - [bootstrap-ui](skills/bootstrap-ui/SKILL.md) writes the repo's UI conventions skill.
 
