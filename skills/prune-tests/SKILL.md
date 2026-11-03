@@ -11,7 +11,7 @@ disable-model-invocation: true
 
 Delete or merge tests that no longer lock a live rule. Do not change production behaviour, and do not add tests for gaps you notice.
 
-`AGENTS.md` headings. A body that starts with `TODO` counts as missing:
+`AGENTS.md` headings:
 
 - `Testing defaults`: what to test (`What to test`), where tests go (`Where tests go`), and which invariants are owner-rank. Missing: ask before deleting or moving any test.
 - `Build & test`: the suite commands. Missing: ask.
@@ -46,11 +46,11 @@ A full-suite sweep first classifies every test file into the ledger, with no edi
 
 ## Ledger
 
-One row per file, or per method when a file splits. Statuses: `keep`, `merge`, `delete`, `move`, `deferred`, `validated`. Add an owner-rank list and a residue list (gaps noticed, not this pass). The ledger goes in the response, or in a scratch file the goal names and deletes on ship. Never commit it.
+One row per file, or per method when a file splits. Statuses: `keep`, `merge`, `delete`, `move`, `deferred`, `validated`. Add an owner-rank list and a residue list (gaps noticed, not this pass).
 
 ## Fan out
 
-When the pass spans more than one test area, launch read-only explorers, one per area. Explorers return candidate tables only. The orchestrator alone edits, validates, and keeps the ledger. Paste the surface, rubric, and proof into each prompt. Do not invent areas; if no heading names the split, ask.
+When the pass spans more than one test area, launch read-only explorers, one per area. Each returns a candidate table. Paste the surface, rubric, and proof into each prompt.
 
 ## Report
 

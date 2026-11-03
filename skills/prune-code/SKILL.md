@@ -11,7 +11,7 @@ disable-model-invocation: true
 
 Remove dead code, obsolete contracts, and true duplicates without changing live behavior. Prove before deleting, from reachability and contracts, not tool reports. No style refactors.
 
-`AGENTS.md` headings. A body that starts with `TODO` counts as missing; ask rather than guess:
+`AGENTS.md` headings; when one is missing, ask rather than guess:
 
 - `Entry points`: where reachability starts.
 - `Proof traps`: contracts to confirm before deleting. Reachability alone is not proof while this list is unknown.
@@ -36,11 +36,11 @@ Defer layer moves, new dependencies, persistence changes, and product-scope chan
 | C-1 | helper under the old name | no refs; the caller uses the other helper | validated |
 ```
 
-Statuses: `candidate`, `safe-to-remove`, `changed`, `validated`, `deferred`, `rejected`. The ledger goes in the response. A cleanup that spans a goal keeps it, with deferred refactors and next steps, in a scratch file the goal names and deletes on ship. Never commit it.
+Statuses: `candidate`, `safe-to-remove`, `changed`, `validated`, `deferred`, `rejected`. A cleanup that spans a goal keeps deferred refactors and next steps in the ledger too.
 
 ## Fan out
 
-Fan out when the scope covers two or more `File layout` areas, one area is too big to prove alone, the change adds or removes fixture files (one slice proves each remaining file still has a reader), or it is a broad cruft pass. Launch read-only explorers together, one per area. If `File layout` does not name the split, ask; do not invent areas. Explorers return candidate tables only. The orchestrator alone edits, validates, and keeps the ledger. Paste the surface, the loop, and the proof traps into each explorer's prompt.
+Fan out when the scope covers two or more `File layout` areas, one area is too big to prove alone, the change adds or removes fixture files (one slice proves each remaining file still has a reader), or it is a broad cruft pass. Launch read-only explorers together, one per `File layout` area. Each returns a candidate table. Paste the surface, the loop, and the proof traps into each explorer's prompt.
 
 ## Report
 

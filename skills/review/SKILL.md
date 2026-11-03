@@ -5,7 +5,6 @@ description: >-
   hooks, tidy, doc-sync, then blast radius and an adversarial pass. Use when
   the user asks for a review of the current change, or before opening or
   updating a PR.
-disable-model-invocation: true
 ---
 
 # Review

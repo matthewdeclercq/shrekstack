@@ -36,4 +36,4 @@ Run in the target repo. Do not edit product code. Never overwrite or rewrite any
 
 3. **CLAUDE.md.** End with `CLAUDE.md` a relative symlink to `AGENTS.md` (`ln -s AGENTS.md CLAUDE.md`). A symlink already there is replaced. A real file or folder may hold hand-written instructions: ask the user whether to move what it holds into `AGENTS.md`, or start fresh. Do that, then remove it and create the link.
 
-Then list the `TODO`s and ask the owner to fill them in. Skills treat a heading whose body starts with `TODO` as missing.
+Then list the `TODO`s and ask the owner to fill them in.
