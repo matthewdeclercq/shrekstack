@@ -1,7 +1,7 @@
 {
   "name": "shrekstack",
-  "version": "0.1.0",
-  "description": "Matthew's personal shared skills library for Claude Code, Cursor, and his Grok bots.",
+  "version": "0.1.1",
+  "description": "This is my swamp.",
   "author": {
     "name": "Matthew Declercq"
   },

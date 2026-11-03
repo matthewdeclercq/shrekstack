@@ -40,6 +40,10 @@ Follow a skill whenever its task comes up. An `AGENTS.md` heading a skill reads 
 
 Run a skill on one model; fan out only when the skill says to. A skill that fans out read-only explorers runs them on a cheaper model, and keeps the orchestrator on the strongest. Explorers return findings only; the orchestrator alone edits, validates, and keeps any ledger. Split only on areas the skill or an `AGENTS.md` heading names; if none does, ask. A ledger goes in the response, or in a scratch file the goal names and deletes on ship. Never commit it.
 
+## Agent files
+
+`AGENTS.md` at the repo root is the only agent instruction file; `CLAUDE.md` is a symlink to it. Never add an `AGENTS.md` or `CLAUDE.md` in a folder: an instruction goes in the root `AGENTS.md`, and what a folder holds goes in that folder's `README.md`. Keep `AGENTS.md` to repo-specific facts; anything this rule or the style rule already says does not go there.
+
 ## Git
 
 - Commit messages in complete sentences; one logical change per commit.

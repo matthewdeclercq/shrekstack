@@ -4,13 +4,13 @@
     "name": "Matthew Declercq"
   },
   "metadata": {
-    "description": "Matthew's personal shared skills library for Claude Code, Cursor, and his Grok bots."
+    "description": "This is my swamp."
   },
   "plugins": [
     {
       "name": "shrekstack",
       "source": ".",
-      "description": "Matthew's personal shared skills library for Claude Code, Cursor, and his Grok bots."
+      "description": "This is my swamp."
     }
   ]
 }
