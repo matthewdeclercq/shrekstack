@@ -42,7 +42,7 @@ Run a skill on one model; fan out only when the skill says to. A skill that fans
 
 ## Agent files
 
-`AGENTS.md` at the repo root is the only agent instruction file; `CLAUDE.md` is a symlink to it. Never add an `AGENTS.md` or `CLAUDE.md` in a folder: an instruction goes in the root `AGENTS.md`, and what a folder holds goes in that folder's `README.md`. Keep `AGENTS.md` to repo-specific facts; anything this rule or the style rule already says does not go there.
+`AGENTS.md` at the repo root is the only agent instruction file; for Claude Code, `CLAUDE.md` is a symlink to it. Never add an `AGENTS.md` or `CLAUDE.md` in a folder: an instruction goes in the root `AGENTS.md`, and what a folder holds goes in that folder's `README.md`. Every repo skill lives in `.agents/skills/<name>/`, linked from `.claude/skills/` or `.cursor/skills/` for the tools `Agent tools` names. Keep `AGENTS.md` to repo-specific facts; anything this rule or the style rule already says does not go there.
 
 ## Git
 
