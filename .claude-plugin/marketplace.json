@@ -1,6 +1,6 @@
 {
   "name": "shrekstack",
-  "description": "Matthew's personal shared skills library for Claude Code, Cursor, and his Grok bots.",
+  "description": "This is my swamp.",
   "owner": {
     "name": "Matthew Declercq"
   },
@@ -8,7 +8,7 @@
     {
       "name": "shrekstack",
       "source": "./",
-      "description": "Matthew's personal shared skills library for Claude Code, Cursor, and his Grok bots."
+      "description": "This is my swamp."
     }
   ]
 }
