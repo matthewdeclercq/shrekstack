@@ -13,7 +13,7 @@ Keep this repo's docs true to its code. **This workflow auto-fixes:** apply the 
 
 Be surgical. Change only what is drifted, missing, contradictory, or bloated. Never rewrite accurate prose or expand a section — the bias is toward fewer, tighter docs.
 
-**The docs.** In scope: every doc the doc map names (`doc-map.md` in `.agents/`, from [doc-steward](../doc-steward/SKILL.md)), `AGENTS.md`, `README.md`, and `.agents/skills/`. The planning docs the map names (decision, goals, backlog, shipped, dropped-design) are report-only unless the user widens scope; doc-steward owns them. If the map is missing, say to run doc-steward's Bootstrap first.
+**The docs.** In scope: every doc the doc map names (`doc-map.md` in `.agents/`, from [doc-steward](../doc-steward/SKILL.md)), `AGENTS.md`, `README.md`, and `.agents/skills/`. The planning docs the map names (decision, goals, backlog, shipped, dropped-design) and spike write-ups are report-only unless the user widens scope; doc-steward owns them. If the map is missing, say to run doc-steward's Bootstrap first.
 
 **The code.** `Code roots` in `AGENTS.md` lists the path prefixes that count as code. If it is missing, ask before check 5; do not treat every changed file as code.
 
