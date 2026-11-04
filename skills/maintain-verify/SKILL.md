@@ -29,7 +29,7 @@ The app no longer does what the skill says: leave that text. That is a product r
 
 ## Re-drive
 
-Launch, see the readiness signal, and run the health check. Then drive only the affected features, through every entry point their `How to get to it` lists. Capture evidence. Clean up. The evidence remains, and nothing you started is still running.
+Launch, see the readiness signal, and run the health check. Then drive only the affected features, through every entry point their files list. Capture evidence. Clean up. The evidence remains, and nothing you started is still running.
 
 The skill was wrong: fix it and drive that feature once more. The app was wrong: `blocked`. Revert any edit that hides the break. Do not weaken a path to make it pass.
 

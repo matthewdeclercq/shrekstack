@@ -40,6 +40,10 @@ Follow a skill whenever its task comes up. An `AGENTS.md` heading a skill reads 
 
 Run a skill on one model; fan out only when the skill says to. A skill that fans out read-only explorers runs them on a cheaper model, and keeps the orchestrator on the strongest. Explorers return findings only; the orchestrator alone edits, validates, and keeps any ledger. Split only on areas the skill or an `AGENTS.md` heading names; if none does, ask. A ledger goes in the response, or in a scratch file the goal names and deletes on ship. Never commit it.
 
+## Planning docs
+
+`.agents/doc-map.md` names the doc that owns each kind of fact: goals, backlog, shipped work, decisions, and architecture. Follow doc-steward before you change a doc it names, or what one says.
+
 ## Agent files
 
 `AGENTS.md` at the repo root is the only agent instruction file; for Claude Code, `CLAUDE.md` is a symlink to it. Never add an `AGENTS.md` or `CLAUDE.md` in a folder: an instruction goes in the root `AGENTS.md`, and what a folder holds goes in that folder's `README.md`. Every repo skill lives in `.agents/skills/<name>/`, linked from `.claude/skills/` or `.cursor/skills/` for the tools `Agent tools` names. Keep `AGENTS.md` to repo-specific facts; anything this rule or the style rule already says does not go there.
@@ -47,7 +51,7 @@ Run a skill on one model; fan out only when the skill says to. A skill that fans
 ## Git
 
 - Commit messages in complete sentences; one logical change per commit.
-- A PR description is a one-minute briefing for a reviewer who has the diff, unless the repo has a PR template: `## Why` (1–3 sentences), `## What changed` (1–3 bullets), `## Scope` (what it covers and leaves out), `## Tradeoffs` (only alternatives a reviewer would ask about), `## Blast radius` (who it touches and why that is safe), `## Verification` (each a real run and its outcome).
+- A PR description is a one-minute briefing for a reviewer who has the diff, unless the repo has a PR template: `## Why` (1–3 sentences), `## What changed` (1–3 bullets), and `## Verification` (each a real run and its outcome). Add `## Scope`, `## Tradeoffs`, or `## Blast radius` only when a reviewer would ask about it.
 
 ## When blocked
 

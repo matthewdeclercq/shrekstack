@@ -1,7 +1,7 @@
 ---
 name: bootstrap-repo
 description: >-
-  Writes the shared shrekstack base rule and response style into a repo for
+  Writes the shared shrekstack base rule, and the response style when asked, into a repo for
   Claude Code, Cursor, or both, folds every agent instruction file into one lean
   root AGENTS.md, moves every skill into .agents/skills/, drafts the AGENTS.md
   headings shrekstack skills read from the code, sets up the planning docs
@@ -16,7 +16,7 @@ Run in the target repo. Do not edit product code, except the path fixes in step 
 
 1. **Tools.** Read `Agent tools` in `AGENTS.md`. When it is missing or `TODO`, ask once: Claude Code, Cursor, or both. Each later step sets up only the tools chosen, and removes what an earlier run set up for a tool no longer chosen.
 
-2. **Rules.** Write each file in this table, from beside this skill: for Claude Code, unchanged as a `.md` in `.claude/rules/`; for Cursor, as a `.mdc` in `.cursor/rules/` with frontmatter, a blank line, then the text. Overwrite them on every run. Delete `shrekstack-base` and `shrekstack-style` (`.md` and `.mdc`) left by an older run.
+2. **Rules.** Write each file in this table, from beside this skill: for Claude Code, unchanged as a `.md` in `.claude/rules/`; for Cursor, as a `.mdc` in `.cursor/rules/` with frontmatter, a blank line, then the text. Overwrite them on every run. `style.md` is optional: when the repo has no `style` rule yet, ask once whether to install it, and say that every agent working in the repo, a teammate's included, will follow it. Delete `shrekstack-base` and `shrekstack-style` (`.md` and `.mdc`) left by an older run.
 
    | Source | Name in the repo | Cursor `description` |
    |--------|------------------|----------------------|
@@ -61,4 +61,6 @@ Run in the target repo. Do not edit product code, except the path fixes in step 
 
 9. **Fix the paths this run broke.** Search the whole repo, code included, for the path of every file this run deleted or moved: the agent files, the skill folders, and the old rule files. Point each mention, in a comment, string, doc, or skill, at the file that now holds the fact. Change only the path. When the fact was cut, leave the mention and list it in the report.
 
-Report in a few lines: the tools set up; the line count of the agent files before and of `AGENTS.md` after; the rule files written and removed; each agent file folded, and where its facts went; each skill moved; what was cut, in a phrase each; the paths fixed, and those left for the owner; the docs doc-steward wrote, and where the set-aside text went; and the drafted headings for the owner to check, `Proof traps` and `Owner-rank` first, since a miss there lets a skill delete live code or a test that matters. List any `TODO` left.
+Report in a few lines: the tools set up; the rule files written and removed; each agent file folded, and where its facts went; each skill moved; what was cut, in a phrase each; the paths fixed, and those left for the owner; the docs doc-steward wrote, and where the set-aside text went; and the drafted headings for the owner to check, `Proof traps` and `Owner-rank` first, since a miss there lets a skill delete live code or a test that matters. List any `TODO` left.
+
+End by offering what comes next, once the owner has checked the drafted headings: [bootstrap-verify](../bootstrap-verify/SKILL.md) when `.agents/skills/` holds no `verify-*` skill, and [bootstrap-ui](../bootstrap-ui/SKILL.md) when the repo has screens and no `ui` skill. Ask once which to run, and run nothing until the owner answers. When neither applies, skip the offer.

@@ -2,22 +2,23 @@
 name: review
 description: >-
   Reviews the agent's own change before a pull request is opened or updated:
-  hooks, tidy, doc-sync, then blast radius and an adversarial pass. Use when
-  the user asks for a review of the current change, or before opening or
-  updating a PR.
+  hooks, tidy, doc-sync, a planning-doc audit, then blast radius and an
+  adversarial pass. Use when the user asks for a review of the current change,
+  or before opening or updating a PR.
 ---
 
 # Review
 
 Lint and format belong to the repo's hooks. Review reports to the user; it does not write the PR description.
 
-1. **Skip check.** Read `git diff --stat` and `git log`. Go straight to the note when the diff is only comments, formatting, a lockfile, generated files, or markdown that is not a skill or a rule. If an earlier review this session covered part of the branch, review only what is new since the commit it ended on.
+1. **Skip check.** Read `git diff --stat` and `git log`. Go straight to the note when the diff is only comments, formatting, a lockfile, generated files, or markdown that is not a skill, a rule, or a doc `.agents/doc-map.md` names. If an earlier review this session covered part of the branch, review only what is new since the commit it ended on.
 2. **Hooks.** Run them once on the changed files: `pre-commit run --files <paths>`, or the repo's hook runner. Fix what they report. No hooks: say so in one line.
 3. **Tidy.** Run [tidy](../tidy/SKILL.md). Do not repeat its checks.
 4. **Doc sync.** Run [doc-sync](../doc-sync/SKILL.md), unless it already ran on this diff and nothing changed since.
-5. **Blast radius**, below.
-6. **Adversarial pass.** Read the diff once for bugs, logic errors, and edge cases. Fix what you find. If a fix can change the safety fact, prove it again.
-7. **Note**, below.
+5. **Planning docs.** If the diff touches a doc `.agents/doc-map.md` names, run [doc-steward](../doc-steward/SKILL.md)'s Audit and fix what it finds.
+6. **Blast radius**, below.
+7. **Adversarial pass.** Read the diff once for bugs, logic errors, and edge cases. Fix what you find. If a fix can change the safety fact, prove it again.
+8. **Note**, below.
 
 ## Blast radius
 
@@ -38,7 +39,7 @@ Find what the change could break outside the diff. A list of callers is not the 
 A few lines, no banners:
 
 - If you skipped, why.
-- What tidy and doc-sync fixed, or that nothing needed it.
+- What tidy, doc-sync, and the planning-doc audit fixed, or that nothing needed it.
 - What blast radius found, the safety fact, how far it was proven, and the proof.
 - What the adversarial pass caught and fixed.
 - What was checked and cleared.

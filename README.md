@@ -1,6 +1,18 @@
 # shrekstack
 
-This is my swamp.
+This is my swamp!
+
+Agents act like the Three Blind Mice when they can’t see what’s true. Plans get scattered, the docs and code disagree, and nobody remembers the why. Slop piles up over time, and agents get slower and make more mistakes.
+
+Shrekstack keeps order in the swamp while your agents build it. It gives every fact one home and keeps it current:
+
+- **Single source of truth.** Goals, backlog, shipped work, decisions and architecture each live in their own doc, kept up to date by agents.
+- **Docs match the code.** Preventing drift becomes a core part of the agents responsibility.
+- **Proven work.** Agents test the app like a user and clean up after themsleves.
+
+You make the product calls. Agents do the busywork.
+
+To get started, install the plugin and run `/bootstrap-repo`.
 
 ## Skills
 
@@ -20,7 +32,3 @@ Day to day:
 - [prune-code](skills/prune-code/SKILL.md) removes dead code after proof.
 - [prune-tests](skills/prune-tests/SKILL.md) removes tests that no longer lock a live rule.
 - [maintain-verify](skills/maintain-verify/SKILL.md) updates the verify skill after the code changes.
-
-## Writing skills
-
-A script only one skill runs lives in that skill's `scripts/` folder. A script that mostly runs other tools is Bash; one that mostly parses text is Python 3.
