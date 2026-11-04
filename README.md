@@ -1,15 +1,14 @@
 # shrekstack
 
-This is my swamp.
+This is my swamp!
 
-You decide what gets built. Shrekstack keeps order in the swamp while your agents build it.
+Agents act like the Three Blind Mice when they can’t see what’s true. Plans get scattered, the docs and code disagree, and nobody remembers the why. Slop piles up over time, and agents get slower and make more mistakes.
 
-Agents act like the Three Blind Mice when they can't see what's true. Shrekstack gives every fact one home and keeps it current:
+Shrekstack keeps order in the swamp while your agents build it. It gives every fact one home and keeps it current:
 
-- **One plan.** Goals, backlog, shipped work, decisions and architecture each live in one doc. Agents build only what's queued, and they ask before going against a decision.
-- **Docs match the code.** Drifted docs get fixed before every PR.
-- **Proven work.** Agents test the app like a user and clean up before you see the PR.
-- **Less code.** Dead code and useless tests get removed, but only after proof.
+- **Single source of truth.** Goals, backlog, shipped work, decisions and architecture each live in their own doc, kept up to date by agents.
+- **Docs match the code.** Preventing drift becomes a core part of the agents responsibility.
+- **Proven work.** Agents test the app like a user and clean up after themsleves.
 
 You make the product calls. Agents do the busywork.
 
