@@ -1,7 +1,7 @@
 ---
 name: bootstrap-repo
 description: >-
-  Writes the shared shrekstack base rule into a repo for
+  Writes the shared shrekstack base rule and response style into a repo for
   Claude Code, Cursor, or both, folds every agent instruction file into one lean
   root AGENTS.md, moves every skill into .agents/skills/, drafts the AGENTS.md
   headings shrekstack skills read from the code, sets up the planning docs
@@ -16,16 +16,21 @@ Run in the target repo. Do not edit product code, except the path fixes in step 
 
 1. **Tools.** Read `Agent tools` in `AGENTS.md`. When it is missing or `TODO`, ask once: Claude Code, Cursor, or both. Each later step sets up only the tools chosen, and removes what an earlier run set up for a tool no longer chosen.
 
-2. **Rules.** Write `base.md`, from beside this skill: for Claude Code, unchanged as `.claude/rules/base.md`; for Cursor, as `.cursor/rules/base.mdc` with this frontmatter, a blank line, then the text. Overwrite it on every run.
+2. **Rules.** Write each file in this table, from beside this skill: for Claude Code, unchanged as a `.md` in `.claude/rules/`; for Cursor, as a `.mdc` in `.cursor/rules/` with frontmatter, a blank line, then the text. Overwrite them on every run. Delete `shrekstack-base` and `shrekstack-style` (`.md` and `.mdc`) left by an older run.
+
+   | Source | Name in the repo | Cursor `description` |
+   |--------|------------------|----------------------|
+   | `base.md` | `base` | Generic rules for a repo that adopts this library. Project lists, commands, and paths stay in that repo's AGENTS.md. |
+   | `style.md` | `style` | How agents talk to the owner in chat. |
+
+   The Cursor frontmatter:
 
    ```
    ---
-   description: Generic rules for a repo that adopts this library. Project lists, commands, and paths stay in that repo's AGENTS.md.
+   description: <Cursor description>
    alwaysApply: true
    ---
    ```
-
-   Delete what an older run left: `shrekstack-base` and `shrekstack-style` (`.md` and `.mdc`), and `style` (`.md` and `.mdc`) when it opens with `# Response Style`. The response style is per person now: [bootstrap-style](../bootstrap-style/SKILL.md).
 
 3. **Find the agent files.** List every `AGENTS.md` and `CLAUDE.md` in the repo, at the root and in any folder, skipping gitignored and vendored paths. Read them all. If the root `AGENTS.md` is a directory, or a symlink to something outside the repo, leave it, say so, and skip steps 4 and 7. If the root `CLAUDE.md` is a real file, ask once whether to fold it into `AGENTS.md` or start fresh; fold every other file without asking.
 
@@ -35,7 +40,7 @@ Run in the target repo. Do not edit product code, except the path fixes in step 
    - **Move to the folder's `README.md`:** what a folder holds and how its parts fit. Text from a nested agent file goes to the README of its folder; create that README when there is none. A folder README never holds agent instructions.
    - **Move to a skill:** a step-by-step procedure for one area, such as a schema change. Put it in `.agents/skills/<name>/SKILL.md` with a description that says when it applies.
    - **Hand to doc-steward in step 8:** plans, goals, decisions, and write-ups of how the whole system fits together. Set them aside; they never stay in `AGENTS.md`.
-   - **Cut:** anything `base.md` or [`style.md`](../bootstrap-style/style.md) already says, generic advice any agent already follows, a fact the code shows is false, and a second copy of a fact.
+   - **Cut:** anything `base.md` or `style.md` already says, generic advice any agent already follows, a fact the code shows is false, and a second copy of a fact.
 
    Then delete every nested `AGENTS.md` and `CLAUDE.md`. Write `AGENTS.md` in this order: the repo name as the title, one sentence from the README on what the repo is, the line ``Repo-specific skills live in `.agents/skills/`.``, `Agent tools` with one list item per tool chosen in step 1, the kept facts under short headings, then the headings in step 6. Keep a heading the old files already had when it is right.
 
@@ -58,4 +63,4 @@ Run in the target repo. Do not edit product code, except the path fixes in step 
 
 Report in a few lines: the tools set up; the rule files written and removed; each agent file folded, and where its facts went; each skill moved; what was cut, in a phrase each; the paths fixed, and those left for the owner; the docs doc-steward wrote, and where the set-aside text went; and the drafted headings for the owner to check, `Proof traps` and `Owner-rank` first, since a miss there lets a skill delete live code or a test that matters. List any `TODO` left.
 
-End by offering what comes next, once the owner has checked the drafted headings: [bootstrap-verify](../bootstrap-verify/SKILL.md) when `.agents/skills/` holds no `verify-*` skill, [bootstrap-ui](../bootstrap-ui/SKILL.md) when the repo has screens and no `ui` skill, and [bootstrap-style](../bootstrap-style/SKILL.md) when this run deleted a `style` rule or, for Claude Code, `~/.claude/rules/style.md` is missing. Ask once which to run, and run nothing until the owner answers. When neither applies, skip the offer.
+End by offering what comes next, once the owner has checked the drafted headings: [bootstrap-verify](../bootstrap-verify/SKILL.md) when `.agents/skills/` holds no `verify-*` skill, and [bootstrap-ui](../bootstrap-ui/SKILL.md) when the repo has screens and no `ui` skill. Ask once which to run, and run nothing until the owner answers. When neither applies, skip the offer.
