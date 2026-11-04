@@ -50,11 +50,7 @@ Under the table: the feature ID scheme, a prefix and the next free number (defau
    - **Catalogs:** toggle, column, and preset lists. Defaults go in acceptance criteria.
    - **Code shape:** `AGENTS.md` or the architecture doc.
 8. **The dropped-design doc holds dropped designs only.** A design an agent might rebuild gets one entry when it dies; the decision row that replaced it keeps only the surviving imperative. Never a shipped feature, a goal, or an unlocked decision: unlocking deletes the row, and git history covers it.
-9. **The architecture doc is a map, not a tour.** Its shape is the template's: a header that links the other docs and says the code wins, numbered principles, a system context diagram, a modules diagram with a layer table, one section per subsystem, persistence, cross-cutting, and the technical decisions table. Each subsystem gets one diagram, a few lines or bullets under it, and a pointer to its product rules. A new subsystem gets a diagram; a type never gets its own. Diagrams are Mermaid:
-   - A node names a real type or path, with a second line for its job (`"Name<br/>job"`).
-   - Subgraphs group by where code runs: device, server, build machine.
-   - Cylinders for stores, rounded nodes for triggers and events, dashed edges for links that are not calls, and edge labels for how data moves.
-   - A sequence diagram only where order matters.
+9. **The architecture doc is a map, not a tour.** Its shape is the template's: a header that links the other docs and says the code wins, numbered principles, a system context diagram, a modules diagram with a layer table, one section per subsystem, persistence, cross-cutting, and the technical decisions table. Each subsystem gets one diagram, a few lines or bullets under it, and a pointer to its product rules. A new subsystem gets a diagram; a type never gets its own. Diagrams are Mermaid. A node names a real type or path and its job. A sequence diagram only where order matters.
 
    A module, adapter, store, or runtime pattern is missing only when it changes how the parts connect. When a module, edge, or type a diagram shows changes, update the diagram in the same edit. Never turn a diagram into a type catalog or redraw one whose facts still hold. A product rule there is a bug: replace it with a pointer.
 10. **Technical decision rows record the owner's calls.** Their table lives at the end of the architecture doc unless the map names another home. A change that lands a new library, module cut, or runtime pattern adds its row in the same change: why, and what was refused, from the owner's call, the settling spike, or the landing commit. Never invent a call. Never reverse or reword a settled row without the owner.
@@ -77,5 +73,5 @@ Under the table: the feature ID scheme, a prefix and the next free number (defau
   - The decision doc names a goal only when it is open.
   - No open-goal lists, goal order, or definition-of-done copies outside the goals doc.
   - One home per fact: where a doc restates a fact the map gives to another doc, replace it with a pointer. If the map names no owner for a fact, ask.
-  - In the decision doc, search for `shipped`, `Done`, `Out of this`, and `Superseded`. Each hit is bookkeeping to strip unless it is a product rule. Every row names a refused path. Directions to UI ("Settings → …") still match the app.
+  - In the decision doc, search for `shipped`, `Done`, `Out of this`, and `Superseded`. Each hit is bookkeeping to strip unless it is a product rule. Every row names a refused path. Directions to the UI still match the app.
   - In the architecture doc, no product rule is restated, and no diagram node or edge names code that is gone.

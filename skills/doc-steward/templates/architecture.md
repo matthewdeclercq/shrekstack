@@ -57,7 +57,7 @@ TODO: one diagram of where data lives on disk, and how the schema changes.
 
 ## Cross-cutting
 
-TODO: alarms, notices, logging, memory, units: one bullet each.
+TODO: concerns that span subsystems, such as logging or error handling: one bullet each.
 
 ---
 

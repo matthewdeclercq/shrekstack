@@ -51,7 +51,7 @@ Run a skill on one model; fan out only when the skill says to. A skill that fans
 ## Git
 
 - Commit messages in complete sentences; one logical change per commit.
-- A PR description is a one-minute briefing for a reviewer who has the diff, unless the repo has a PR template: `## Why` (1–3 sentences), `## What changed` (1–3 bullets), `## Scope` (what it covers and leaves out), `## Tradeoffs` (only alternatives a reviewer would ask about), `## Blast radius` (who it touches and why that is safe), `## Verification` (each a real run and its outcome).
+- A PR description is a one-minute briefing for a reviewer who has the diff, unless the repo has a PR template: `## Why` (1–3 sentences), `## What changed` (1–3 bullets), and `## Verification` (each a real run and its outcome). Add `## Scope`, `## Tradeoffs`, or `## Blast radius` only when a reviewer would ask about it.
 
 ## When blocked
 
