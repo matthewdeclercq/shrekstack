@@ -42,7 +42,7 @@ Run a skill on one model; fan out only when the skill says to. A skill that fans
 
 ## Planning docs
 
-`.agents/doc-map.md` names the doc that owns each kind of fact: goals, backlog, shipped work, decisions, and architecture. Follow doc-steward before you edit a doc it names, add, reorder, or ship a goal, lock or change a decision, or change a module, edge, or flow the architecture doc draws.
+`.agents/doc-map.md` names the doc that owns each kind of fact: goals, backlog, shipped work, decisions, and architecture. Follow doc-steward before you change a doc it names, or what one says.
 
 ## Agent files
 

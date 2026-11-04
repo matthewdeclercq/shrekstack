@@ -33,7 +33,7 @@ Under the table: the feature ID scheme, a prefix and the next free number (defau
 
 ## Rules
 
-1. **One home per fact.** Every other mention, in any doc, skill, `AGENTS.md`, or code comment, is a link, never a copy. A copy "so it is not missed" drifts.
+1. **One home per fact.** Every other mention, in any doc, skill, `AGENTS.md`, or code comment, is a link, never a copy. A copy "so it is not missed" drifts. A spike write-up is evidence: its verdict is not a copy of the row it settled.
 2. **Precedence:** the decision doc, then the goals doc, then the backlog and shipped docs, then the architecture doc. Fix the losing doc; never leave a contradiction. `AGENTS.md` and the UI skill sit outside this chain.
 3. **Stable feature IDs.** Never renumbered or reused. Issuing one takes the next number in the map and advances it. Each ID lives in exactly one of the backlog or shipped doc, and other docs refer to features by ID. A feature the owner drops is deleted with every reference to its ID; git history keeps it.
 4. **Backlog is inventory, not a license.** Build only what the goals doc queues. Backlog status is `Open` (a goal queues it) or `Later`.
@@ -64,7 +64,7 @@ Under the table: the feature ID scheme, a prefix and the next free number (defau
 
 - **Add a goal:** append its section and a row at the end of the order table, and mark its backlog IDs `Open`. Lock a decision only if it passes rule 7; most goals lock nothing.
 - **Reorder goals:** the order table only. Any other file that needs an edit is breaking rule 1: make it a pointer.
-- **Lock or amend a decision:** the row passes rule 7 and names what was refused. Update the affected acceptance criteria in the backlog or shipped doc, the one restatement allowed; the decision doc wins.
+- **Lock or amend a decision:** the row passes rule 7 and names what was refused. Update the affected acceptance criteria in the backlog, the one restatement allowed; the decision doc wins.
 - **Answer a challenged decision:** "change it" amends or deletes the row. "Unlock" deletes it, with no dropped-design entry. "No" adds one clause naming what was rejected and why, so it is not argued again.
 - **Ship a goal:**
   1. Move its rows from the backlog to the same epic in the shipped doc, each cut to one or two lines: a guardrail only when no decision row holds it, and no type names, measurements, or build story. Move epic prose that now describes shipped behaviour, cut the same way.

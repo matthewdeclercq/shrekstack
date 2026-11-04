@@ -21,7 +21,7 @@ Be surgical. Change only what is drifted, missing, contradictory, or bloated. Ne
 
 By default, the branch against the default branch (`git merge-base HEAD origin/HEAD`), including uncommitted work. If `origin/HEAD` is not set, ask which branch. With `--full`, no diff: audit every doc in scope against the whole codebase (expensive; always fan out).
 
-From the diff: `CHANGED` (files), and `CHANGED_CODE` (those under a prefix in `Code roots`). If `CHANGED` is empty and the run is not `--full`, say so and stop.
+Before editing, note which files already have uncommitted edits (`git status --short`). From the diff: `CHANGED` (files), and `CHANGED_CODE` (those under a prefix in `Code roots`). If `CHANGED` is empty and the run is not `--full`, say so and stop.
 
 - **Skills due:** `--full`, or `CHANGED` touches a skill file.
 - **Architecture due:** `--full`, or `CHANGED` adds, deletes, or renames a source file or folder.
@@ -36,13 +36,13 @@ Start every run with this skill's `scripts/dead-paths.py`. Run that file by its 
 python3 "<skill>/scripts/dead-paths.py" --root "<repo>" --doc-folder "<doc in scope>"
 ```
 
-It reads `Code roots` itself; its docstring has the details. Each line it prints is a doc naming a path the tree no longer has — a check 1, 3, or 4 fix. It sees paths only; the claims below stay yours.
+It reads `Code roots` itself; its docstring has the details. Each line it prints is a doc naming a path the tree no longer has — a check 1, 3, or 4 fix. A hit in a report-only doc is reported, not fixed. It sees paths only; the claims below stay yours.
 
-**1 — Drift (every doc in scope but the planning docs).** Verify every concrete claim — paths, layout, commands, names, and links. Fix each false claim in place, keeping the phrasing around it. Never expand goal prose into `AGENTS.md`.
+**1 — Drift (every doc in scope but the report-only ones).** Verify every concrete claim — paths, layout, commands, names, and links. Fix each false claim in place, keeping the phrasing around it. Never expand goal prose into `AGENTS.md`.
 
 **2 — Coverage (`AGENTS.md` and `README.md`).** Anything `CHANGED` introduces that a contributor needs — a new folder, script, target, fixture, build step — gets a minimal entry in its natural section. No new top-level section unless it has no home; no planning-doc depth. The root `README.md` is the repo's front door — folder map and prereqs — and links to every other fact rather than copying it: only a new top-level folder or prereq goes there; scripts and build steps go in `AGENTS.md`.
 
-**3 — Skills (when due).** In every skill, fix only dead paths and references to deleted docs — never rewrite a procedure.
+**3 — Skills (when due).** In every skill but a `verify-*` one, fix only dead paths and references to deleted docs — never rewrite a procedure. A verify skill is report-only: name [maintain-verify](../maintain-verify/SKILL.md), which re-drives what it fixes.
 
 **4 — Architecture (when due).** Factual claims only, in the architecture doc: module layout, named types and services, pipeline steps, storage paths, commands, test targets, and every mermaid node and edge, against the code and the section's prose. Fix each false fact, node, or edge in place. Never touch design intent or rationale. What counts as missing, and how a diagram may change, is doc-steward rule 9.
 
@@ -54,7 +54,7 @@ In the other docs in scope, fix broken references *to* the planning docs, and dr
 
 ## Commit
 
-If the run edited files, commit only those paths (`git add -- <paths>`, never `-A`), check `git diff --cached --stat`, and commit with the subject `Sync the docs with the code.` No commit when nothing changed.
+If the run edited files, commit only those paths (`git add -- <paths>`, never `-A`). Leave out a path that had uncommitted edits before the run, so other work is not committed under this subject, and name it in the report. Then check `git diff --cached --stat`, and commit with the subject `Sync the docs with the code.` No commit when nothing changed.
 
 ## Report
 
@@ -64,4 +64,4 @@ Bullets, no banners:
 2. Each fix, one line, grouped by file.
 3. Planning conflicts from check 5, one line each (row, file:line, what differs) — or "none".
 4. Anything deliberately skipped.
-5. Whether the commit landed.
+5. Whether the commit landed, and any path left out of it.
