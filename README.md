@@ -25,7 +25,8 @@ Once per repo:
 Day to day:
 
 - [tidy](skills/tidy/SKILL.md) cleans up the work just finished.
-- [review](skills/review/SKILL.md) checks a change before a pull request.
+- [ship-it](skills/ship-it/SKILL.md) gets a change ready for a pull request: cleans it up, checks it, commits it, and syncs the docs.
+- [blast-radius](skills/blast-radius/SKILL.md) finds what a change could break and proves it is safe.
 - [commit-group](skills/commit-group/SKILL.md) turns a messy working tree into logical commits.
 - [doc-sync](skills/doc-sync/SKILL.md) fixes docs that no longer match the code.
 - [doc-steward](skills/doc-steward/SKILL.md) keeps the planning docs in shape.
