@@ -22,7 +22,8 @@ The docs own **intent** — product lines, the queue, constraints, how to build.
 
 ## Code quality
 
-- Keep code lean: no speculative parameters, protocols, or configuration; the smallest diff that fully solves the goal wins.
+- Keep code lean: no speculative parameters, protocols, or configuration; the simplest design that fully solves the goal wins.
+- Put code where it changes together: reuse before you copy, and keep one feature's logic in one place. A special case (an `if` for one value, a parameter for one caller, a sleep or retry) means the design is missing something. Change the design or ask; don't patch around it.
 - Remove before you add: delete dead weight first, then build on the simpler base.
 - When the owner corrects the same mistake twice, make it impossible: architecture first, then types or a lint whose error names the fix, then a test. Write a rule only for judgment calls.
 - Decide for the long term — no stopgap meant to be replaced later.
