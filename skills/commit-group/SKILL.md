@@ -3,8 +3,7 @@ name: commit-group
 description: >-
   Groups uncommitted changes into logical commits and commits them. Use when
   the user asks to commit-group, group commits, or split a messy working tree
-  into commits.
-disable-model-invocation: true
+  into commits, or when ship-it runs it.
 ---
 
 # Commit Group
