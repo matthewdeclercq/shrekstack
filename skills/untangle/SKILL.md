@@ -62,7 +62,7 @@ Keep it in a scratch file, so compaction loses nothing.
 ## Done when
 
 - As few special cases are left as possible. How many remain is the best measure of how close you are.
-- Nothing imports anything more volatile than itself.
+- Imports point toward code that changes less, and each exception left is in the log with why.
 - The explorers find nothing worth fixing.
 - prune-code and prune-tests have run on the scope.
 - `Build & test` passes, and intended behavior matches the baseline, apart from bugs a fix removed.
