@@ -19,7 +19,7 @@ Look for `.agents/skills/verify-*/SKILL.md`. None found: stop and point at [boot
 
 ## Since last update
 
-Take the last commit that touched the verify skill's folder. If it has never been committed, every feature is affected. A feature is affected when its file changed since then, or the code it drives did: the paths its file names, or the `Entry points` when it names none. Nothing affected: `clean`, and stop.
+Run from ship-it, the window is what ship-it is checking: this branch's changes, including uncommitted work. Otherwise, take the last commit that touched the verify skill's folder; if it has never been committed, every feature is affected. A feature is affected when its file changed since then, or the code it drives did: the paths its file names, or the `Entry points` when it names none. Nothing affected: `clean`, and stop.
 
 ## Fix
 

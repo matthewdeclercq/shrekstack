@@ -24,7 +24,7 @@ Once per repo:
 
 Day to day:
 
-- [ship-it](skills/ship-it/SKILL.md) gets a change ready for a pull request by running the five below, in this order.
+- [ship-it](skills/ship-it/SKILL.md) gets a change ready for a pull request by running the five below, in this order, plus maintain-verify when the repo has a verify skill.
 - [tidy](skills/tidy/SKILL.md) cleans up the work just finished.
 - [blast-radius](skills/blast-radius/SKILL.md) finds what a change could break and proves it is safe.
 - [doc-steward](skills/doc-steward/SKILL.md) keeps the planning docs in shape.
@@ -36,4 +36,4 @@ Now and then:
 - [untangle](skills/untangle/SKILL.md) restructures code so what changes together sits together, then runs prune-code and prune-tests.
 - [prune-code](skills/prune-code/SKILL.md) removes dead code after proof.
 - [prune-tests](skills/prune-tests/SKILL.md) removes tests that no longer lock a live rule.
-- [maintain-verify](skills/maintain-verify/SKILL.md) updates the verify skill after the code changes.
+- [maintain-verify](skills/maintain-verify/SKILL.md) updates the verify skill after the code changes. Ship-it runs it too.
