@@ -33,7 +33,6 @@ Day to day:
 
 Now and then:
 
-- [untangle](skills/untangle/SKILL.md) restructures code so what changes together sits together, then runs prune-code and prune-tests.
 - [prune-code](skills/prune-code/SKILL.md) removes dead code after proof.
 - [prune-tests](skills/prune-tests/SKILL.md) removes tests that no longer lock a live rule.
 - [maintain-verify](skills/maintain-verify/SKILL.md) updates the verify skill after the code changes.
