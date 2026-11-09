@@ -7,8 +7,8 @@ Agents act like the Three Blind Mice when they can’t see what’s true. Plans 
 Shrekstack keeps order in the swamp while your agents build it. It gives every fact one home and keeps it current:
 
 - **Single source of truth.** Goals, backlog, shipped work, decisions and architecture each live in their own doc, kept up to date by agents.
-- **Docs match the code.** Preventing drift becomes a core part of the agents responsibility.
-- **Proven work.** Agents test the app like a user and clean up after themsleves.
+- **Docs match the code.** Preventing drift becomes a core part of the agents' responsibility.
+- **Proven work.** Agents test the app like a user and clean up after themselves.
 
 You make the product calls. Agents do the busywork.
 

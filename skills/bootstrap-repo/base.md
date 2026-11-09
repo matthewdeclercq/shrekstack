@@ -16,7 +16,7 @@ The docs own **intent** — product lines, the queue, constraints, how to build.
 ## Comments
 
 - Match the file's comment style (syntax, doc-comment format), never its density. Default to zero comments; in lines you change, cut any that fail the rule below. Leave other comments alone unless your change made them untrue.
-- A name carries the fact before a comment does. A comment states only a constraint, invariant, or non-obvious why — never what the next line does, the signature, or the change you made. No change-log comments (`// previously …`) or commented-out code. A comment explaining a surprise in our own code is a cue to reshape it first — rename, extract, or a type that makes it obvious — and comment only when the reshape is not worth it. An invariant a cheap test can lock (`must stay sorted`) gets the test, not the comment. Before finishing, reread the diff and replace any comment a rename would make redundant with the rename.
+- A name carries the fact before a comment does. A comment states only a constraint, invariant, or non-obvious why — never what the next line does, the signature, or the change you made. No change-log comments (`// previously …`) or commented-out code. A comment explaining a surprise in our own code is a cue to reshape it first — rename, extract, or a type that makes it obvious — and comment only when the reshape is not worth it. An invariant a cheap test can lock (`must stay sorted`) gets the test, not the comment.
 
 ## Code quality
 
@@ -25,7 +25,6 @@ The docs own **intent** — product lines, the queue, constraints, how to build.
 - Remove before you add: delete dead weight first, then build on the simpler base.
 - When the owner corrects the same mistake twice, make it impossible: architecture first, then types or a lint whose error names the fix, then a test. Write a rule only for judgment calls.
 - Decide for the long term — no stopgap meant to be replaced later.
-- Prefer small, focused PRs.
 
 ## Verify and debug
 
@@ -45,7 +44,7 @@ The root `AGENTS.md` loads on every task, so it holds only what any task may nee
 
 ## Git
 
-- Commit messages in complete sentences; one logical change per commit.
+- Commit messages in complete sentences; one logical change per commit, and small, focused PRs.
 - A PR description is a one-minute briefing for a reviewer who has the diff, unless the repo has a PR template: `## Why` (1–3 sentences), `## What changed` (1–3 bullets), and `## Verification` (each a real run and its outcome). Add `## Scope`, `## Tradeoffs`, or `## Blast radius` only when a reviewer would ask about it.
 
 ## When blocked

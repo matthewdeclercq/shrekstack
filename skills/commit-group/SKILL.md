@@ -25,7 +25,7 @@ Run `git status --short`, `git diff`, and `git ls-files --others --exclude-stand
 - Apply `Commit groups` when it exists. Otherwise order batches so each builds on the ones before, and break nothing out on its own.
 - A file with unrelated edits stays in one batch; say so in the summary.
 - Never commit `.env`, credentials, keys, `*.pem`, `*.p12`, or a path `Git` excludes. A suspected secret: stop and flag it, and commit the rest only after the user confirms.
-- Messages follow `Git` and the base rule's Git section, with why over a file list. No conventional prefixes unless recent history uses them.
+- Messages follow `Git`, with why over a file list. No conventional prefixes unless recent history uses them.
 
 ## Commit
 
