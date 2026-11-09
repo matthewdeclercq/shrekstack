@@ -31,6 +31,9 @@ bare type names are not checked. A name is defined when a non-markdown file
 under a code root has that stem, or a source line declares it. The script does
 not append a file extension.
 
+A doc inside an area, a folder below --root with its own AGENTS.md, also
+resolves paths from that folder and looks up bare type names in it.
+
 Paths holding a placeholder (<schema>, X.Y.Z, *) are skipped. Exit 1 when it
 finds a dead path.
 """
@@ -92,7 +95,11 @@ def main():
     defined = index_definitions(code_roots) if code_roots else set()
 
     dead = []
+    area_defs = {}
     for doc in files:
+        home = area(doc, root)
+        if code_roots and home and home not in area_defs:
+            area_defs[home] = index_definitions([home])
         text = doc.read_text(encoding="utf-8")
         fenced = False
         for n, line in enumerate(text.splitlines(), 1):
@@ -106,12 +113,12 @@ def main():
             for path in sorted(set(paths)):
                 if is_bare_type(path):
                     continue
-                if not resolves(path, doc, root):
+                if not resolves(path, doc, root, home):
                     dead.append(f"{display(doc, root)}:{n}: {path}")
             if not code_roots:
                 continue
             for name in sorted({bare for span in CODE_SPAN.findall(line) if (bare := bare_type(span))}):
-                if name not in defined:
+                if name not in defined and name not in area_defs.get(home, ()):
                     dead.append(f"{display(doc, root)}:{n}: {name}")
 
     print("\n".join(dead) if dead else f"Clean: {len(files)} docs.")
@@ -225,9 +232,18 @@ def bare_type(span):
     return ""
 
 
-def resolves(path, doc, root):
+def area(doc, root):
+    for folder in doc.resolve().parents:
+        if folder == root:
+            return None
+        if (folder / "AGENTS.md").is_file():
+            return folder
+    return None
+
+
+def resolves(path, doc, root, home):
     rel = path.removeprefix("./")
-    for base in (root / rel, doc.parent / rel):
+    for base in (root / rel, doc.parent / rel, (home or doc.parent) / rel):
         try:
             hit = base.resolve()
         except OSError:
