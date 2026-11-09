@@ -15,7 +15,7 @@ Link the new folder the way [bootstrap-repo](../bootstrap-repo/SKILL.md) step 5 
 
 ## Learn
 
-Read the UI code (screens, navigation, forms, colors or tokens) and how the repo lints. Ask only what those do not say: a pattern the code does not already show.
+Read the UI code (screens, navigation, forms, colors or tokens). Ask only what those do not say: a pattern the code does not already show.
 
 If the repo has no UI, stop and say so. Do not invent screens so the proof can pass.
 
@@ -27,15 +27,19 @@ State this in the skill, and follow it: a fact goes in only if an agent would re
 
 Where a line below names a file, a pattern, or a command, take it from this repo's code. Do not invent one.
 
-- **Not a design freeze.** Reference files are starting points. Explicit user direction wins.
+- **Not a design freeze.** Reference files are starting points.
 - **Reference screens.** A table of pattern to file, so an agent copies an existing shell instead of inventing one. One clause per cell.
-- **Tokens.** Semantic tokens stay in one file. Name it. No raw colors in feature code.
+- **Tokens.** Semantic tokens stay in one file per UI stack. Name each, or where the first one goes when there is none. No raw colors in feature code.
+- **Spacing and type.** One spacing scale, and one type scale per form factor, each named where it lives. No one-off values. Use the repo's own scales; with none, write this spacing scale into the skill: 4, 8, 16, 24, 32, 48, 64.
+- **Vertical rhythm.** Vertical space comes from the spacing scale, and line heights fit its grid, so text and blocks line up.
+- **Platform first.** On native apps, built-in components and system text sizes win over these scales.
+- **Explainer text.** Avoid text that explains the UI; reach for clearer labels, layout, or defaults first.
 - **Casing.** A table by element type. Examples illustrate the rule.
 - **Navigation and forms.** The patterns this repo's code actually uses.
 - **Anti-patterns.** A short list of what this repo's code already refuses.
-- **Before committing.** Check phone and tablet, or narrow and wide, whichever this product has. Name the repo's lint command. If it has none, write that there is none.
-- **Unclear design.** Ask for a mockup or screenshot when a new design is unclear.
+- **Apply.** Code you add or change follows these standards. Fix breaks in the lines you touch, and list others you see.
+- **Before committing.** Check phone and tablet, or narrow and wide, whichever this product has, and that the changed screens meet these standards.
 
 ## Prove
 
-The skill is a draft until every path it cites exists and each link resolves to `.agents/skills/ui`. If a path is wrong, fix the skill and look again. Do not add a cited file to make it pass.
+The skill is a draft until every path it cites exists, apart from where a first token file goes, and each link resolves to `.agents/skills/ui`. If a path is wrong, fix the skill and look again. Do not add a cited file to make it pass.

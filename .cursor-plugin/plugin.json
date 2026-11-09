@@ -1,10 +1,11 @@
 {
   "name": "shrekstack",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "This is my swamp.",
   "author": {
     "name": "Matthew Declercq"
   },
+  "license": "MIT",
   "repository": "https://github.com/matthewdeclercq/shrekstack",
   "skills": "./skills"
 }
