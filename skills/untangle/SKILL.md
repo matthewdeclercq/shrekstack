@@ -13,7 +13,7 @@ argument-hint: "[area or concern to focus on]"
 
 Ask one question of the code: **should these pieces change together?** Fix every place it answers wrong, without changing intended behavior. A typical change should land in one place.
 
-`AGENTS.md` headings; when one is missing, ask rather than guess:
+`AGENTS.md` headings, and `Proof traps` in the `AGENTS.md` of each area in scope too; when one is missing, ask rather than guess:
 
 - `File layout`: the areas to scope and fan out on.
 - `Build & test`: the baseline, and the check after each fix.
@@ -63,8 +63,6 @@ Keep it in a scratch file, so compaction loses nothing.
 
 - As few special cases are left as possible. How many remain is the best measure of how close you are.
 - Imports point toward code that changes less, and each exception left is in the log with why.
-- The explorers find nothing worth fixing.
-- prune-code and prune-tests have run on the scope.
 - `Build & test` passes, and intended behavior matches the baseline, apart from bugs a fix removed.
 
 ## Report

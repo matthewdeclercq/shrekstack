@@ -11,7 +11,7 @@ disable-model-invocation: true
 
 Delete or merge tests that no longer lock a live rule. Do not change production behaviour, and do not add tests for gaps you notice.
 
-`AGENTS.md` headings:
+`AGENTS.md` headings, and `Testing defaults` in the `AGENTS.md` of each test area in scope too:
 
 - `Testing defaults`: what to test (`What to test`), where tests go (`Where tests go`), and which invariants are owner-rank (`Owner-rank`). Missing: ask before deleting or moving any test.
 - `Build & test`: the suite commands. Missing: ask.

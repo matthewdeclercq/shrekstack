@@ -11,7 +11,7 @@ disable-model-invocation: true
 
 Remove dead code, obsolete contracts, and true duplicates without changing live behavior. Prove before deleting, from reachability and contracts, not tool reports. No style refactors.
 
-`AGENTS.md` headings; when one is missing, ask rather than guess:
+`AGENTS.md` headings, and `Proof traps` in the `AGENTS.md` of each area in scope too; when one is missing, ask rather than guess:
 
 - `Entry points`: where reachability starts.
 - `Proof traps`: contracts to confirm before deleting. Reachability alone is not proof while this list is unknown.

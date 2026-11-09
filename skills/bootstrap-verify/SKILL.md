@@ -11,7 +11,7 @@ disable-model-invocation: true
 
 Run in the target repo. Write `.agents/skills/verify-<app>/SKILL.md`. Do not edit product code. Name `<app>` from the product, in kebab-case.
 
-Link the new folder for each tool `Agent tools` in `AGENTS.md` names, with a relative symlink: `.claude/skills/verify-<app>` for Claude Code, `.cursor/skills/verify-<app>` for Cursor. Missing: run [bootstrap-repo](../bootstrap-repo/SKILL.md) first. A symlink already there is replaced. A real file or folder at either path may hold hand-written work: before writing, ask the user whether to move what it holds into `.agents/skills/verify-<app>/` and build on it, or start fresh. Do that, then remove the old copy and create the links.
+Link the new folder the way [bootstrap-repo](../bootstrap-repo/SKILL.md) step 5 does, for the tools `Agent tools` in `AGENTS.md` names. Missing: run bootstrap-repo first. A real file or folder at a link path may hold hand-written work: before writing, ask whether to move it into `.agents/skills/verify-<app>/` and build on it, or start fresh.
 
 ## Learn
 
@@ -29,7 +29,7 @@ Frontmatter `name: verify-<app>`. The description names the app, the surface, an
 - **Drive.** The main user paths, with this repo's real commands and selectors. Do not invent handles.
 - **Evidence.** For a path, the action and the state it left. A user path, not a test-only endpoint. Write captures under `evidence/` next to the skill. Add that folder to the repo's `.gitignore` unless `git check-ignore` already says it is ignored.
 - **Cleanup.** Kill only what this run started. Leave the evidence.
-- **Features.** A `features/` folder beside the skill: a `README.md` index with the baseline state every recipe starts from, and one file per user-facing feature, the main ones to start. Each says what the user sees, every way a user gets to it, how to drive it (preconditions, then each action with its exact command and the result to see), and its gotchas. A missing precondition is a failure, with its reason written down; never weaken the recipe to pass.
+- **Features.** A `features/` folder beside the skill: a `README.md` index with the baseline state every recipe starts from, and one file per user-facing feature, the main ones to start. Each says what the user sees, every way a user gets to it, how to drive it (preconditions, then each action with its exact command and the result to see), and its gotchas. A missing precondition is a failure, with its reason written down.
 
 End with one line: upkeep is shrekstack's maintain-verify skill.
 

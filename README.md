@@ -7,8 +7,8 @@ Agents act like the Three Blind Mice when they can’t see what’s true. Plans 
 Shrekstack keeps order in the swamp while your agents build it. It gives every fact one home and keeps it current:
 
 - **Single source of truth.** Goals, backlog, shipped work, decisions and architecture each live in their own doc, kept up to date by agents.
-- **Docs match the code.** Preventing drift becomes a core part of the agents responsibility.
-- **Proven work.** Agents test the app like a user and clean up after themsleves.
+- **Docs match the code.** Preventing drift becomes a core part of the agents' responsibility.
+- **Proven work.** Agents test the app like a user and clean up after themselves.
 
 You make the product calls. Agents do the busywork.
 
@@ -18,7 +18,7 @@ To get started, install the plugin and run `/bootstrap-repo`.
 
 Once per repo:
 
-- [bootstrap-repo](skills/bootstrap-repo/SKILL.md) installs the [base rule](skills/bootstrap-repo/base.md) and [response style](skills/bootstrap-repo/style.md), folds every agent file into one lean root `AGENTS.md`, moves every skill into `.agents/skills/`, drafts the headings the skills read from the code, runs doc-steward for the planning docs, and links it all for Claude Code, Cursor, or both.
+- [bootstrap-repo](skills/bootstrap-repo/SKILL.md) installs the [base rule](skills/bootstrap-repo/base.md) and [response style](skills/bootstrap-repo/style.md), folds every agent file into a lean root `AGENTS.md` and one per area, moves every skill into `.agents/skills/`, drafts the headings the skills read from the code, runs doc-steward for the planning docs, and links it all for Claude Code, Cursor, or both.
 - [bootstrap-verify](skills/bootstrap-verify/SKILL.md) writes the repo's verify skill and proves it once.
 - [bootstrap-ui](skills/bootstrap-ui/SKILL.md) writes the repo's UI conventions skill.
 
