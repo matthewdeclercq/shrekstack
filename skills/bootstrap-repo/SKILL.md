@@ -12,7 +12,7 @@ disable-model-invocation: true
 
 # Bootstrap Repo
 
-Run in the target repo. Do not edit product code, except the path fixes in step 9. Touch only the rule files, the agent instruction files, the skill folders, the folder READMEs step 4 names, and the docs doc-steward writes in step 8. Leave everything uncommitted so the owner reviews one diff.
+Run in the target repo. Do not edit product code, except the path fixes in step 9. Touch only the rule files, the agent instruction files, the skill folders, the folder READMEs steps 4 and 6 write, and the docs doc-steward writes in step 8. Leave everything uncommitted so the owner reviews one diff.
 
 1. **Tools.** Read `Agent tools` in `AGENTS.md`. When it is missing or `TODO`, ask once: Claude Code, Cursor, or both. Each later step sets up only the tools chosen, and removes what an earlier run set up for a tool no longer chosen.
 
@@ -36,8 +36,8 @@ Run in the target repo. Do not edit product code, except the path fixes in step 
 
 4. **One root AGENTS.md.** The repo ends with one agent file, `AGENTS.md` at the root. Sort every line of the files from step 3, the root `AGENTS.md` included: never keep an existing file as the base and append to it. Check each fact against the code first:
 
-   - **Keep in AGENTS.md:** repo-specific commands, environment setup, hard constraints, paths never to commit, and anything a heading in step 6 holds. One copy, under its heading, as one line or a short list. Cut the explanation, examples, and sample code around a kept fact unless they are a command.
-   - **Move to the folder's `README.md`:** what a folder holds and how its parts fit. Text from a nested agent file goes to the README of its folder; create that README when there is none. A folder README never holds agent instructions.
+   - **Keep in AGENTS.md:** what an agent working in any area may need: repo-wide commands, environment setup, and hard constraints, paths never to commit, and the root part of each heading in step 6. One copy, under its heading, as one line or a short list. Cut the explanation, examples, and sample code around a kept fact unless they are a command.
+   - **Move to the folder's `README.md`:** what a folder holds, how its parts fit, and any fact only that area needs, such as its setup, its scripts, its test helpers, and its part of `Proof traps` and `Testing defaults` under those headings. When unsure, ask whether an agent working in another area would need the fact; if not, it goes here. Text from a nested agent file goes to the README of its folder; create that README when there is none. A folder README holds facts, never agent instructions.
    - **Move to a skill:** a step-by-step procedure for one area, such as a schema change. Put it in `.agents/skills/<name>/SKILL.md` with a description that says when it applies.
    - **Hand to doc-steward in step 8:** plans, goals, decisions, and write-ups of how the whole system fits together. Set them aside; they never stay in `AGENTS.md`.
    - **Cut:** anything `base.md` or `style.md` already says, generic advice any agent already follows, a fact the code shows is false, and a second copy of a fact.
@@ -50,10 +50,10 @@ Run in the target repo. Do not edit product code, except the path fixes in step 
 
    - `Build & test`: install, build, lint, test, and run commands. Prefer what CI runs.
    - `Entry points`: one line per app, service, CLI, worker, or job: the file it starts from (a `main`, a server bootstrap, a manifest `bin` or `main`, a Dockerfile `CMD`, a framework's entry folder).
-   - `Proof traps`: code reached by name rather than import, as the paths or patterns found. Look for file-based routing, handlers registered by string, reflection and dynamic imports, plugin or console entry points in a manifest, names in config or env, CLI commands, webhooks, MCP tool names, persistence keys and migrations, fixtures loaded by path, generated code, and anything exported for outside callers.
+   - `Proof traps`: code reached by name rather than import, as the paths or patterns found. Look for file-based routing, handlers registered by string, reflection and dynamic imports, plugin or console entry points in a manifest, names in config or env, CLI commands, webhooks, MCP tool names, persistence keys and migrations, fixtures loaded by path, generated code, and anything exported for outside callers. A trap goes in `AGENTS.md` when the name crosses areas: one area looks it up from another, or config, env, stored data, or an outside caller holds it. A trap confined to one area goes under `Proof traps` in that area's README.
    - `File layout`: opens with the line `Before working in an area, read its README.` Then the disjoint areas work can split across, one list item per area: a path, what it holds, and a link to its `README.md` when it has one. Areas never overlap; a shared folder is its own area. Each top-level code folder (`api/`, `web/`, `mcp/`, `mocks/`) is usually one.
    - `Code roots`: one list item per path prefix that counts as code, tests included. Never docs.
-   - `Testing defaults`: three list items. `What to test`: the kinds of test the repo already writes and what they lock. `Where tests go`: the placement the existing tests follow. `Owner-rank`: tests guarding auth, money, data loss, persistence formats, or a regression named after a bug, by path.
+   - `Testing defaults`: three list items. `What to test`: the kinds of test the repo already writes and what they lock. `Where tests go`: the placement the existing tests follow. `Owner-rank`: tests guarding auth, money, data loss, persistence formats, or a regression named after a bug, by path. `AGENTS.md` holds the repo-wide defaults. An area whose tests differ, or that holds owner-rank tests, gets its own `Testing defaults` in its README with only the items that are its own.
 
 7. **CLAUDE.md.** For Claude Code, end with `CLAUDE.md` a relative symlink to `AGENTS.md` (`ln -s AGENTS.md CLAUDE.md`), replacing what was there. Cursor reads `AGENTS.md` itself; with Cursor alone, remove the link.
 

@@ -11,7 +11,7 @@ disable-model-invocation: true
 
 Delete or merge tests that no longer lock a live rule. Do not change production behaviour, and do not add tests for gaps you notice.
 
-`AGENTS.md` headings:
+`AGENTS.md` headings, and `Testing defaults` in the README of each test area in scope too, which adds to the root one:
 
 - `Testing defaults`: what to test (`What to test`), where tests go (`Where tests go`), and which invariants are owner-rank (`Owner-rank`). Missing: ask before deleting or moving any test.
 - `Build & test`: the suite commands. Missing: ask.
@@ -50,7 +50,7 @@ One row per file, or per method when a file splits. Statuses: `keep`, `merge`, `
 
 ## Fan out
 
-When the pass spans more than one test area, launch read-only explorers, one per area. Each returns a candidate table. Paste the surface, rubric, and proof into each prompt.
+When the pass spans more than one test area, launch read-only explorers, one per area. Each returns a candidate table. Paste the surface, rubric, and proof into each prompt, with that area's own `Testing defaults` when its README has one.
 
 ## Report
 
