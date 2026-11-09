@@ -32,7 +32,7 @@ Run in the target repo. Do not edit product code, except the path fixes in step 
    ---
    ```
 
-3. **Find the agent files.** List every `AGENTS.md` and `CLAUDE.md` in the repo, at the root and in any folder, skipping gitignored and vendored paths. Also list every `README.md` below the root but the two kinds `base.md` says keep their shape. Read them all. If the root `AGENTS.md` is a directory, or a symlink to something outside the repo, leave it, say so, and skip steps 4 and 7. If the root `CLAUDE.md` is a real file, ask once whether to fold it into `AGENTS.md` or start fresh; fold every other file without asking.
+3. **Find the agent files.** List every `AGENTS.md` and `CLAUDE.md` in the repo, at the root and in any folder, skipping gitignored and vendored paths. Also list every `README.md` below the root but those `base.md` leaves alone. Read them all. If the root `AGENTS.md` is a directory, or a symlink to something outside the repo, leave it, say so, and skip steps 4 and 7. If the root `CLAUDE.md` is a real file, ask once whether to fold it into `AGENTS.md` or start fresh; fold every other file without asking.
 
 4. **Lean AGENTS.md files.** The repo ends with a root `AGENTS.md`, plus an `AGENTS.md` at the top of an area from step 6's `File layout` that has facts of its own. Sort every line of the files from step 3, the root `AGENTS.md` included: never keep an existing file as the base and append to it. Check each fact against the code first, numbers and claims such as "runs in CI" included, and drop what you cannot confirm.
 
