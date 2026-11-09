@@ -29,7 +29,11 @@ Where a line below names a file, a pattern, or a command, take it from this repo
 
 - **Not a design freeze.** Reference files are starting points. Explicit user direction wins.
 - **Reference screens.** A table of pattern to file, so an agent copies an existing shell instead of inventing one. One clause per cell.
-- **Tokens.** Semantic tokens stay in one file. Name it. No raw colors in feature code.
+- **Tokens.** Semantic tokens stay in one file per UI stack. Name each. No raw colors in feature code.
+- **Spacing and type.** One spacing scale, and one type scale per form factor, each named where it lives. No one-off values. Use the repo's own scales; when it has none, spacing is 2, 4, 8, 16, 24, 32, 48, 64, then multiples of 16.
+- **Vertical rhythm.** Space between blocks is a multiple of 8, and every line height a multiple of 4, so text and blocks share one grid. 2 and 4 are only for gaps inside a component.
+- **Platform first.** On native apps, built-in components and the system text-size settings win over these numbers.
+- **Explainer text.** No subheadings, captions, or footer notes that explain the UI. If a screen seems to need one, fix the labels, layout, or defaults first, and add it only if the screen still needs it. Errors, legal text, and warnings before a destructive action are exempt.
 - **Casing.** A table by element type. Examples illustrate the rule.
 - **Navigation and forms.** The patterns this repo's code actually uses.
 - **Anti-patterns.** A short list of what this repo's code already refuses.
