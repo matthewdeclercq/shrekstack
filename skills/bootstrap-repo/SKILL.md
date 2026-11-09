@@ -42,7 +42,7 @@ Run in the target repo. Do not edit product code, except the path fixes in step 
    - **Hand to doc-steward in step 8:** plans, goals, decisions, and write-ups of how the whole system fits together. Set them aside; they never stay in `AGENTS.md`.
    - **Cut:** anything `base.md` or `style.md` already says, generic advice any agent already follows, a fact the code shows is false, and a second copy of a fact.
 
-   Then delete every nested `AGENTS.md` and every `CLAUDE.md`, the root one included. Write `AGENTS.md` in this order: the repo name as the title, one sentence from the README on what the repo is, the line ``Repo-specific skills live in `.agents/skills/`.``, `Agent tools` with one list item per tool chosen in step 1, the kept facts under short headings, then the headings in step 6. Keep a heading the old files already had when it is right.
+   Then delete every nested `AGENTS.md` and `CLAUDE.md`. Write `AGENTS.md` in this order: the repo name as the title, one sentence from the README on what the repo is, the line ``Repo-specific skills live in `.agents/skills/`.``, `Agent tools` with one list item per tool chosen in step 1, the kept facts under short headings, then the headings in step 6. Keep a heading the old files already had when it is right.
 
 5. **Skills.** Every repo skill lives in `.agents/skills/<name>/`. Move each skill folder (one holding a `SKILL.md`) found in a `.claude/skills/` or `.cursor/skills/` at any depth into `.agents/skills/`, skipping symlinks that already point there. When two skills share a name, ask which to keep or how to rename. Then, for each folder in `.agents/skills/`, create a relative symlink for each tool chosen: `.claude/skills/<name>` for Claude Code, `.cursor/skills/<name>` for Cursor, each pointing at `../../.agents/skills/<name>`. Link each skill on its own, never the whole skills folder. Remove skill folders left empty.
 
@@ -55,7 +55,7 @@ Run in the target repo. Do not edit product code, except the path fixes in step 
    - `Code roots`: one list item per path prefix that counts as code, tests included. Never docs.
    - `Testing defaults`: three list items. `What to test`: the kinds of test the repo already writes and what they lock. `Where tests go`: the placement the existing tests follow. `Owner-rank`: tests guarding auth, money, data loss, persistence formats, or a regression named after a bug, by path. `AGENTS.md` holds the repo-wide defaults. An area whose tests differ, or that holds owner-rank tests, gets its own `Testing defaults` in its README with only the items that are its own.
 
-7. **No CLAUDE.md.** Claude Code (v2.1.277 and later) and Cursor both read `AGENTS.md` themselves, and Claude Code skips `AGENTS.md` when any `CLAUDE.md` is in the working directory or above it. So end with no `CLAUDE.md` or `.claude/CLAUDE.md` in the repo, removing a symlink an older run left. A `CLAUDE.local.md` blocks `AGENTS.md` the same way: leave it, since it is personal, and name it in the report.
+7. **No CLAUDE.md.** A `CLAUDE.md` makes Claude Code skip `AGENTS.md`. Remove the root `CLAUDE.md` and `.claude/CLAUDE.md`, a symlink an older run left included. Leave a personal `CLAUDE.local.md`, and name it in the report.
 
 8. **Planning docs.** Run [doc-steward](../doc-steward/SKILL.md)'s Bootstrap. Give it what step 4 set aside, to place in the docs its map names, checking each fact against the code. It writes only the docs the repo lacks and never replaces one that exists.
 

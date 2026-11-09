@@ -37,7 +37,7 @@ The docs own **intent** — product lines, the queue, constraints, how to build.
 
 ## Skills
 
-Follow a skill whenever its task comes up. An `AGENTS.md` heading a skill reads counts as missing when its body starts with `TODO`. `Proof traps` and `Testing defaults` can also sit in the `README.md` of an area `File layout` lists, covering that area only. A skill that reads one reads it in `AGENTS.md` and in the README of every area it touches.
+Follow a skill whenever its task comes up. An `AGENTS.md` heading a skill reads counts as missing when its body starts with `TODO`.
 
 Run a skill on one model; fan out only when the skill says to. A skill that fans out read-only explorers runs them on a cheaper model, and keeps the orchestrator on the strongest. Explorers return findings only; the orchestrator alone edits, validates, and keeps any ledger. Split only on areas the skill or an `AGENTS.md` heading names; if none does, ask. A ledger goes in the response, or in a scratch file the goal names and deletes on ship. Never commit it.
 
@@ -47,7 +47,7 @@ Run a skill on one model; fan out only when the skill says to. A skill that fans
 
 ## Agent files
 
-`AGENTS.md` at the repo root is the only agent instruction file; Claude Code and Cursor read it directly. Never add a `CLAUDE.md` anywhere, since one makes Claude Code skip `AGENTS.md`, and never add an `AGENTS.md` in a folder: an instruction goes in the root `AGENTS.md`. Keep `AGENTS.md` slim: it loads on every task, so it holds only what any task may need, such as commands, hard rules, the area index, and facts that cross areas. A fact only one area needs, such as what the folder holds, its setup, its scripts, where its tests go, or a name looked up only inside it, goes in that folder's `README.md`. Every repo skill lives in `.agents/skills/<name>/`, linked from `.claude/skills/` or `.cursor/skills/` for the tools `Agent tools` names. Nothing this rule or the style rule already says goes in `AGENTS.md`.
+`AGENTS.md` at the repo root is the only agent instruction file; never add one in a folder. It loads on every task, so it holds only what any task may need. A fact only one area needs goes in that folder's `README.md`. Every repo skill lives in `.agents/skills/<name>/`, linked from `.claude/skills/` or `.cursor/skills/` for the tools `Agent tools` names. Nothing this rule or the style rule already says goes in `AGENTS.md`.
 
 ## Git
 
