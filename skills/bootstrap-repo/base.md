@@ -42,7 +42,7 @@ Run a skill on one model; fan out only when the skill says to. A skill that fans
 
 The root `AGENTS.md` loads on every task, so it holds only what any task may need. A fact only one area needs goes in an `AGENTS.md` at the top of that area, which loads when an agent works there. Every repo skill lives in `.agents/skills/<name>/`, linked from `.claude/skills/` or `.cursor/skills/` for the tools `Agent tools` names. Nothing this rule or the style rule already says goes in `AGENTS.md`.
 
-A folder's `README.md` is a short list of what the folder holds and what each part does; the root one also says what the repo is and its prereqs. Everything else about the folder, such as commands, rules, and deploy steps, goes in its `AGENTS.md`, and no fact is in both. Measurements, test results, and cost history go in a write-up in `docs/spikes/`; an `AGENTS.md` keeps only the one-line rule they led to. Never write a line telling agents to read an `AGENTS.md`: they load it on their own.
+A folder's `README.md` lists what the folder holds and what each part does; the root one also says what the repo is and its prereqs. Everything else, such as commands, rules, and deploy steps, goes in an `AGENTS.md`, never both. Two READMEs keep their own shape: one a skill reads, and one the build ships (its folder is in a manifest's `files`, or a build config copies it). Measurements, test results, and cost history go in the spikes folder the doc map names; an `AGENTS.md` keeps only the rule they led to. Never tell agents to read an `AGENTS.md`: they load it on their own.
 
 ## Git
 
