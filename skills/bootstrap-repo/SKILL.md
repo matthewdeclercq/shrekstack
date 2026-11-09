@@ -36,7 +36,7 @@ Run in the target repo. Do not edit product code, except the path fixes in step 
 
 4. **Lean AGENTS.md files.** The repo ends with a root `AGENTS.md`, plus an `AGENTS.md` at the top of an area from step 6's `File layout` that has facts of its own. Sort every line of the files from step 3, the root `AGENTS.md` included: never keep an existing file as the base and append to it. Check each fact against the code first:
 
-   - **Keep in AGENTS.md:** repo-wide commands, environment setup, and hard constraints, paths never to commit, and the root part of each heading in step 6. One copy, under its heading, as one line or a short list. Cut the explanation, examples, and sample code around a kept fact unless they are a command.
+   - **Keep in the root AGENTS.md:** repo-wide commands, environment setup, and hard constraints, paths never to commit, and the root part of each heading in step 6. One copy, under its heading, as one line or a short list. Cut the explanation, examples, and sample code around a kept fact unless they are a command.
    - **Move to the area's `AGENTS.md`:** any fact only that area needs, such as its setup, its scripts, and its part of the headings in step 6.
    - **Move to a skill:** a step-by-step procedure for one area, such as a schema change. Put it in `.agents/skills/<name>/SKILL.md` with a description that says when it applies.
    - **Hand to doc-steward in step 8:** plans, goals, decisions, and write-ups of how the whole system fits together. Set them aside; they never stay in `AGENTS.md`.
