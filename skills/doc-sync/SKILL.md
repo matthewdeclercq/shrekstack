@@ -48,7 +48,7 @@ It reads `Code roots` itself; its docstring has the details. Each line it prints
 
 **5 — Planning conflicts, report only.** List where `CHANGED_CODE` and a planning doc disagree: a rule the code breaks, a shipped row whose code is gone, a guardrail the code no longer meets. Never change code to match — the owner decides which side is wrong.
 
-**Trimming, in every doc touched.** Cut sentences that restate a neighbour, a fact a `README.md` and an `AGENTS.md` both hold, duplicate examples, and filler. Never strip gotchas, constraints, exact commands, or paths; when unsure, leave it. In the root `AGENTS.md`, move a fact only one area needs to that area's `AGENTS.md`.
+**Trimming, in every doc touched.** Run `scripts/repeats.py` by its path, with `--root` at the target repo and a `--skip` for each README the base rule leaves alone; each line it prints is a repeat or pointer to cut. Cut sentences that restate a neighbour, a fact a `README.md` and an `AGENTS.md` both hold, duplicate examples, and filler. Never strip gotchas, constraints, exact commands, or paths; when unsure, leave it. In the root `AGENTS.md`, move a fact only one area needs to that area's `AGENTS.md`.
 
 In the other docs in scope, fix broken references *to* the planning docs, and drop references to deleted docs.
 

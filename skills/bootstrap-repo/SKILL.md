@@ -62,7 +62,7 @@ Run in the target repo. Do not edit product code, except the path fixes in step 
 
 9. **Fix the paths this run broke.** Search the whole repo, code included, for the path of every file this run deleted or moved: the agent files, the skill folders, and the old rule files. Point each mention, in a comment, string, doc, or skill, at the file that now holds the fact, and to its section when the mention names one. Open that section and confirm it holds what the mention promises; if no section does, point at the file and list the mention in the report. Change only the path. When the fact was cut, leave the mention and list it in the report.
 
-10. **Trim.** Reread every file this run wrote, each `AGENTS.md` beside its folder's `README.md` and the root one beside each area's, and cut any fact that appears twice or the code does not back.
+10. **Trim.** Reread every file this run wrote, each `AGENTS.md` beside its folder's `README.md` and the root one beside each area's, and cut any fact that appears twice or the code does not back. Then run doc-sync's [`repeats.py`](../doc-sync/scripts/repeats.py) with `--root` at the repo and a `--skip` for each README step 3 left alone, and fix each line it prints.
 
 Report in a few lines: the tools set up; the rule files written and removed; each agent file folded, and where its facts went; any `CLAUDE.local.md` left; each skill moved; what was cut, in a phrase each; each spike write-up; the paths fixed, and those left for the owner; the docs doc-steward wrote, and where the set-aside text went; and the drafted headings for the owner to check, `Proof traps` and `Owner-rank` first, since a miss there lets a skill delete live code or a test that matters. List any `TODO` left.
 
