@@ -5,6 +5,7 @@
   "author": {
     "name": "Matthew Declercq"
   },
+  "license": "MIT",
   "repository": "https://github.com/matthewdeclercq/shrekstack",
   "skills": "./skills"
 }
