@@ -30,7 +30,7 @@ Where a line below names a file, a pattern, or a command, take it from this repo
 - **Not a design freeze.** Reference files are starting points.
 - **Reference screens.** A table of pattern to file, so an agent copies an existing shell instead of inventing one. One clause per cell.
 - **Tokens.** Semantic tokens stay in one file per UI stack. Name each, or where the first one goes when there is none. No raw colors in feature code.
-- **Spacing and type.** One spacing scale, and one type scale per form factor, each named where it lives. No one-off values. Use the repo's own scales; with none, write this spacing scale into the skill: 4, 8, 16, 24, 32, 48, 64.
+- **Spacing and type.** One spacing scale, and one type scale per form factor, each named where it lives. A type step is a size, a line height, and a weight; three weights at most. No one-off values. Use the repo's own scales; with no spacing scale, write this one into the skill: 4, 8, 16, 24, 32, 48, 64. With no type scale, ask; one-off values in use are not a scale.
 - **Vertical rhythm.** Vertical space comes from the spacing scale, and line heights fit its grid, so text and blocks line up.
 - **Platform first.** On native apps, built-in components and system text sizes win over these scales.
 - **Explainer text.** Avoid text that explains the UI; reach for clearer labels, layout, or defaults first.
