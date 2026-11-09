@@ -73,6 +73,20 @@ def main():
         assert "src/missing.py" in out_none, out_none
         assert "GoneDir/Weather" not in out_none, out_none
 
+        web = root / "apps" / "web"
+        (web / "src").mkdir(parents=True)
+        (web / "docs").mkdir()
+        (web / "src" / "button.ts").write_text("export class Button {}\n", encoding="utf-8")
+        (web / "AGENTS.md").write_text("`Button` `Gone`\n", encoding="utf-8")
+        (web / "docs" / "notes.md").write_text("`src/button.ts` `src/gone.ts`\n", encoding="utf-8")
+        (root / "AGENTS.md").write_text(agents, encoding="utf-8")
+        code_area, out_area, err_area = run(root, "--doc-folder", "apps")
+        assert code_area == 1, (code_area, out_area, err_area)
+        assert out_area.split().count("Button") == 0, out_area
+        assert "src/button.ts" not in out_area, out_area
+        assert any(line.endswith(": Gone") for line in out_area.splitlines()), out_area
+        assert "src/gone.ts" in out_area, out_area
+
     print("ok")
 
 
