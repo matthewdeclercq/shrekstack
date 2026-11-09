@@ -39,6 +39,7 @@ finds a dead path.
 """
 
 import argparse
+import functools
 import re
 import sys
 from pathlib import Path
@@ -95,11 +96,9 @@ def main():
     defined = index_definitions(code_roots) if code_roots else set()
 
     dead = []
-    area_defs = {}
     for doc in files:
         home = area(doc, root)
-        if code_roots and home and home not in area_defs:
-            area_defs[home] = index_definitions([home])
+        known = defined | area_definitions(home) if code_roots and home else defined
         text = doc.read_text(encoding="utf-8")
         fenced = False
         for n, line in enumerate(text.splitlines(), 1):
@@ -118,7 +117,7 @@ def main():
             if not code_roots:
                 continue
             for name in sorted({bare for span in CODE_SPAN.findall(line) if (bare := bare_type(span))}):
-                if name not in defined and name not in area_defs.get(home, ()):
+                if name not in known:
                     dead.append(f"{display(doc, root)}:{n}: {name}")
 
     print("\n".join(dead) if dead else f"Clean: {len(files)} docs.")
@@ -243,9 +242,9 @@ def area(doc, root):
 
 def resolves(path, doc, root, home):
     rel = path.removeprefix("./")
-    for base in (root / rel, doc.parent / rel, (home or doc.parent) / rel):
+    for base in filter(None, (root, doc.parent, home)):
         try:
-            hit = base.resolve()
+            hit = (base / rel).resolve()
         except OSError:
             continue
         if not hit.exists():
@@ -256,6 +255,11 @@ def resolves(path, doc, root, home):
             continue
         return True
     return False
+
+
+@functools.cache
+def area_definitions(home):
+    return index_definitions([home])
 
 
 def index_definitions(code_roots):
