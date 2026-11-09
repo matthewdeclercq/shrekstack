@@ -41,7 +41,7 @@ Run a skill on one model; fan out only when the skill says to. A skill that fans
 
 ## Agent files
 
-`AGENTS.md` at the repo root is the only agent instruction file; never add one in a folder. It loads on every task, so it holds only what any task may need. A fact only one area needs goes in that folder's `README.md`. Every repo skill lives in `.agents/skills/<name>/`, linked from `.claude/skills/` or `.cursor/skills/` for the tools `Agent tools` names. Nothing this rule or the style rule already says goes in `AGENTS.md`.
+The root `AGENTS.md` loads on every task, so it holds only what any task may need. A fact only one area needs goes in an `AGENTS.md` at the top of that area, which loads when an agent works there. Every repo skill lives in `.agents/skills/<name>/`, linked from `.claude/skills/` or `.cursor/skills/` for the tools `Agent tools` names. Nothing this rule or the style rule already says goes in `AGENTS.md`.
 
 ## Git
 

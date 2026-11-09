@@ -13,7 +13,7 @@ argument-hint: "[area or concern to focus on]"
 
 Ask one question of the code: **should these pieces change together?** Fix every place it answers wrong, without changing intended behavior. A typical change should land in one place.
 
-`AGENTS.md` headings, and `Proof traps` in the README of each area in scope too; when one is missing, ask rather than guess:
+`AGENTS.md` headings, and `Proof traps` in the `AGENTS.md` of each area in scope too; when one is missing, ask rather than guess:
 
 - `File layout`: the areas to scope and fan out on.
 - `Build & test`: the baseline, and the check after each fix.

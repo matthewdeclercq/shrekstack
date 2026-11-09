@@ -18,7 +18,7 @@ To get started, install the plugin and run `/bootstrap-repo`.
 
 Once per repo:
 
-- [bootstrap-repo](skills/bootstrap-repo/SKILL.md) installs the [base rule](skills/bootstrap-repo/base.md) and [response style](skills/bootstrap-repo/style.md), folds every agent file into one lean root `AGENTS.md`, puts facts only one folder needs in that folder's README, moves every skill into `.agents/skills/`, drafts the headings the skills read from the code, runs doc-steward for the planning docs, and links it all for Claude Code, Cursor, or both.
+- [bootstrap-repo](skills/bootstrap-repo/SKILL.md) installs the [base rule](skills/bootstrap-repo/base.md) and [response style](skills/bootstrap-repo/style.md), folds every agent file into a lean root `AGENTS.md` and one per area, moves every skill into `.agents/skills/`, drafts the headings the skills read from the code, runs doc-steward for the planning docs, and links it all for Claude Code, Cursor, or both.
 - [bootstrap-verify](skills/bootstrap-verify/SKILL.md) writes the repo's verify skill and proves it once.
 - [bootstrap-ui](skills/bootstrap-ui/SKILL.md) writes the repo's UI conventions skill.
 
