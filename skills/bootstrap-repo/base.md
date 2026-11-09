@@ -47,7 +47,7 @@ Run a skill on one model; fan out only when the skill says to. A skill that fans
 
 ## Agent files
 
-`AGENTS.md` at the repo root is the only agent instruction file; for Claude Code, `CLAUDE.md` is a symlink to it. Never add an `AGENTS.md` or `CLAUDE.md` in a folder: an instruction goes in the root `AGENTS.md`. Keep `AGENTS.md` slim: it loads on every task, so it holds only what any task may need, such as commands, hard rules, the area index, and facts that cross areas. A fact only one area needs, such as what the folder holds, its setup, its scripts, where its tests go, or a name looked up only inside it, goes in that folder's `README.md`. Every repo skill lives in `.agents/skills/<name>/`, linked from `.claude/skills/` or `.cursor/skills/` for the tools `Agent tools` names. Nothing this rule or the style rule already says goes in `AGENTS.md`.
+`AGENTS.md` at the repo root is the only agent instruction file; Claude Code and Cursor read it directly. Never add a `CLAUDE.md` anywhere, since one makes Claude Code skip `AGENTS.md`, and never add an `AGENTS.md` in a folder: an instruction goes in the root `AGENTS.md`. Keep `AGENTS.md` slim: it loads on every task, so it holds only what any task may need, such as commands, hard rules, the area index, and facts that cross areas. A fact only one area needs, such as what the folder holds, its setup, its scripts, where its tests go, or a name looked up only inside it, goes in that folder's `README.md`. Every repo skill lives in `.agents/skills/<name>/`, linked from `.claude/skills/` or `.cursor/skills/` for the tools `Agent tools` names. Nothing this rule or the style rule already says goes in `AGENTS.md`.
 
 ## Git
 
