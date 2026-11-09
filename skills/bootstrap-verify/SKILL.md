@@ -11,7 +11,7 @@ disable-model-invocation: true
 
 Run in the target repo. Write `.agents/skills/verify-<app>/SKILL.md`. Do not edit product code. Name `<app>` from the product, in kebab-case.
 
-Link the new folder for each tool `Agent tools` in `AGENTS.md` names, with a relative symlink: `.claude/skills/verify-<app>` for Claude Code, `.cursor/skills/verify-<app>` for Cursor. Missing: run [bootstrap-repo](../bootstrap-repo/SKILL.md) first. A symlink already there is replaced. A real file or folder at either path may hold hand-written work: before writing, ask the user whether to move what it holds into `.agents/skills/verify-<app>/` and build on it, or start fresh. Do that, then remove the old copy and create the links.
+Link the new folder the way [bootstrap-repo](../bootstrap-repo/SKILL.md) step 5 does, for the tools `Agent tools` in `AGENTS.md` names. Missing: run bootstrap-repo first. A real file or folder at a link path may hold hand-written work: before writing, ask whether to move it into `.agents/skills/verify-<app>/` and build on it, or start fresh.
 
 ## Learn
 
