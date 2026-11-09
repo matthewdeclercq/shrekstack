@@ -12,7 +12,7 @@ disable-model-invocation: true
 
 # Bootstrap Repo
 
-Run in the target repo. Do not edit product code, except the path fixes in step 9. Touch only the rule files, the agent instruction files, the skill folders, and the docs doc-steward writes in step 8. Leave everything uncommitted so the owner reviews one diff.
+Run in the target repo. Do not edit product code, except the path fixes in step 9. Touch only the rule files, the agent instruction files, the READMEs and spike write-ups step 4 touches, the skill folders, and the docs doc-steward writes in step 8. Leave everything uncommitted so the owner reviews one diff.
 
 1. **Tools.** Read `Agent tools` in `AGENTS.md`. When it is missing or `TODO`, ask once: Claude Code, Cursor, or both. Each later step sets up only the tools chosen, and removes what an earlier run set up for a tool no longer chosen.
 
@@ -32,12 +32,13 @@ Run in the target repo. Do not edit product code, except the path fixes in step 
    ---
    ```
 
-3. **Find the agent files.** List every `AGENTS.md` and `CLAUDE.md` in the repo, at the root and in any folder, skipping gitignored and vendored paths. Read them all. If the root `AGENTS.md` is a directory, or a symlink to something outside the repo, leave it, say so, and skip steps 4 and 7. If the root `CLAUDE.md` is a real file, ask once whether to fold it into `AGENTS.md` or start fresh; fold every other file without asking.
+3. **Find the agent files.** List every `AGENTS.md` and `CLAUDE.md` in the repo, at the root and in any folder, skipping gitignored and vendored paths. Also list every `README.md` below the root but those `base.md` leaves alone. Read them all. If the root `AGENTS.md` is a directory, or a symlink to something outside the repo, leave it, say so, and skip steps 4 and 7. If the root `CLAUDE.md` is a real file, ask once whether to fold it into `AGENTS.md` or start fresh; fold every other file without asking.
 
-4. **Lean AGENTS.md files.** The repo ends with a root `AGENTS.md`, plus an `AGENTS.md` at the top of an area from step 6's `File layout` that has facts of its own. Sort every line of the files from step 3, the root `AGENTS.md` included: never keep an existing file as the base and append to it. Check each fact against the code first:
+4. **Lean AGENTS.md files.** The repo ends with a root `AGENTS.md`, plus an `AGENTS.md` at the top of an area from step 6's `File layout` that has facts of its own. Sort every line of the files from step 3, the root `AGENTS.md` included: never keep an existing file as the base and append to it. Check each fact against the code first, numbers and claims such as "runs in CI" included, and drop what you cannot confirm.
 
    - **Keep in the root AGENTS.md:** repo-wide commands, environment setup, and hard constraints, paths never to commit, and the root part of each heading in step 6. One copy, under its heading, as one line or a short list. Cut the explanation, examples, and sample code around a kept fact unless they are a command.
    - **Move to the area's `AGENTS.md`:** any fact only that area needs, such as its setup, its scripts, and its part of the headings in step 6.
+   - **Split each README** by `base.md`, and move its measurements to a spike write-up.
    - **Move to a skill:** a step-by-step procedure for one area, such as a schema change. Put it in `.agents/skills/<name>/SKILL.md` with a description that says when it applies.
    - **Hand to doc-steward in step 8:** plans, goals, decisions, and write-ups of how the whole system fits together. Set them aside; they never stay in `AGENTS.md`.
    - **Cut:** anything `base.md` or `style.md` already says, generic advice any agent already follows, a fact the code shows is false, and a second copy of a fact.
@@ -59,8 +60,10 @@ Run in the target repo. Do not edit product code, except the path fixes in step 
 
 8. **Planning docs.** Run [doc-steward](../doc-steward/SKILL.md)'s Bootstrap. Give it what step 4 set aside, to place in the docs its map names, checking each fact against the code. It writes only the docs the repo lacks and never replaces one that exists.
 
-9. **Fix the paths this run broke.** Search the whole repo, code included, for the path of every file this run deleted or moved: the agent files, the skill folders, and the old rule files. Point each mention, in a comment, string, doc, or skill, at the file that now holds the fact. Change only the path. When the fact was cut, leave the mention and list it in the report.
+9. **Fix the paths this run broke.** Search the whole repo, code included, for the path of every file this run deleted or moved: the agent files, the skill folders, and the old rule files. Point each mention, in a comment, string, doc, or skill, at the file that now holds the fact, and to its section when the mention names one. Open that section and confirm it holds what the mention promises; if no section does, point at the file and list the mention in the report. Change only the path. When the fact was cut, leave the mention and list it in the report.
 
-Report in a few lines: the tools set up; the rule files written and removed; each agent file folded, and where its facts went; any `CLAUDE.local.md` left; each skill moved; what was cut, in a phrase each; the paths fixed, and those left for the owner; the docs doc-steward wrote, and where the set-aside text went; and the drafted headings for the owner to check, `Proof traps` and `Owner-rank` first, since a miss there lets a skill delete live code or a test that matters. List any `TODO` left.
+10. **Trim.** Reread every file this run wrote, each `AGENTS.md` beside its folder's `README.md` and the root one beside each area's, and cut any fact that appears twice or the code does not back.
+
+Report in a few lines: the tools set up; the rule files written and removed; each agent file folded, and where its facts went; any `CLAUDE.local.md` left; each skill moved; what was cut, in a phrase each; each spike write-up; the paths fixed, and those left for the owner; the docs doc-steward wrote, and where the set-aside text went; and the drafted headings for the owner to check, `Proof traps` and `Owner-rank` first, since a miss there lets a skill delete live code or a test that matters. List any `TODO` left.
 
 End by offering what comes next, once the owner has checked the drafted headings: [bootstrap-verify](../bootstrap-verify/SKILL.md) when `.agents/skills/` holds no `verify-*` skill, and [bootstrap-ui](../bootstrap-ui/SKILL.md) when the repo has screens and no `ui` skill. Ask once which to run, and run nothing until the owner answers. When neither applies, skip the offer.
