@@ -27,7 +27,7 @@ Frontmatter `name: verify-<app>`. The description names the app, the surface, an
 - **Launch.** The repo's run command, from the state a new user gets, and the readiness signal. Ready means usable, not merely running. Say how to stop it.
 - **Check.** One read-only health check.
 - **Drive.** The main user paths, with this repo's real commands and selectors. Do not invent handles.
-- **Evidence.** For a path, the action and the state it left. A user path, not a test-only endpoint. Write captures under `evidence/` next to the skill. Add that folder to the repo's `.gitignore` unless `git check-ignore` already says it is ignored.
+- **Evidence.** For a path, the action and the state it left. A user path, not a test-only endpoint. Write captures to `evidence/` inside the skill's folder, and name that full path in the skill. Add that path to the repo's `.gitignore` unless `git check-ignore` on it says it is ignored.
 - **Cleanup.** Kill only what this run started. Leave the evidence.
 - **Features.** A `features/` folder beside the skill: a `README.md` index with the baseline state every recipe starts from, and one file per user-facing feature, the main ones to start. Each says what the user sees, every way a user gets to it, how to drive it (preconditions, then each action with its exact command and the result to see), and its gotchas. A missing precondition is a failure, with its reason written down.
 
