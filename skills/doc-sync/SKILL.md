@@ -40,7 +40,7 @@ It reads `Code roots` itself; its docstring has the details. Each line it prints
 
 **1 — Drift (every doc in scope but the report-only ones).** Verify every concrete claim — paths, layout, commands, names, and links. Fix each false claim in place, keeping the phrasing around it. Never expand goal prose into `AGENTS.md`.
 
-**2 — Coverage (`AGENTS.md` and the READMEs).** Anything `CHANGED` introduces that a contributor needs — a new folder, script, target, fixture, build step — gets a minimal entry in its natural section. No new top-level section unless it has no home; no planning-doc depth. The root `README.md` is the repo's front door — folder map and prereqs — and links to every other fact rather than copying it: only a new top-level folder or prereq goes there. A script, fixture, setup step, or proof trap only one area uses goes in that area's README; repo-wide commands and build steps go in `AGENTS.md`.
+**2 — Coverage (`AGENTS.md` and the READMEs).** Anything `CHANGED` introduces that a contributor needs — a new folder, script, target, fixture, build step — gets a minimal entry in its natural section. No new top-level section unless it has no home; no planning-doc depth. The root `README.md` is the repo's front door — folder map and prereqs — and links to every other fact rather than copying it: only a new top-level folder or prereq goes there. What only one area uses goes in that area's README; the rest goes in `AGENTS.md`.
 
 **3 — Skills (when due).** In every skill but a `verify-*` one, fix only dead paths and references to deleted docs — never rewrite a procedure. A verify skill is report-only: name [maintain-verify](../maintain-verify/SKILL.md), which re-drives what it fixes.
 
@@ -48,7 +48,7 @@ It reads `Code roots` itself; its docstring has the details. Each line it prints
 
 **5 — Planning conflicts, report only.** List where `CHANGED_CODE` and a planning doc disagree: a rule the code breaks, a shipped row whose code is gone, a guardrail the code no longer meets. Never change code to match — the owner decides which side is wrong.
 
-**Trimming, in every doc touched.** Cut sentences that restate a neighbour, duplicate examples, and filler. Never strip gotchas, constraints, exact commands, or paths; when unsure, leave it. In a section of `AGENTS.md` the run touched, move a fact only one area needs to that area's README.
+**Trimming, in every doc touched.** Cut sentences that restate a neighbour, duplicate examples, and filler. Never strip gotchas, constraints, exact commands, or paths; when unsure, leave it. In `AGENTS.md`, move a fact only one area needs to that area's README.
 
 In the other docs in scope, fix broken references *to* the planning docs, and drop references to deleted docs.
 
