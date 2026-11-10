@@ -1,17 +1,17 @@
 ---
 name: bootstrap-ui
 description: >-
-  Writes a repo's UI conventions skill from its screens, tokens, and
-  patterns, then proves every path once. Use when the user asks to set up
+  Writes a repo's UI conventions skills, one per area with screens, from
+  its screens, tokens, and patterns, then proves every path once. Use when the user asks to set up
   UI conventions or add a UI skill.
 disable-model-invocation: true
 ---
 
 # Bootstrap UI
 
-Run in the target repo. Write `SKILL.md` in `.agents/skills/ui/`, covering every UI stack in the repo. Do not edit product code. Do not copy a UI skill from another repo.
+Run in the target repo. Write one UI skill per area with screens, from `File layout` in `AGENTS.md`: `.agents/skills/ui/` when only one area has screens, else `.agents/skills/ui-<area>/` for each. Do not edit product code. Do not copy a UI skill from another repo.
 
-Link the new folder the way [bootstrap-repo](../bootstrap-repo/SKILL.md) step 5 does, for the tools `Agent tools` in `AGENTS.md` names. Missing: run bootstrap-repo first. A real file or folder at a link path may hold hand-written work: before writing, ask whether to move it into `.agents/skills/ui/` and build on it, or start fresh.
+Link the new folder the way [bootstrap-repo](../bootstrap-repo/SKILL.md) step 5 does, for the tools `Agent tools` in `AGENTS.md` names. Missing: run bootstrap-repo first. A real file or folder at a link path may hold hand-written work: before writing, ask whether to move it into the skill's folder and build on it, or start fresh.
 
 ## Learn
 
@@ -21,7 +21,7 @@ If the repo has no UI, stop and say so. Do not invent screens so the proof can p
 
 ## Write
 
-Frontmatter `name: ui`. The description names the stack and when to run the skill. Keep the file short.
+Frontmatter `name` matches the folder. The description names the area's path, its stack, and when to run the skill. Keep each file short. Do not merge areas: a fact two areas share lives in one file, and each skill points at it.
 
 State this in the skill, and follow it: a fact goes in only if an agent would reuse it on a new screen. The code wins on screen contents. No inventories: button copy, field lists, icons, defaults.
 
@@ -42,4 +42,4 @@ Where a line below names a file, a pattern, or a command, take it from this repo
 
 ## Prove
 
-The skill is a draft until every path it cites exists, apart from where a first token file goes, and each link resolves to `.agents/skills/ui`. If a path is wrong, fix the skill and look again. Do not add a cited file to make it pass.
+Each skill is a draft until every path it cites exists, apart from where a first token file goes, and each link resolves to its folder. If a path is wrong, fix the skill and look again. Do not add a cited file to make it pass.
