@@ -17,6 +17,8 @@ The docs own **intent** — product lines, the queue, constraints, how to build.
 
 - Match the file's comment style (syntax, doc-comment format), never its density. Default to zero comments; in lines you change, cut any that fail the rule below. Leave other comments alone unless your change made them untrue.
 - A name carries the fact before a comment does. A comment states only a constraint, invariant, or non-obvious why — never what the next line does, the signature, or the change you made. No change-log comments (`// previously …`) or commented-out code. A comment explaining a surprise in our own code is a cue to reshape it first — rename, extract, or a type that makes it obvious — and comment only when the reshape is not worth it. An invariant a cheap test can lock (`must stay sorted`) gets the test, not the comment.
+- When unsure a comment earns its place, cut it. Cut a failing comment whole; never trim it into a shorter excuse. `IMPORTANT` or `do not remove` is a claim to check against the code, not a reason to keep.
+- A lint suppression (`eslint-disable`, `@ts-ignore`) stays only when its rule is style-only or wrong for that line. When the rule guards correctness, fix the code.
 
 ## Code quality
 
