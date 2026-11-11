@@ -9,7 +9,7 @@ disable-model-invocation: true
 
 # Prune Code
 
-Remove dead code, obsolete contracts, and true duplicates without changing live behavior. Prove before deleting, from reachability and contracts, not tool reports. No style refactors.
+Remove dead code, obsolete contracts, true duplicates, and dead comments without changing live behavior. Prove before deleting, from reachability and contracts, not tool reports. No style refactors.
 
 `AGENTS.md` headings, and `Proof traps` in the `AGENTS.md` of each area in scope too; when one is missing, ask rather than guess:
 
@@ -37,6 +37,13 @@ Defer layer moves, new dependencies, persistence changes, and product-scope chan
 ```
 
 Statuses: `candidate`, `safe-to-remove`, `changed`, `validated`, `deferred`, `rejected`. A cleanup that spans a goal keeps deferred refactors and next steps in the ledger too.
+
+## Comments
+
+In scope, cut every comment the base rule's Comments section forbids. Cutting a comment changes no behavior, so it skips the proof step. Do not reshape code here; log it as `deferred` instead:
+
+- A comment that explains a surprise in our own code: keep it, and log the rename, extract, or type that would make it obvious.
+- A lint suppression whose rule guards correctness: log the code fix the rule wants.
 
 ## Fan out
 
