@@ -1,0 +1,605 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>shrekstack</title>
+<style>
+  :root {
+    --bg: #06110b;
+    --panel: rgba(18, 42, 28, .55);
+    --line: rgba(182, 242, 60, .18);
+    --lime: #b6f23c;
+    --moss: #4f9a5d;
+    --mud: #c79a52;
+    --red: #e0745c;
+    --text: #ecf7e6;
+    --muted: #93ad9a;
+    --dim: #5f7767;
+    --display: "Avenir Next", "Segoe UI", system-ui, -apple-system, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(--text); font-family: var(--display); }
+
+  /* ---------- backdrop ---------- */
+  .layer { position: fixed; inset: 0; pointer-events: none; transition: opacity 1.6s ease; }
+  #base { background: radial-gradient(120% 90% at 50% 110%, #12301e 0%, #081a10 45%, #040b07 100%); }
+  #murk {
+    background:
+      radial-gradient(60% 50% at 20% 80%, rgba(120, 92, 40, .55), transparent 70%),
+      radial-gradient(55% 45% at 85% 30%, rgba(92, 78, 38, .45), transparent 70%),
+      radial-gradient(80% 60% at 50% 50%, rgba(40, 34, 18, .6), transparent 80%);
+  }
+  #glow {
+    background:
+      radial-gradient(50% 45% at 50% 105%, rgba(182, 242, 60, .26), transparent 70%),
+      radial-gradient(40% 35% at 12% 10%, rgba(79, 154, 93, .30), transparent 70%),
+      radial-gradient(35% 30% at 90% 15%, rgba(60, 200, 150, .16), transparent 70%);
+  }
+  .fog { position: fixed; left: -20%; width: 140%; height: 46%; pointer-events: none; filter: blur(60px); transition: opacity 1.6s ease; }
+  .fog.a { bottom: -12%; background: radial-gradient(closest-side, rgba(170, 190, 150, .22), transparent); animation: drift 38s ease-in-out infinite alternate; }
+  .fog.b { top: -18%; background: radial-gradient(closest-side, rgba(140, 150, 110, .16), transparent); animation: drift 52s ease-in-out infinite alternate-reverse; }
+  @keyframes drift { from { transform: translateX(-8%); } to { transform: translateX(8%); } }
+  canvas#flies { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .vignette { position: fixed; inset: 0; pointer-events: none; background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.5) 100%); }
+
+  /* ---------- stage ---------- */
+  #stage { position: absolute; left: 50%; top: 50%; width: 1600px; height: 900px; transform-origin: center; }
+  .slide { position: absolute; inset: 0; padding: 80px 100px; display: flex; flex-direction: column; justify-content: center;
+    opacity: 0; visibility: hidden; transition: opacity .6s ease, visibility 0s linear .6s; }
+  .slide.active { opacity: 1; visibility: visible; transition: opacity .6s ease; }
+  .slide.split { flex-direction: row; align-items: center; gap: 64px; }
+  .copy { flex: 1; min-width: 0; }
+  .r { opacity: 0; transform: translateY(26px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
+  .slide.active .r { opacity: 1; transform: none; transition-delay: calc(var(--i, 0) * 130ms + 250ms); }
+
+  .kicker { font-family: var(--mono); font-size: 19px; letter-spacing: .26em; text-transform: uppercase; color: var(--lime); margin-bottom: 26px; }
+  h2 { font-size: 68px; line-height: 1.05; font-weight: 800; letter-spacing: -.03em; }
+  h2.big { font-size: 84px; }
+  .lead { font-size: 30px; line-height: 1.42; color: var(--muted); margin-top: 28px; }
+  .lime { color: var(--lime); }
+  .mud { color: var(--mud); }
+  code { font-family: var(--mono); }
+  .points { list-style: none; margin-top: 34px; }
+  .points li { font-size: 27px; line-height: 1.35; color: var(--muted); padding: 12px 0 12px 34px; position: relative; }
+  .points li::before { content: ""; position: absolute; left: 0; top: 24px; width: 12px; height: 12px; border-radius: 50%; background: var(--mud); }
+  .points.good li::before { background: var(--lime); box-shadow: 0 0 16px rgba(182, 242, 60, .8); }
+  .points b { color: var(--text); font-weight: 600; }
+
+  /* ---------- code windows ---------- */
+  .win { flex: none; background: rgba(4, 12, 8, .86); border: 1px solid var(--line); border-radius: 16px; overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0,0,0,.55), 0 0 70px rgba(182, 242, 60, .07); font-family: var(--mono); font-size: 21px; line-height: 1.72; }
+  .win.murky { border-color: rgba(199, 154, 82, .28); box-shadow: 0 30px 80px rgba(0,0,0,.55); }
+  .bar { display: flex; align-items: center; gap: 8px; padding: 14px 18px; border-bottom: 1px solid rgba(147, 173, 154, .12); font-size: 15px; color: var(--dim); letter-spacing: .06em; }
+  .bar i { width: 12px; height: 12px; border-radius: 50%; background: rgba(147, 173, 154, .28); }
+  .bar span { margin-left: 10px; }
+  .body { padding: 22px 28px 26px; }
+  .ln { display: flex; white-space: pre; opacity: 0; transform: translateX(-10px); min-height: 1.72em; }
+  .ln.on { opacity: 1; transform: none; transition: opacity .3s ease, transform .3s ease; }
+  .br { color: var(--dim); }
+  .nm { flex: 0 0 var(--col, 380px); }
+  .dir { color: #8fd6c9; }
+  .note { color: var(--mud); font-size: 18px; }
+  .note.ok { color: var(--muted); }
+  .hl { color: var(--lime); text-shadow: 0 0 18px rgba(182, 242, 60, .5); }
+  .stale { color: #d9c7a0; }
+
+  /* terminal lines */
+  .pr { color: var(--lime); margin-right: 14px; }
+  .cmd { color: var(--text); font-weight: 600; }
+  .caret { display: inline-block; width: 11px; height: 1.15em; margin: .28em 0 0 4px; background: var(--lime); animation: blink 1.1s steps(1) infinite; }
+  .ln.typed-done .caret { display: none; }
+  .ln.last.typed-done .caret { display: inline-block; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .ic { flex: 0 0 34px; }
+  .step .ic::before { content: ""; display: inline-block; width: 15px; height: 15px; border-radius: 50%; border: 2px solid rgba(147, 173, 154, .3); border-top-color: var(--lime); animation: spin .7s linear infinite; vertical-align: -1px; }
+  .step.done .ic::before { content: "✓"; border: 0; width: auto; height: auto; animation: none; color: var(--lime); font-weight: 700; }
+  .step.bad.done .ic::before { content: "✗"; color: var(--red); }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .step b { flex: 0 0 var(--name, 215px); font-weight: 600; color: var(--text); }
+  .step .out { color: var(--muted); opacity: 0; transition: opacity .3s ease; }
+  .step.done .out { opacity: 1; }
+  .step.bad.done .out { color: var(--red); }
+  .info { color: var(--muted); }
+  .info .ic { color: var(--dim); }
+  .gap { min-height: .8em; }
+  .sum { color: var(--lime); }
+  .sum.bad { color: var(--mud); }
+  .q { color: #e4cf9f; }
+
+  /* diff */
+  .dl { display: flex; white-space: pre; padding: 0 12px; margin: 0 -12px; border-radius: 6px; min-height: 1.72em; }
+  .dl .sg { flex: 0 0 30px; color: var(--dim); }
+  .dl.file { color: #8fd6c9; font-size: 17px; letter-spacing: .04em; margin-top: 10px; }
+  .dl.same { opacity: 0; color: var(--muted); transition: opacity .4s ease; }
+  .dl.same.on { opacity: 1; }
+  .dl.file:first-child { margin-top: 0; }
+  .dl.del, .dl.add { opacity: 0; transition: opacity .4s ease, background .4s ease; }
+  .dl.del.on { opacity: 1; background: rgba(224, 116, 92, .13); color: #eaa493; text-decoration: line-through; text-decoration-color: rgba(224, 116, 92, .6); }
+  .dl.add.on { opacity: 1; background: rgba(182, 242, 60, .11); color: #d6f79a; }
+  .dl.del .sg { color: var(--red); text-decoration: none; }
+  .dl.add .sg { color: var(--lime); }
+  .sha { color: var(--mud); margin-right: 16px; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 44px; }
+  .two .win { font-size: 19px; }
+
+  /* 1 title */
+  #s1 { align-items: center; text-align: center; }
+  .logo { font-size: 210px; font-weight: 900; letter-spacing: -.055em; line-height: 1;
+    background: linear-gradient(180deg, #e9ffb0 0%, var(--lime) 45%, #3f8f4e 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(0 0 60px rgba(182, 242, 60, .35)); }
+  .quote { font-family: var(--mono); font-size: 38px; margin-top: 34px; height: 1.72em; }
+  .quote .ln { justify-content: center; line-height: 1.72; }
+  #s1 .lead { margin-top: 18px; font-size: 28px; }
+  .hint { position: absolute; bottom: 56px; left: 0; right: 0; font-family: var(--mono); font-size: 16px; letter-spacing: .2em; color: rgba(147, 173, 154, .65); text-transform: uppercase; }
+
+  /* toolkit */
+  .kit { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin-top: 50px; }
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 20px; padding: 34px; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+  .kit .when { font-family: var(--mono); font-size: 18px; letter-spacing: .22em; text-transform: uppercase; color: var(--lime); margin-bottom: 22px; }
+  .kit ul { list-style: none; }
+  .kit li { padding: 12px 0; border-top: 1px solid rgba(147, 173, 154, .14); font-size: 20px; color: var(--muted); line-height: 1.35; }
+  .kit li:first-child { border-top: 0; padding-top: 0; }
+  .kit li b { display: block; font-family: var(--mono); font-weight: 600; color: var(--text); font-size: 21px; margin-bottom: 3px; }
+  .kit li b::before { content: "/"; color: var(--lime); }
+
+  /* before / after */
+  .ba { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 46px; }
+  .ba .card { padding: 38px 42px; }
+  .ba h3 { font-family: var(--mono); font-size: 19px; letter-spacing: .24em; text-transform: uppercase; margin-bottom: 22px; }
+  .ba ul { list-style: none; }
+  .ba li { font-size: 26px; padding: 12px 0 12px 48px; position: relative; line-height: 1.3; }
+  .ba li::before { position: absolute; left: 0; top: 10px; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-size: 16px; font-weight: 800; }
+  .before { border-color: rgba(199, 154, 82, .3); background: rgba(46, 38, 20, .5); }
+  .before h3 { color: var(--mud); }
+  .before li { color: #cdbf9f; }
+  .before li::before { content: "✕"; background: rgba(199, 154, 82, .2); color: var(--mud); }
+  .after { border-color: rgba(182, 242, 60, .4); box-shadow: 0 0 80px rgba(182, 242, 60, .12); }
+  .after h3 { color: var(--lime); }
+  .after li::before { content: "✓"; background: var(--lime); color: #0a1a10; }
+
+  /* close */
+  #s11 { align-items: center; text-align: center; }
+  #s11 .win { width: 820px; text-align: left; margin-top: 50px; }
+
+  /* ---------- chrome ---------- */
+  #bar { position: fixed; left: 0; bottom: 0; height: 3px; background: var(--lime); box-shadow: 0 0 14px rgba(182, 242, 60, .8); transition: width .6s cubic-bezier(.2,.7,.2,1); }
+  #count { position: fixed; right: 26px; bottom: 20px; font-family: var(--mono); font-size: 13px; letter-spacing: .15em; color: rgba(147, 173, 154, .6); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fog, .caret, .step .ic::before { animation: none; }
+    .r, .slide, .slide.active, .slide.active .r, .layer, .ln, .ln.on, .dl, .step .out { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="layer" id="base"></div>
+<div class="layer" id="murk"></div>
+<div class="layer" id="glow"></div>
+<div class="fog a"></div>
+<div class="fog b"></div>
+<canvas id="flies"></canvas>
+<div class="vignette"></div>
+
+<main id="stage">
+
+  <!-- 1 title -->
+  <section class="slide" id="s1" data-murk="0.55">
+    <div class="logo r" style="--i:0">shrekstack</div>
+    <div class="quote seq" data-start="1300"><div class="ln cmd last" data-type="This is my swamp!"><span class="pr">&rsaquo;</span><span class="typed"></span><span class="caret"></span></div></div>
+    <p class="lead r" style="--i:3">Keeping order in the swamp while your agents build it.</p>
+    <div class="hint r" style="--i:6">Press &rarr; to begin</div>
+  </section>
+
+  <!-- 2 problem: messy tree -->
+  <section class="slide split" id="s2" data-murk="1">
+    <div class="copy">
+      <div class="kicker mud r" style="--i:0">The problem</div>
+      <h2 class="r" style="--i:1">Agents work blind when they can&rsquo;t see what&rsquo;s true.</h2>
+      <ul class="points">
+        <li class="r" style="--i:2"><b>Plans get scattered.</b> Which file is right?</li>
+        <li class="r" style="--i:3"><b>Docs and code disagree.</b> The agent trusts the wrong one.</li>
+        <li class="r" style="--i:4"><b>Nobody remembers the why.</b></li>
+      </ul>
+    </div>
+    <div class="win murky r" style="--i:2; width:760px; --col:400px">
+      <div class="bar"><i></i><i></i><i></i><span>my-app &mdash; a typical repo</span></div>
+      <div class="body seq" data-start="900" data-gap="150">
+        <div class="ln"><span class="nm dir">my-app/</span></div>
+        <div class="ln"><span class="nm"><span class="br">├── </span><span class="stale">PLAN.md</span></span><span class="note">4 months old</span></div>
+        <div class="ln"><span class="nm"><span class="br">├── </span><span class="stale">plan-v2-FINAL.md</span></span><span class="note">which one is right?</span></div>
+        <div class="ln"><span class="nm"><span class="br">├── </span><span class="stale">TODO.txt</span></span><span class="note">half done</span></div>
+        <div class="ln"><span class="nm"><span class="br">├── </span><span class="stale">CLAUDE.md</span></span><span class="note">says use REST</span></div>
+        <div class="ln"><span class="nm"><span class="br">├── </span><span class="stale">.cursorrules</span></span><span class="note">says use GraphQL</span></div>
+        <div class="ln"><span class="nm"><span class="br">├── </span><span class="dir">notes/</span></span></div>
+        <div class="ln"><span class="nm"><span class="br">│   ├── </span><span class="stale">roadmap-old.md</span></span></div>
+        <div class="ln"><span class="nm"><span class="br">│   └── </span><span class="stale">ideas (copy).md</span></span><span class="note">a copy of what?</span></div>
+        <div class="ln"><span class="nm"><span class="br">├── </span><span class="dir">docs/</span></span></div>
+        <div class="ln"><span class="nm"><span class="br">│   └── </span><span class="stale">setup.md</span></span><span class="note">wrong port</span></div>
+        <div class="ln"><span class="nm"><span class="br">└── </span><span class="dir">src/</span></span><span class="note">the only real truth</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 cost: the agent struggles -->
+  <section class="slide split" id="s3" data-murk="1">
+    <div class="copy">
+      <div class="kicker mud r" style="--i:0">The cost</div>
+      <h2 class="big r" style="--i:1">Slop piles up.</h2>
+      <p class="lead r" style="--i:2">Every leftover makes the next job harder. Agents get <span class="mud">slower</span> and make <span class="mud">more mistakes</span>.</p>
+    </div>
+    <div class="win murky r" style="--i:2; width:800px; --name:0px">
+      <div class="bar"><i></i><i></i><i></i><span>agent &mdash; without shrekstack</span></div>
+      <div class="body seq" data-start="900" data-gap="260">
+        <div class="ln cmd" data-type="Add CSV export to the reports page"><span class="pr">&rsaquo;</span><span class="typed"></span><span class="caret"></span></div>
+        <div class="ln gap"></div>
+        <div class="ln step" data-work="500"><span class="ic"></span><span class="out" style="opacity:1">Reading PLAN.md</span></div>
+        <div class="ln step" data-work="500"><span class="ic"></span><span class="out" style="opacity:1">Reading plan-v2-FINAL.md</span></div>
+        <div class="ln step bad" data-work="700"><span class="ic"></span><span class="out" style="opacity:1">The two plans disagree. Guessing.</span></div>
+        <div class="ln step" data-work="500"><span class="ic"></span><span class="out" style="opacity:1">Following docs/setup.md</span></div>
+        <div class="ln step bad" data-work="800"><span class="ic"></span><span class="out" style="opacity:1">localhost:3000 refused. Docs are wrong.</span></div>
+        <div class="ln step" data-work="900"><span class="ic"></span><span class="out" style="opacity:1">Searching the whole repo for answers</span></div>
+        <div class="ln step bad" data-work="700"><span class="ic"></span><span class="out" style="opacity:1">Built it the way CLAUDE.md said. Wrong way.</span></div>
+        <div class="ln gap"></div>
+        <div class="ln sum bad">14 files read. 3 retries. Still guessing.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 idea: one home -->
+  <section class="slide split" id="s4" data-murk="0.3">
+    <div class="copy">
+      <div class="kicker r" style="--i:0">The idea</div>
+      <h2 class="r" style="--i:1">Every fact gets <span class="lime">one home</span>.</h2>
+      <p class="lead r" style="--i:2">And agents keep it current. No copies. No guessing.</p>
+      <ul class="points good">
+        <li class="r" style="--i:3"><b>Single source of truth.</b></li>
+        <li class="r" style="--i:4"><b>Docs match the code.</b></li>
+        <li class="r" style="--i:5"><b>Proven work.</b></li>
+      </ul>
+    </div>
+    <div class="win r" style="--i:2; width:790px; --col:380px">
+      <div class="bar"><i></i><i></i><i></i><span>my-app &mdash; with shrekstack</span></div>
+      <div class="body seq" data-start="900" data-gap="170">
+        <div class="ln"><span class="nm dir">my-app/</span></div>
+        <div class="ln"><span class="nm"><span class="br">├── </span><span class="hl">AGENTS.md</span></span><span class="note ok">the rules, kept lean</span></div>
+        <div class="ln"><span class="nm"><span class="br">├── </span><span class="dir">.agents/</span></span></div>
+        <div class="ln"><span class="nm"><span class="br">│   ├── </span><span class="hl">doc-map.md</span></span><span class="note ok">which doc owns which fact</span></div>
+        <div class="ln"><span class="nm"><span class="br">│   └── </span><span class="dir">skills/</span></span><span class="note ok">every skill, one place</span></div>
+        <div class="ln"><span class="nm"><span class="br">├── </span><span class="dir">docs/</span></span></div>
+        <div class="ln"><span class="nm"><span class="br">│   ├── </span><span class="hl">goals.md</span></span><span class="note ok">where we&rsquo;re headed</span></div>
+        <div class="ln"><span class="nm"><span class="br">│   ├── </span><span class="hl">backlog.md</span></span><span class="note ok">what&rsquo;s next</span></div>
+        <div class="ln"><span class="nm"><span class="br">│   ├── </span><span class="hl">shipped.md</span></span><span class="note ok">what&rsquo;s done</span></div>
+        <div class="ln"><span class="nm"><span class="br">│   ├── </span><span class="hl">decisions.md</span></span><span class="note ok">what we chose, and why</span></div>
+        <div class="ln"><span class="nm"><span class="br">│   └── </span><span class="hl">architecture.md</span></span><span class="note ok">how it fits together</span></div>
+        <div class="ln"><span class="nm"><span class="br">└── </span><span class="dir">src/</span></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 example 1: set up once -->
+  <section class="slide split" id="s5" data-murk="0.2">
+    <div class="copy">
+      <div class="kicker r" style="--i:0">A real example &middot; step 1 of 4</div>
+      <h2 class="r" style="--i:1">Set it up once.</h2>
+      <p class="lead r" style="--i:2">One command cleans up the rules and gives every fact its home. You review one diff.</p>
+    </div>
+    <div class="win r" style="--i:2; width:820px; --name:0px">
+      <div class="bar"><i></i><i></i><i></i><span>my-app &mdash; agent</span></div>
+      <div class="body seq" data-start="900" data-gap="200">
+        <div class="ln cmd" data-type="/bootstrap-repo"><span class="pr">&rsaquo;</span><span class="typed"></span><span class="caret"></span></div>
+        <div class="ln gap"></div>
+        <div class="ln step" data-work="600"><span class="ic"></span><span class="out" style="opacity:1">Installed the base rule</span></div>
+        <div class="ln step" data-work="800"><span class="ic"></span><span class="out" style="opacity:1">Folded CLAUDE.md and .cursorrules into AGENTS.md</span></div>
+        <div class="ln step" data-work="600"><span class="ic"></span><span class="out" style="opacity:1">Checked each fact against the code. Dropped 9.</span></div>
+        <div class="ln step" data-work="600"><span class="ic"></span><span class="out" style="opacity:1">Moved every skill into .agents/skills/</span></div>
+        <div class="ln step" data-work="800"><span class="ic"></span><span class="out" style="opacity:1">Wrote .agents/doc-map.md and the planning docs</span></div>
+        <div class="ln step" data-work="500"><span class="ic"></span><span class="out" style="opacity:1">Linked it all for Claude Code and Cursor</span></div>
+        <div class="ln gap"></div>
+        <div class="ln sum">Nothing committed. Review the diff when ready.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 example 2: ask for a feature -->
+  <section class="slide split" id="s6" data-murk="0.15">
+    <div class="copy">
+      <div class="kicker r" style="--i:0">A real example &middot; step 2 of 4</div>
+      <h2 class="r" style="--i:1">Ask for a feature.</h2>
+      <p class="lead r" style="--i:2">Same request as before. This time the agent knows where to look, and it <span class="lime">proves</span> the work.</p>
+    </div>
+    <div class="win r" style="--i:2; width:820px; --name:0px">
+      <div class="bar"><i></i><i></i><i></i><span>my-app &mdash; agent</span></div>
+      <div class="body seq" data-start="900" data-gap="220">
+        <div class="ln cmd" data-type="Add CSV export to the reports page"><span class="pr">&rsaquo;</span><span class="typed"></span><span class="caret"></span></div>
+        <div class="ln gap"></div>
+        <div class="ln step" data-work="500"><span class="ic"></span><span class="out" style="opacity:1">Read .agents/doc-map.md</span></div>
+        <div class="ln step" data-work="600"><span class="ic"></span><span class="out" style="opacity:1">Found it in docs/backlog.md</span></div>
+        <div class="ln step" data-work="700"><span class="ic"></span><span class="out" style="opacity:1">decisions.md: <span class="q">&ldquo;exports stream, never buffer&rdquo;</span></span></div>
+        <div class="ln step" data-work="1000"><span class="ic"></span><span class="out" style="opacity:1">Wrote src/reports/export.ts</span></div>
+        <div class="ln step" data-work="1100"><span class="ic"></span><span class="out" style="opacity:1">Opened the app and clicked Export, like a user</span></div>
+        <div class="ln step" data-work="600"><span class="ic"></span><span class="out" style="opacity:1">Downloaded file has 1,204 rows. Matches the page.</span></div>
+        <div class="ln gap"></div>
+        <div class="ln sum">4 files read. 0 retries. Proven in the real app.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 example 3: ship it -->
+  <section class="slide split" id="s7" data-murk="0.1">
+    <div class="copy" style="flex:0 0 470px">
+      <div class="kicker r" style="--i:0">A real example &middot; step 3 of 4</div>
+      <h2 class="r" style="--i:1">Then ship&nbsp;it.</h2>
+      <p class="lead r" style="--i:2">One command runs six checks, in order, before the change goes up for review.</p>
+    </div>
+    <div class="win r" style="--i:2; flex:1; font-size:20px">
+      <div class="bar"><i></i><i></i><i></i><span>my-app &mdash; agent</span></div>
+      <div class="body seq" data-start="900" data-gap="200">
+        <div class="ln cmd" data-type="/ship-it"><span class="pr">&rsaquo;</span><span class="typed"></span><span class="caret"></span></div>
+        <div class="ln gap"></div>
+        <div class="ln step" data-work="800"><span class="ic"></span><b>tidy</b><span class="out">removed 2 debug logs, 1 unused helper</span></div>
+        <div class="ln step" data-work="1100"><span class="ic"></span><b>blast-radius</b><span class="out">3 callers checked, proven safe by test</span></div>
+        <div class="ln step" data-work="900"><span class="ic"></span><b>adversarial pass</b><span class="out">1 edge case found and fixed</span></div>
+        <div class="ln step" data-work="800"><span class="ic"></span><b>doc-steward</b><span class="out">moved CSV export to shipped.md</span></div>
+        <div class="ln step" data-work="800"><span class="ic"></span><b>commit-group</b><span class="out">3 logical commits</span></div>
+        <div class="ln step" data-work="900"><span class="ic"></span><b>doc-sync</b><span class="out">architecture.md matches the code again</span></div>
+        <div class="ln gap"></div>
+        <div class="ln sum">Shipped through 4f2a9c1. Ready for a pull request.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 example 4: what you get back -->
+  <section class="slide" id="s8" data-murk="0.1">
+    <div class="kicker r" style="--i:0">A real example &middot; step 4 of 4</div>
+    <h2 class="r" style="--i:1">What you get back.</h2>
+    <div class="two">
+      <div class="win r" style="--i:3">
+        <div class="bar"><i></i><i></i><i></i><span>clean history</span></div>
+        <div class="body seq" data-start="1100" data-gap="380">
+          <div class="ln cmd" data-type="git log --oneline"><span class="pr">$</span><span class="typed"></span><span class="caret"></span></div>
+          <div class="ln gap"></div>
+          <div class="ln"><span class="sha">4f2a9c1</span>Sync the architecture doc.</div>
+          <div class="ln"><span class="sha">b81d3e0</span>Move CSV export to shipped.</div>
+          <div class="ln"><span class="sha">7c40a2f</span>Test CSV export end to end.</div>
+          <div class="ln"><span class="sha">19e6b55</span>Add CSV export to reports.</div>
+          <div class="ln gap"></div>
+          <div class="ln info">Each commit is one idea.</div>
+        </div>
+      </div>
+      <div class="win r" style="--i:4">
+        <div class="bar"><i></i><i></i><i></i><span>docs that match the code</span></div>
+        <div class="body">
+          <div class="dl file">docs/backlog.md</div>
+          <div class="dl del" data-at="2200"><span class="sg">-</span>CSV export for reports</div>
+          <div class="dl file">docs/shipped.md</div>
+          <div class="dl add" data-at="3000"><span class="sg">+</span>CSV export for reports</div>
+          <div class="dl file">docs/architecture.md</div>
+          <div class="dl add" data-at="3800"><span class="sg">+</span>reports &rarr; export (streams CSV)</div>
+          <div class="dl file">docs/decisions.md</div>
+          <div class="dl same" data-at="4600"><span class="sg">=</span>untouched. The rule was followed.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 toolkit -->
+  <section class="slide" id="s9" data-murk="0.1">
+    <div class="kicker r" style="--i:0">The full toolkit</div>
+    <h2 class="r" style="--i:1">Twelve skills. Three rhythms.</h2>
+    <div class="kit">
+      <div class="card r" style="--i:3"><div class="when">Once per repo</div><ul>
+        <li><b>bootstrap-repo</b>Sets up the rules and the docs.</li>
+        <li><b>bootstrap-verify</b>Teaches agents how to test this app.</li>
+        <li><b>bootstrap-ui</b>Writes down how screens should look.</li>
+      </ul></div>
+      <div class="card r" style="--i:4"><div class="when">Day to day</div><ul>
+        <li><b>ship-it</b>Runs the checks below, in order.</li>
+        <li><b>tidy</b>Cleans up the work just finished.</li>
+        <li><b>blast-radius</b>Finds what a change could break.</li>
+        <li><b>doc-steward</b>Keeps the planning docs in shape.</li>
+        <li><b>commit-group</b>Makes clean, logical commits.</li>
+        <li><b>doc-sync</b>Fixes docs that drifted from the code.</li>
+      </ul></div>
+      <div class="card r" style="--i:5"><div class="when">Now and then</div><ul>
+        <li><b>prune-code</b>Removes dead code, after proof.</li>
+        <li><b>prune-tests</b>Removes tests that guard nothing.</li>
+        <li><b>maintain-verify</b>Keeps the testing guide fresh.</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- 10 before / after -->
+  <section class="slide" id="s10" data-murk="0.15">
+    <div class="kicker r" style="--i:0">Before and after</div>
+    <h2 class="big r" style="--i:1">Same team. Clearer swamp.</h2>
+    <div class="ba">
+      <div class="card before r" style="--i:3"><h3>Without</h3><ul>
+        <li>Plans in five places</li>
+        <li>Docs say one thing, code another</li>
+        <li>&ldquo;Why did we do this?&rdquo;</li>
+        <li>Dead code nobody dares delete</li>
+        <li>&ldquo;It works&rdquo; with no proof</li>
+      </ul></div>
+      <div class="card after r" style="--i:5"><h3>With shrekstack</h3><ul>
+        <li>One home for each fact</li>
+        <li>Docs checked against the code</li>
+        <li>Decisions written down, with the why</li>
+        <li>Dead code removed after proof</li>
+        <li>Agents test the app like a user</li>
+      </ul></div>
+    </div>
+  </section>
+
+  <!-- 11 close -->
+  <section class="slide" id="s11" data-murk="0">
+    <h2 class="big r" style="--i:0">You make the product calls.<br><span class="lime">Agents do the busywork.</span></h2>
+    <div class="win r" style="--i:2">
+      <div class="bar"><i></i><i></i><i></i><span>your repo &mdash; agent</span></div>
+      <div class="body seq" data-start="1400">
+        <div class="ln cmd last" data-type="/bootstrap-repo" style="font-size:30px"><span class="pr">&rsaquo;</span><span class="typed"></span><span class="caret"></span></div>
+      </div>
+    </div>
+    <p class="lead r" style="--i:4; font-size:26px">Install the plugin. Run one command. Get started.</p>
+  </section>
+
+</main>
+
+<div id="bar"></div>
+<div id="count"></div>
+
+<script>
+(function () {
+  var stage = document.getElementById('stage');
+  var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+  var murkEl = document.getElementById('murk');
+  var glowEl = document.getElementById('glow');
+  var fogs = document.querySelectorAll('.fog');
+  var bar = document.getElementById('bar');
+  var count = document.getElementById('count');
+  var still = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var current = -1;
+  var clarity = 0.5;
+  var runToken = 0;
+  var timers = [];
+
+  function fit() {
+    var s = Math.min(window.innerWidth / 1600, window.innerHeight / 900);
+    stage.style.transform = 'translate(-50%, -50%) scale(' + s + ')';
+  }
+
+  /* ----- scripted code animations ----- */
+  function wait(ms) { return new Promise(function (r) { setTimeout(r, still ? 0 : ms); }); }
+
+  function reset(slide) {
+    timers.forEach(clearTimeout); timers = [];
+    slide.querySelectorAll('.ln, [data-at]').forEach(function (el) { el.classList.remove('on', 'done', 'typed-done'); });
+    slide.querySelectorAll('.typed').forEach(function (el) { el.textContent = ''; });
+  }
+
+  async function runSeq(seq, token) {
+    var gap = +seq.dataset.gap || 180;
+    await wait(+seq.dataset.start || 700);
+    var lines = seq.querySelectorAll('.ln');
+    for (var i = 0; i < lines.length; i++) {
+      var l = lines[i];
+      if (token !== runToken) return;
+      l.classList.add('on');
+      if (l.dataset.type != null) {
+        var out = l.querySelector('.typed'), text = l.dataset.type;
+        await wait(350);
+        for (var c = 0; c < text.length; c++) {
+          if (token !== runToken) return;
+          out.textContent += text[c];
+          await wait(38 + Math.random() * 46);
+        }
+        await wait(420);
+        if (token !== runToken) return;
+        l.classList.add('typed-done');
+      }
+      if (l.classList.contains('step')) {
+        await wait(+l.dataset.work || 600);
+        if (token !== runToken) return;
+        l.classList.add('done');
+      }
+      await wait(l.classList.contains('gap') ? 60 : gap);
+    }
+  }
+
+  function play(slide) {
+    var token = ++runToken;
+    slide.querySelectorAll('.seq').forEach(function (seq) { runSeq(seq, token); });
+    slide.querySelectorAll('[data-at]').forEach(function (el) {
+      timers.push(setTimeout(function () { el.classList.add('on'); }, still ? 0 : +el.dataset.at));
+    });
+  }
+
+  function go(n) {
+    n = Math.max(0, Math.min(slides.length - 1, n));
+    if (n === current) return;
+    if (current >= 0) { var old = slides[current]; setTimeout(function () { if (!old.classList.contains('active')) reset(old); }, 650); }
+    slides.forEach(function (el, i) { el.classList.toggle('active', i === n); });
+    current = n;
+    reset(slides[n]);
+    play(slides[n]);
+    var murk = parseFloat(slides[n].dataset.murk);
+    clarity = 1 - murk;
+    murkEl.style.opacity = murk;
+    glowEl.style.opacity = 0.15 + clarity * 0.85;
+    fogs.forEach(function (f) { f.style.opacity = 0.25 + murk * 0.75; });
+    bar.style.width = ((n + 1) / slides.length * 100) + '%';
+    count.textContent = (n + 1) + ' / ' + slides.length;
+    try { history.replaceState(null, '', '#' + (n + 1)); } catch (e) {}
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (['ArrowRight', 'ArrowDown', 'PageDown', ' ', 'Enter'].indexOf(e.key) > -1) { e.preventDefault(); go(current + 1); }
+    else if (['ArrowLeft', 'ArrowUp', 'PageUp', 'Backspace'].indexOf(e.key) > -1) { e.preventDefault(); go(current - 1); }
+    else if (e.key === 'Home') go(0);
+    else if (e.key === 'End') go(slides.length - 1);
+    else if (e.key === 'r' || e.key === 'R') { reset(slides[current]); play(slides[current]); }
+    else if (e.key === 'f' || e.key === 'F') {
+      if (document.fullscreenElement) document.exitFullscreen();
+      else if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen();
+    }
+  });
+  document.addEventListener('click', function (e) {
+    go(current + (e.clientX < window.innerWidth * 0.3 ? -1 : 1));
+  });
+  var touchX = null;
+  document.addEventListener('touchstart', function (e) { touchX = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend', function (e) {
+    if (touchX === null) return;
+    var dx = e.changedTouches[0].clientX - touchX;
+    if (Math.abs(dx) > 40) go(current + (dx < 0 ? 1 : -1));
+    touchX = null;
+  });
+  window.addEventListener('resize', function () { fit(); size(); });
+
+  /* ----- fireflies: brighter as the swamp clears ----- */
+  var cv = document.getElementById('flies');
+  var ctx = cv.getContext('2d');
+  var W = 0, H = 0, flies = [], shown = 0.5;
+
+  function size() {
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth; H = window.innerHeight;
+    cv.width = W * dpr; cv.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  for (var i = 0; i < 60; i++) {
+    flies.push({ x: Math.random(), y: Math.random(), r: 1 + Math.random() * 2.2,
+      vx: (Math.random() - .5) * .00022, vy: (Math.random() - .5) * .00016,
+      p: Math.random() * Math.PI * 2, s: .4 + Math.random() * 1.2 });
+  }
+  function draw(t) {
+    shown += (clarity - shown) * 0.03;
+    ctx.clearRect(0, 0, W, H);
+    for (var i = 0; i < flies.length; i++) {
+      var f = flies[i];
+      f.x += f.vx + Math.sin(t * .0003 + f.p) * .00008;
+      f.y += f.vy + Math.cos(t * .00025 + f.p) * .00006;
+      if (f.x < -.05) f.x = 1.05; if (f.x > 1.05) f.x = -.05;
+      if (f.y < -.05) f.y = 1.05; if (f.y > 1.05) f.y = -.05;
+      var tw = .5 + .5 * Math.sin(t * .001 * f.s + f.p);
+      var a = tw * (.1 + shown * .55);
+      var x = f.x * W, y = f.y * H, R = f.r * 9;
+      var g = ctx.createRadialGradient(x, y, 0, x, y, R);
+      g.addColorStop(0, 'rgba(214,255,120,' + a + ')');
+      g.addColorStop(.25, 'rgba(182,242,60,' + a * .45 + ')');
+      g.addColorStop(1, 'rgba(182,242,60,0)');
+      ctx.fillStyle = g;
+      ctx.beginPath(); ctx.arc(x, y, R, 0, Math.PI * 2); ctx.fill();
+    }
+    if (!still) requestAnimationFrame(draw);
+  }
+
+  fit(); size();
+  go((parseInt(location.hash.slice(1), 10) || 1) - 1);
+  requestAnimationFrame(draw);
+})();
+</script>
+</body>
+</html>
