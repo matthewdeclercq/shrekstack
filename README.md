@@ -24,7 +24,7 @@ Once per repo:
 
 Day to day:
 
-- [ship-it](skills/ship-it/SKILL.md) gets a change ready for a pull request by running the five below, in this order.
+- [ship-it](skills/ship-it/SKILL.md) gets a change ready for a pull request by running the five below, in this order, plus its own read of the diff for bugs after blast-radius.
 - [tidy](skills/tidy/SKILL.md) cleans up the work just finished.
 - [blast-radius](skills/blast-radius/SKILL.md) finds what a change could break and proves it is safe.
 - [doc-steward](skills/doc-steward/SKILL.md) keeps the planning docs in shape.
