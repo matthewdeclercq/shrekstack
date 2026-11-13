@@ -28,8 +28,8 @@ Day to day:
 - [tidy](skills/tidy/SKILL.md) cleans up the work just finished.
 - [blast-radius](skills/blast-radius/SKILL.md) finds what a change could break and proves it is safe.
 - [doc-steward](skills/doc-steward/SKILL.md) keeps the planning docs in shape.
-- [commit-group](skills/commit-group/SKILL.md) turns a messy working tree into logical commits.
 - [doc-sync](skills/doc-sync/SKILL.md) fixes docs that no longer match the code.
+- [commit-group](skills/commit-group/SKILL.md) turns a messy working tree into logical commits.
 
 Now and then:
 
