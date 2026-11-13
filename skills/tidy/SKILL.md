@@ -12,7 +12,7 @@ Look only at what this task changed, not the whole codebase.
    - Dead code: unused functions, parameters, imports, or leftovers from earlier tries.
    - Debris: debug prints, temp files, scratch scripts, TODOs added this session.
    - Anything the base rule's Comments and Code quality sections forbid.
-   - Comments the change made untrue. Docs are [doc-sync](../doc-sync/SKILL.md)'s.
+   - Comments the change made untrue. Leave docs alone.
    - Tests this task added that overlap or check nothing real.
 3. Do not flag what a pre-commit hook already enforces.
 4. Fix everything you find without asking first. Never invent findings.

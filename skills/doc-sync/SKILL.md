@@ -42,7 +42,7 @@ It reads `Code roots` itself; its docstring has the details. Each line it prints
 
 **2 — Coverage (the `AGENTS.md` files and `README.md`).** Anything `CHANGED` introduces that a contributor needs — a new folder, script, target, fixture, build step — gets a minimal entry in its natural section. No new top-level section unless it has no home; no planning-doc depth. Place each entry by the base rule's README split; what only one area uses goes in that area's `AGENTS.md`, the rest in the root one.
 
-**3 — Skills (when due).** In every skill but a `verify-*` one, fix only dead paths and references to deleted docs — never rewrite a procedure. A verify skill is report-only: name [maintain-verify](../maintain-verify/SKILL.md), which re-drives what it fixes.
+**3 — Skills (when due).** In every skill but a `verify-*` one, fix only dead paths and references to deleted docs — never rewrite a procedure. A verify skill is report-only: name maintain-verify, which re-drives what it fixes.
 
 **4 — Architecture (when due).** Factual claims only, in the architecture doc: module layout, named types and services, pipeline steps, storage paths, commands, test targets, and every mermaid node and edge, against the code and the section's prose. Fix each false fact, node, or edge in place. Never touch design intent or rationale. What counts as missing, and how a diagram may change, is doc-steward rule 9.
 

@@ -15,7 +15,7 @@ Outcomes: `clean`, `changed`, `blocked`.
 
 ## Locate
 
-Look for `.agents/skills/verify-*/SKILL.md`. None found: stop and point at [bootstrap-verify](../bootstrap-verify/SKILL.md). More than one: run the pass below for each.
+Look for `.agents/skills/verify-*/SKILL.md`. None found: stop and point at bootstrap-verify. More than one: run the pass below for each.
 
 ## Since last update
 
