@@ -9,7 +9,7 @@ description: >-
 
 # Doc Sync
 
-Keep this repo's docs true to its code. **This workflow auto-fixes:** apply the edits, then report what changed. It never commits; [commit-group](../commit-group/SKILL.md) does.
+Keep this repo's docs true to its code. **This workflow auto-fixes:** apply the edits, then report what changed. It never commits.
 
 Be surgical. Change only what is drifted, missing, contradictory, or bloated. Never rewrite accurate prose or expand a section — the bias is toward fewer, tighter docs.
 
@@ -60,4 +60,4 @@ Bullets, no banners:
 2. Each fix, one line, grouped by file.
 3. Planning conflicts from check 5, one line each (row, file:line, what differs) — or "none".
 4. Anything deliberately skipped.
-5. That the fixes are uncommitted, and that commit-group commits them. Under ship-it, leave this line out.
+5. That the fixes are uncommitted.
