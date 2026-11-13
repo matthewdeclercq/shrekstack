@@ -12,6 +12,8 @@ Shrekstack keeps order in the swamp while your agents build it. It gives every f
 
 You make the product calls. Agents do the busywork.
 
+New here? [Watch the slide deck](https://matthewdeclercq.github.io/shrekstack/).
+
 To get started, install the plugin and run `/bootstrap-repo`.
 
 ## Skills
