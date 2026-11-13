@@ -2,14 +2,14 @@
 name: doc-sync
 description: >-
   Keeps a repo's docs true to its code: detects doc drift
-  on the current branch, fixes it, and commits the result. Use before opening
-  a pull request, or when the user asks to sync docs or fix doc drift. Pass
-  --full to audit every doc against the whole codebase.
+  on the current branch and fixes it. Use before opening a pull request, or
+  when the user asks to sync docs or fix doc drift. Pass --full to audit
+  every doc against the whole codebase.
 ---
 
 # Doc Sync
 
-Keep this repo's docs true to its code. **This workflow auto-fixes:** apply the edits, commit them, then report what changed.
+Keep this repo's docs true to its code. **This workflow auto-fixes:** apply the edits, then report what changed. It never commits.
 
 Be surgical. Change only what is drifted, missing, contradictory, or bloated. Never rewrite accurate prose or expand a section — the bias is toward fewer, tighter docs.
 
@@ -21,7 +21,7 @@ Be surgical. Change only what is drifted, missing, contradictory, or bloated. Ne
 
 By default, the branch against the default branch (`git merge-base HEAD origin/HEAD`), including uncommitted work. If `origin/HEAD` is not set, ask which branch. With `--full`, no diff: audit every doc in scope against the whole codebase (expensive; always fan out).
 
-Before editing, note which files already have uncommitted edits (`git status --short`). From the diff: `CHANGED` (files), and `CHANGED_CODE` (those under a prefix in `Code roots`). If `CHANGED` is empty and the run is not `--full`, say so and stop.
+From the diff: `CHANGED` (files), and `CHANGED_CODE` (those under a prefix in `Code roots`). If `CHANGED` is empty and the run is not `--full`, say so and stop.
 
 - **Skills due:** `--full`, or `CHANGED` touches a skill file.
 - **Architecture due:** `--full`, or `CHANGED` adds, deletes, or renames a source file or folder.
@@ -42,7 +42,7 @@ It reads `Code roots` itself; its docstring has the details. Each line it prints
 
 **2 — Coverage (the `AGENTS.md` files and `README.md`).** Anything `CHANGED` introduces that a contributor needs — a new folder, script, target, fixture, build step — gets a minimal entry in its natural section. No new top-level section unless it has no home; no planning-doc depth. Place each entry by the base rule's README split; what only one area uses goes in that area's `AGENTS.md`, the rest in the root one.
 
-**3 — Skills (when due).** In every skill but a `verify-*` one, fix only dead paths and references to deleted docs — never rewrite a procedure. A verify skill is report-only: name [maintain-verify](../maintain-verify/SKILL.md), which re-drives what it fixes.
+**3 — Skills (when due).** In every skill but a `verify-*` one, fix only dead paths and references to deleted docs — never rewrite a procedure. A verify skill is report-only: name maintain-verify, which re-drives what it fixes.
 
 **4 — Architecture (when due).** Factual claims only, in the architecture doc: module layout, named types and services, pipeline steps, storage paths, commands, test targets, and every mermaid node and edge, against the code and the section's prose. Fix each false fact, node, or edge in place. Never touch design intent or rationale. What counts as missing, and how a diagram may change, is doc-steward rule 9.
 
@@ -52,10 +52,6 @@ It reads `Code roots` itself; its docstring has the details. Each line it prints
 
 In the other docs in scope, fix broken references *to* the planning docs, and drop references to deleted docs.
 
-## Commit
-
-If the run edited files, commit only those paths (`git add -- <paths>`, never `-A`). Leave out a path that had uncommitted edits before the run, so other work is not committed under this subject, and name it in the report. Then check `git diff --cached --stat`, and commit with the subject `Sync the docs with the code.` No commit when nothing changed.
-
 ## Report
 
 Bullets, no banners:
@@ -64,4 +60,4 @@ Bullets, no banners:
 2. Each fix, one line, grouped by file.
 3. Planning conflicts from check 5, one line each (row, file:line, what differs) — or "none".
 4. Anything deliberately skipped.
-5. Whether the commit landed, and any path left out of it.
+5. That the fixes are uncommitted.
